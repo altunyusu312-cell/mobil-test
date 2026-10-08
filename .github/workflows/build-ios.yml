@@ -16,13 +16,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: 📦 Bağımlılıkları Yükle
         run: |
           npm install
 
-      - name: 📱 Capacitor iOS Projesini Senkronize Et
+      - name: 📱 Capacitor iOS Projesini Hazırla
         run: |
           npx cap add ios || true
           npx cap sync ios
@@ -30,18 +29,21 @@ jobs:
       - name: 🛠️ Xcode ile iOS Uygulamasını Derle
         run: |
           cd ios/App
-          xcodebuild clean build \
-            -workspace App.xcworkspace \
+          xcodebuild -workspace App.xcworkspace \
             -scheme App \
             -configuration Release \
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY=""
+            CODE_SIGN_IDENTITY="" \
+            -derivedDataPath build
 
       - name: 🚀 Derlenen iOS Paketini Arşiv Olarak Yükle
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: Gokturk-iOS-Build
-          path: ios/App/build/Release-iphoneos/
+          path: |
+            ios/App/build/Build/Products/Release-iphoneos/
+            ios/App/
           retention-days: 14
