@@ -1,0 +1,5377 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
+  <meta name="theme-color" content="#111215" id="meta-theme-color"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Göktürk"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <title>Göktürk Dergisi — Mobil Uygulama</title>
+
+  <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png"/>
+  <link rel="manifest" href="manifest.json"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─────────────────────────────────────────────────────────────
+       1. GLOBAL RESET & NATIVE MOBILE VIEWPORT
+       ───────────────────────────────────────────────────────────── */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100dvh;
+      overflow: hidden;
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      -webkit-user-select: none;
+      user-select: none;
+      overscroll-behavior: none;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       2. DESIGN SYSTEM & ELITE TOKENS (RED - WHITE - TITANIUM DARK)
+       ───────────────────────────────────────────────────────────── */
+    :root {
+      --brand: #B91C1C;
+      --brand-hover: #991B1B;
+      --brand-light: rgba(185, 28, 28, 0.08);
+      --brand-surface: rgba(185, 28, 28, 0.04);
+      --brand-border: rgba(185, 28, 28, 0.2);
+      --brand-glow: rgba(185, 28, 28, 0.25);
+
+      --bg: #F8F9FA;
+      --surface: #FFFFFF;
+      --surface2: #F1F2F5;
+      --surface3: #E5E7EB;
+      --surface-glass: rgba(255, 255, 255, 0.88);
+
+      --text-main: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #8E9BAE;
+
+      --border: rgba(0, 0, 0, 0.06);
+      --border-subtle: rgba(0, 0, 0, 0.04);
+
+      --font-heading: 'Newsreader', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --header-height: 52px;
+      --nav-height: 60px;
+    }
+
+    body.dark {
+      --brand: #DC2626;
+      --brand-hover: #EF4444;
+      --brand-light: rgba(220, 38, 38, 0.12);
+      --brand-surface: rgba(220, 38, 38, 0.06);
+      --brand-border: rgba(220, 38, 38, 0.25);
+      --brand-glow: rgba(220, 38, 38, 0.35);
+
+      --bg: #111215;            /* Titanium füme, NOT jet black */
+      --surface: #18191E;       /* Card surface level 2 */
+      --surface2: #202127;      /* Sheet / elevated level 3 */
+      --surface3: #2A2C35;
+      --surface-glass: rgba(17, 18, 21, 0.90);
+
+      --text-main: #F1F1F2;      /* Soft bone/ivory white */
+      --text-secondary: #CBD5E1;
+      --text-muted: #94A3B8;
+
+      --border: rgba(255, 255, 255, 0.08);
+      --border-subtle: rgba(255, 255, 255, 0.04);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       3. APP SHELL LAYOUT
+       ───────────────────────────────────────────────────────────── */
+    /* Responsive Desktop Container & Pure Mobile Shell */
+    @media (min-width: 600px) {
+      body {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        background: #0B0E14 !important;
+      }
+      #app-root {
+        max-width: 440px !important;
+        height: 94dvh !important;
+        max-height: 900px !important;
+        border-radius: 28px !important;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+      }
+    }
+
+    #app-root {
+      width: 100%;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+
+    /* Top Safe Area Spacer */
+    .top-notch-bar {
+      height: var(--safe-top);
+      width: 100%;
+      background: var(--surface-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    /* Top Header */
+    #app-header {
+      height: var(--header-height);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface-glass);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, var(--brand) 0%, #7F1D1D 100%);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 18px;
+      box-shadow: 0 4px 12px var(--brand-glow);
+    }
+
+    .brand-logo-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      color: var(--text-main);
+      line-height: 1;
+    }
+
+    .brand-title span {
+      color: var(--brand);
+      font-weight: 800;
+    }
+
+    .brand-subtitle {
+      margin-top: 3px;
+      font-family: var(--font-body);
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      color: var(--brand);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* ── YAZARLAR (AUTHORS) ── */
+    .authors-wrap { padding: 16px 14px 24px; }
+    .authors-intro { margin-bottom: 14px; }
+    .authors-intro h2 {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .authors-intro p { font-size: 12.5px; color: var(--text-muted); margin-top: 3px; }
+    .authors-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .author-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 10px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+      animation: authorIn 0.35s ease both;
+    }
+    .author-card:active { transform: scale(0.96); }
+    .author-avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--surface2);
+      border: 2px solid var(--surface);
+      box-shadow: 0 0 0 2px var(--brand), 0 6px 16px rgba(0,0,0,0.12);
+    }
+    .author-name {
+      margin-top: 12px;
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.25;
+    }
+    .author-role {
+      margin-top: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--brand);
+    }
+    @keyframes authorIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    .author-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 0 12px;
+      cursor: pointer;
+    }
+    .author-back-btn svg { width: 18px; height: 18px; }
+    .author-profile-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      margin-bottom: 18px;
+    }
+    .author-profile-head .author-avatar { width: 68px; height: 68px; flex-shrink: 0; }
+    .author-profile-head h2 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+    .author-profile-head p { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .column-list { display: flex; flex-direction: column; }
+    .column-item {
+      padding: 14px 2px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .column-item:active { opacity: 0.6; }
+    .column-date { font-size: 11px; font-weight: 600; color: var(--brand); letter-spacing: 0.3px; }
+    .column-title {
+      margin-top: 5px;
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+    .column-excerpt {
+      margin-top: 6px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .authors-state { text-align: center; padding: 40px 10px; font-size: 13px; color: var(--text-muted); }
+    .authors-more-btn {
+      margin: 16px auto 0;
+      display: block;
+      padding: 10px 22px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-main);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    /* ── SPLASH SCREEN ── */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: radial-gradient(circle at 50% 42%, #FFFFFF 0%, #F6F6F7 60%, #ECECEE 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+    #splash-screen.hide { opacity: 0; visibility: hidden; }
+    .splash-logo {
+      width: 132px;
+      height: 132px;
+      border-radius: 30px;
+      box-shadow: 0 18px 40px -10px rgba(185, 28, 28, 0.35);
+      opacity: 0;
+      transform: scale(0.82);
+      animation: splashLogoIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s forwards;
+    }
+    .splash-title {
+      margin-top: 26px;
+      font-family: 'Newsreader', Georgia, serif;
+      font-size: 30px;
+      font-weight: 700;
+      color: #141414;
+      letter-spacing: 0.5px;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: splashFadeUp 0.6s ease 0.45s forwards;
+    }
+    .splash-sub {
+      margin-top: 6px;
+      font-family: 'Inter', sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: #B91C1C;
+      opacity: 0;
+      animation: splashFadeUp 0.6s ease 0.65s forwards;
+    }
+    .splash-bar {
+      position: absolute;
+      bottom: calc(56px + env(safe-area-inset-bottom));
+      width: 120px;
+      height: 3px;
+      border-radius: 3px;
+      background: rgba(185, 28, 28, 0.12);
+      overflow: hidden;
+    }
+    .splash-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: #B91C1C;
+      border-radius: 3px;
+      transform: translateX(-100%);
+      animation: splashLoad 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
+    }
+    @keyframes splashLogoIn { to { opacity: 1; transform: scale(1); } }
+    @keyframes splashFadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes splashLoad { to { transform: translateX(0); } }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .icon-btn:active {
+      transform: scale(0.92);
+      background: var(--surface3);
+    }
+
+    .icon-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.6;
+    }
+
+    .btn-badge-dot {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 6px;
+      height: 6px;
+      background: var(--brand);
+      border-radius: 50%;
+      border: 1.5px solid var(--surface);
+    }
+
+    /* Live Context Strip: Weather & Traffic Chips */
+    #live-context-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .live-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .live-chip:active {
+      background: var(--surface3);
+    }
+
+    .live-chip svg {
+      width: 13px;
+      height: 13px;
+      stroke-width: 1.8;
+      color: var(--brand);
+    }
+
+    /* Breaking News Ticker */
+    #breaking-ticker-wrap {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .breaking-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--brand-light);
+      border: 1px solid var(--brand-border);
+      color: var(--brand);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--brand);
+      border-radius: 50%;
+      animation: pulseAnim 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.6); }
+      70% { transform: scale(1.1); opacity: 0.8; box-shadow: 0 0 0 6px rgba(185, 28, 28, 0); }
+      100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(185, 28, 28, 0); }
+    }
+
+    .breaking-text {
+      flex: 1;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       4. SCROLL CONTAINER & SCREENS
+       ───────────────────────────────────────────────────────────── */
+    #screens-wrapper {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .screen-view {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      display: none;
+      padding-bottom: 24px;
+      scrollbar-width: none;
+    }
+
+    .screen-view::-webkit-scrollbar {
+      display: none;
+    }
+
+    .screen-view.active {
+      display: block;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       5. SCREEN 1: AKIŞ (HOME FEED)
+       ───────────────────────────────────────────────────────────── */
+    /* Stories Tray */
+    .stories-tray {
+      padding: 12px 14px 10px;
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      align-items: center;
+    }
+
+    .stories-tray::-webkit-scrollbar {
+      display: none;
+    }
+
+    .story-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+      width: 70px;
+      transition: transform 0.15s ease;
+    }
+
+    .story-item:active {
+      transform: scale(0.92);
+    }
+
+    .story-ring {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      padding: 2.5px;
+      background: linear-gradient(135deg, #B91C1C 0%, #E11D48 50%, #F59E0B 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(185, 28, 28, 0.28);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .story-item.viewed .story-ring {
+      background: var(--border);
+      box-shadow: none;
+      opacity: 0.65;
+    }
+
+    .story-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--surface2);
+      border: 2px solid var(--surface);
+    }
+
+    .story-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-main);
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      letter-spacing: -0.1px;
+    }
+
+    /* Category Filter Pills */
+    .category-pills-bar {
+      padding: 8px 14px 10px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .category-pills-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      cursor: pointer;
+      background: var(--surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .cat-pill:active {
+      transform: scale(0.95);
+    }
+
+    .cat-pill.active {
+      background: var(--brand) !important;
+      color: #FFFFFF !important;
+      border-color: var(--brand) !important;
+      box-shadow: 0 3px 12px var(--brand-glow);
+    }
+
+    /* Headline Carousel (Touch Gesture Swipeable) */
+    .headline-carousel-wrap {
+      padding: 0 14px 16px;
+      position: relative;
+    }
+
+    .carousel-viewport {
+      width: 100%;
+      height: 250px;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.12);
+      touch-action: pan-y;
+      background: #000;
+    }
+
+    .carousel-track {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .carousel-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+
+    .carousel-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .carousel-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 16px 14px;
+      background: linear-gradient(to top, rgba(10, 11, 14, 0.94) 0%, rgba(10, 11, 14, 0.6) 60%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .carousel-cat-tag {
+      align-self: flex-start;
+      background: var(--brand);
+      color: #FFFFFF;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 5px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .carousel-title {
+      font-family: var(--font-heading);
+      font-size: 19px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.25;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .carousel-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+      font-weight: 500;
+    }
+
+    .carousel-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .dot-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--surface3);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .dot-indicator.active {
+      width: 22px;
+      border-radius: 10px;
+      background: var(--brand);
+    }
+
+    /* Quick Action Guide Buttons */
+    .quick-guide-strip {
+      padding: 0 14px 14px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .quick-guide-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .quick-guide-card:active {
+      transform: scale(0.97);
+      background: var(--surface2);
+    }
+
+    .quick-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .quick-icon-box.red {
+      background: var(--brand-light);
+      color: var(--brand);
+    }
+
+    .quick-icon-box.blue {
+      background: rgba(37, 99, 235, 0.1);
+      color: #2563EB;
+    }
+
+    .quick-icon-box svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 1.8;
+    }
+
+    .quick-texts h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .quick-texts p {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* Section Header */
+    .feed-section-header {
+      padding: 6px 14px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .feed-section-title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feed-section-title::before {
+      content: '';
+      width: 3px;
+      height: 16px;
+      background: var(--brand);
+      border-radius: 2px;
+    }
+
+    .feed-counter {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    /* News Cards List */
+    .news-cards-list {
+      padding: 0 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .news-item-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .news-item-card:active {
+      transform: scale(0.98);
+      background: var(--surface2);
+    }
+
+    .news-item-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .news-item-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .news-cat-badge {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--brand);
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+
+    .news-item-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-item-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .news-item-img-wrap {
+      width: 84px;
+      height: 84px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--surface2);
+    }
+
+    .news-item-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       6. SCREEN 2: E-DERGİ (STANDALONE MAGAZINE VIEWER)
+       ───────────────────────────────────────────────────────────── */
+    #screen-magazine {
+      background: var(--bg);
+    }
+
+    /* ── E-DERGİ (MAGAZINE SECTION) ── */
+    .mag-screen-wrap {
+      padding: 14px 14px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .mag-hero-banner {
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .mag-hero-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mag-issue-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--brand-light);
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 5px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.4px;
+    }
+
+    .mag-hero-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.25;
+    }
+
+    .mag-hero-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .mag-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .mag-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .mag-card:active {
+      transform: scale(0.97);
+    }
+
+    .mag-card-cover {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: var(--surface2);
+    }
+
+    .mag-card-body {
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .mag-card-tag {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--brand);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .mag-card-title {
+      font-family: var(--font-heading);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .mag-card-meta {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       7. SCREEN 3: REHBER (LOCAL GUIDE & DIRECTORY)
+       ───────────────────────────────────────────────────────────── */
+    .guide-screen-wrap {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .guide-tabs-pill {
+      display: flex;
+      background: var(--surface2);
+      padding: 4px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .guide-tab-btn {
+      flex: 1;
+      padding: 9px 0;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .guide-tab-btn.active {
+      background: var(--surface);
+      color: var(--brand);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Pharmacy Card */
+    .pharmacy-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .pharmacy-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .pharmacy-name {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .pharmacy-badge {
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(16, 185, 129, 0.1);
+      color: #10B981;
+      letter-spacing: 0.4px;
+    }
+
+    .pharmacy-address {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .pharmacy-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .pharmacy-action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 9px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .pharmacy-action-btn:active {
+      transform: scale(0.96);
+    }
+
+    .pharmacy-action-btn.call {
+      background: var(--brand-light);
+      color: var(--brand);
+      border: 1px solid var(--brand-border);
+    }
+
+    .pharmacy-action-btn.map {
+      background: var(--surface2);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+    }
+
+    .pharmacy-action-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 2;
+    }
+
+    /* Venue Card */
+    .venue-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .venue-img-wrap {
+      width: 76px;
+      height: 76px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--surface2);
+    }
+
+    .venue-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .venue-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .venue-name {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .venue-cat {
+      font-size: 11px;
+      color: var(--brand);
+      font-weight: 600;
+    }
+
+    .venue-address {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .venue-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .venue-rating {
+      font-size: 11px;
+      font-weight: 700;
+      color: #F59E0B;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       8. SCREEN 4: BİZE BİLDİR (CITIZEN REPORTING FORM)
+       ───────────────────────────────────────────────────────────── */
+    .report-screen-wrap {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .report-hero-card {
+      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .report-hero-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--brand);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 14px var(--brand-glow);
+    }
+
+    .report-hero-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 2;
+    }
+
+    .report-hero-texts h3 {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .report-hero-texts p {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .report-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-secondary);
+    }
+
+    .form-input, .form-textarea, .form-select {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text-main);
+      font-size: 13px;
+      font-family: var(--font-body);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-textarea:focus, .form-select:focus {
+      border-color: var(--brand);
+      background: var(--surface);
+    }
+
+    .form-textarea {
+      resize: none;
+      height: 90px;
+    }
+
+    .location-picker-trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      cursor: pointer;
+    }
+
+    .location-picker-trigger:active {
+      background: var(--surface3);
+    }
+
+    .location-trigger-val {
+      font-size: 13px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .photo-upload-box {
+      border: 1.5px dashed var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      background: var(--surface2);
+      transition: background 0.15s;
+    }
+
+    .photo-upload-box:active {
+      background: var(--surface3);
+    }
+
+    .photo-preview-grid {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin-top: 8px;
+    }
+
+    .photo-thumb-item {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .photo-thumb-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .photo-thumb-del {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 18px;
+      height: 18px;
+      background: rgba(0,0,0,0.6);
+      color:#fff;
+      border-radius: 50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:11px;
+    }
+
+    .btn-submit-report {
+      padding: 14px;
+      border-radius: 14px;
+      background: var(--brand);
+      color: #FFFFFF;
+      font-size: 14px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 16px var(--brand-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform 0.15s;
+    }
+
+    .btn-submit-report:active {
+      transform: scale(0.97);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       9. SCREEN 5: PROFİL & AYARLAR
+       ───────────────────────────────────────────────────────────── */
+    .profile-screen-wrap {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .profile-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .profile-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand) 0%, #7F1D1D 100%);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      box-shadow: 0 4px 14px var(--brand-glow);
+    }
+
+    .profile-info h3 {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .profile-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .settings-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .setting-item {
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+
+    .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .setting-item:active {
+      background: var(--surface2);
+    }
+
+    .setting-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .setting-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 9px;
+      background: var(--surface2);
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .setting-icon svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.8;
+    }
+
+    .setting-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    /* Switch Component */
+    .ios-switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 26px;
+    }
+
+    .ios-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .ios-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--surface3);
+      transition: .3s;
+      border-radius: 34px;
+    }
+
+    .ios-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    input:checked + .ios-slider {
+      background-color: var(--brand);
+    }
+
+    input:checked + .ios-slider:before {
+      transform: translateX(20px);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       10. BOTTOM NAVIGATION BAR (5 NATIVE TABS)
+       ───────────────────────────────────────────────────────────── */
+    #bottom-nav-bar {
+      height: calc(var(--nav-height) + var(--safe-bottom));
+      padding-bottom: var(--safe-bottom);
+      background: var(--surface-glass);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      position: relative;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .nav-tab-btn {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+
+    .nav-tab-btn:active {
+      transform: scale(0.92);
+    }
+
+    .nav-tab-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.8;
+      transition: stroke 0.2s, transform 0.2s;
+    }
+
+    .nav-tab-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      transition: color 0.2s;
+    }
+
+    .nav-tab-btn.active {
+      color: var(--brand);
+    }
+
+    .nav-tab-btn.active svg {
+      stroke: var(--brand);
+      transform: translateY(-1px);
+    }
+
+    .nav-tab-btn.active .nav-tab-label {
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    .nav-tab-dot {
+      display: none !important;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       11. NATIVE BOTTOM SHEETS & MODALS
+       ───────────────────────────────────────────────────────────── */
+    .sheet-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .sheet-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .bottom-sheet {
+      width: 100% !important;
+      max-width: 100vw !important;
+      max-height: 90dvh;
+      background: var(--surface);
+      border-radius: 22px 22px 0 0;
+      border-top: 1px solid var(--border);
+      padding: 10px 16px calc(16px + var(--safe-bottom));
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+    }
+
+    .sheet-backdrop.active .bottom-sheet {
+      transform: translateY(0);
+    }
+
+    .sheet-drag-handle {
+      width: 38px;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--surface3);
+      margin: 4px auto 12px;
+      flex-shrink: 0;
+    }
+
+    .sheet-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      flex-shrink: 0;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .sheet-header h3 {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .sheet-close-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .sheet-scroll-body {
+      overflow-y: auto;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: none;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .sheet-scroll-body::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Article Detail Modal (Full Experience & Strict Horizontal Constraint) */
+    #detail-sheet .bottom-sheet {
+      max-height: 94dvh;
+      height: 94dvh;
+      width: 100% !important;
+      max-width: 100vw !important;
+      overflow-x: hidden !important;
+      box-sizing: border-box !important;
+      padding: 10px 16px calc(16px + var(--safe-bottom)) !important;
+    }
+
+    #detail-scroll-body {
+      overflow-y: auto;
+      overflow-x: hidden !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    .detail-hero-img {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: 220px;
+      border-radius: 14px;
+      object-fit: cover;
+      margin-bottom: 12px;
+      box-sizing: border-box !important;
+      display: block;
+    }
+
+    .detail-category-tag {
+      align-self: flex-start;
+      background: var(--brand-light);
+      color: var(--brand);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+
+    .detail-title {
+      font-family: var(--font-heading);
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: var(--text-main);
+      margin: 8px 0;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
+    }
+
+    .detail-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+      width: 100% !important;
+      box-sizing: border-box !important;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .detail-body-text {
+      font-size: 15.5px;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      user-select: text;
+      -webkit-user-select: text;
+      margin-top: 14px;
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: hidden !important;
+      word-break: break-word !important;
+      overflow-wrap: break-word !important;
+      box-sizing: border-box !important;
+    }
+
+    .detail-body-text *,
+    .detail-body-text p,
+    .detail-body-text div,
+    .detail-body-text span {
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      overflow-wrap: break-word !important;
+      word-break: break-word !important;
+    }
+
+    .detail-body-text p {
+      margin-bottom: 14px;
+    }
+
+    .detail-body-text img,
+    .detail-body-text p img,
+    .detail-body-text figure,
+    .detail-body-text figure img,
+    .detail-body-text iframe,
+    .detail-body-text video,
+    .detail-body-text table {
+      max-width: 100% !important;
+      width: 100% !important;
+      height: auto !important;
+      border-radius: 12px !important;
+      margin: 14px auto !important;
+      display: block !important;
+      box-sizing: border-box !important;
+    }
+
+    .detail-body-text table {
+      display: block !important;
+      overflow-x: auto !important;
+    }
+
+    .detail-actions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* Toast Notification */
+    #toast-msg {
+      position: fixed;
+      top: calc(var(--safe-top) + 60px);
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      background: var(--surface);
+      color: var(--text-main);
+      padding: 10px 18px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 300;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+    }
+
+    #toast-msg.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Story Fullscreen Viewer (Native Mobile Experience) */
+    #story-viewer-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #0B0E14;
+      z-index: 400;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      touch-action: pan-y;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 600px) {
+      #story-viewer-modal {
+        max-width: 440px;
+        height: 94dvh;
+        max-height: 900px;
+        top: 50% !important;
+        left: 50% !important;
+        right: auto !important;
+        bottom: auto !important;
+        transform: translate(-50%, -50%);
+        border-radius: 28px;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+      }
+    }
+
+    #story-viewer-modal.active {
+      display: flex;
+    }
+
+    .story-gradient-top {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 180px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 55%, transparent 100%);
+      pointer-events: none;
+      z-index: 405;
+    }
+
+    .story-gradient-bottom {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 360px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.80) 45%, rgba(0,0,0,0.3) 75%, transparent 100%);
+      pointer-events: none;
+      z-index: 405;
+    }
+
+    /* Touch Navigation Zones */
+    .story-touch-zone {
+      position: absolute;
+      top: 90px;
+      bottom: 200px;
+      width: 35%;
+      z-index: 408;
+      cursor: pointer;
+    }
+
+    .story-touch-left { left: 0; }
+    .story-touch-right { right: 0; }
+
+    .story-progress-bar-wrap {
+      position: absolute;
+      top: calc(var(--safe-top) + 12px);
+      left: 12px;
+      right: 12px;
+      height: 3px;
+      display: flex;
+      gap: 5px;
+      z-index: 412;
+    }
+
+    .story-bar-segment {
+      flex: 1;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.35);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .story-bar-fill {
+      height: 100%;
+      background: #FFFFFF;
+      width: 0%;
+      border-radius: 3px;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+      transition: width 0.08s linear;
+    }
+
+    .story-top-info {
+      position: absolute;
+      top: calc(var(--safe-top) + 24px);
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 412;
+    }
+
+    .story-author-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .story-author-ring {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      padding: 1.5px;
+      background: linear-gradient(135deg, #B91C1C, #F59E0B);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-author-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid #000;
+    }
+
+    .story-header-texts {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .story-author-name {
+      color: #FFFFFF;
+      font-size: 13.5px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+      line-height: 1.2;
+    }
+
+    .story-time-badge {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .story-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .story-action-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .story-action-btn:active {
+      transform: scale(0.9);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .story-media-wrapper {
+      position: absolute;
+      inset: 0;
+      z-index: 400;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-img-main {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+      animation: storyScale 5s linear forwards;
+    }
+
+    @keyframes storyScale {
+      from { transform: scale(1); }
+      to { transform: scale(1.06); }
+    }
+
+    .story-caption-overlay {
+      position: absolute;
+      bottom: calc(var(--safe-bottom) + 26px);
+      left: 18px;
+      right: 18px;
+      color: #FFFFFF;
+      z-index: 412;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      pointer-events: auto;
+    }
+
+    .story-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(185, 28, 28, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #FFFFFF;
+      font-size: 10.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    }
+
+    .story-caption-title {
+      font-family: var(--font-heading);
+      font-size: 21px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 8px;
+      color: #FFFFFF;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.85);
+    }
+
+    .story-caption-desc {
+      font-size: 13.5px;
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.45;
+      margin-bottom: 14px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .story-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: 24px;
+      background: #FFFFFF;
+      color: #0F172A;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .story-cta-btn:active {
+      transform: scale(0.94);
+      background: #F1F5F9;
+    }
+
+    /* iOS Safari Install Banner */
+    .ios-install-banner {
+      position: fixed;
+      bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+      left: 12px;
+      right: 12px;
+      z-index: 99999;
+      animation: slideUpIosBanner 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideUpIosBanner {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .ios-install-card {
+      background: rgba(22, 24, 29, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      color: #FFFFFF;
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12);
+    }
+    .ios-install-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      position: relative;
+    }
+    .ios-install-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    }
+    .ios-install-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ios-install-meta strong {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .ios-install-meta span {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.3;
+    }
+    .ios-install-close {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #FFFFFF;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .ios-install-steps {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.92);
+    }
+    .ios-step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.35;
+    }
+    .ios-step-num {
+      background: #B91C1C;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 10.5px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Splash Screen -->
+  <div id="splash-screen" aria-hidden="true">
+    <img src="assets/icon.png" class="splash-logo" alt="Göktürk"/>
+    <div class="splash-title">Göktürk</div>
+    <div class="splash-sub">DERGİSİ VE GAZETESİ</div>
+    <div class="splash-bar"></div>
+  </div>
+  <script>
+    setTimeout(function () {
+      var s = document.getElementById('splash-screen');
+      if (!s) return;
+      s.classList.add('hide');
+      setTimeout(function () { s.remove(); }, 600);
+    }, 2200);
+  </script>
+
+  <div id="app-root">
+    <!-- Offline Connectivity Notice Bar -->
+    <div id="offline-bar" style="display:none; background:#B91C1C; color:#FFFFFF; font-size:11.5px; font-weight:700; padding:6px 14px; text-align:center; z-index:105; align-items:center; justify-content:center; gap:8px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:14px;height:14px;"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+      <span>İnternet bağlantısı kesildi • Önbellekteki haberler gösteriliyor</span>
+    </div>
+
+    <!-- Top Safe Area Notch Spacer -->
+    <div class="top-notch-bar"></div>
+
+    <!-- Header Bar -->
+    <header id="app-header">
+      <div class="brand-logo-wrap" onclick="switchNavTab('home')">
+        <div class="brand-logo-mark">G</div>
+        <div class="brand-logo-text">
+          <div class="brand-title">GÖKTÜRK</div>
+          <div class="brand-subtitle">DERGİSİ VE GAZETESİ</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Quick Search Button -->
+        <button class="icon-btn" onclick="openSearchModal()" title="Ara">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button class="icon-btn" onclick="toggleTheme()" id="theme-toggle-btn" title="Koyu/Aydınlık Mod">
+          <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Live Context Strip (Weather & Traffic) -->
+    <div id="live-context-strip">
+      <div class="live-chip" id="chip-weather" onclick="showToast('Hava durumu güncellendi')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+        <span id="chip-weather-text">İstanbul 16°C Parçalı Bulutlu</span>
+      </div>
+      <div class="live-chip" id="chip-currency" onclick="showToast('Canlı Piyasa Kurları')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <span id="chip-currency-text">Dolar 49.20 ₺ • Euro 55.28 ₺</span>
+      </div>
+      
+      <div class="live-chip" onclick="showToast('Trafik Yoğunluğu: %26 Akıcı')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <span>Trafik: %26 Akıcı</span>
+      </div>
+    </div>
+
+    <!-- Breaking News Ticker -->
+    <div id="breaking-ticker-wrap" onclick="openBreakingNews()">
+      <div class="breaking-tag">
+        <div class="pulse-dot"></div>
+        <span>SON DAKİKA</span>
+      </div>
+      <div class="breaking-text" id="breaking-ticker-text">
+        İsviçre Alpleri’nde buzulların yüzde 20’si 5 yılda eridi
+      </div>
+    </div>
+
+    <!-- Screens Wrapper -->
+    <div id="screens-wrapper">
+
+      <!-- ────────────────── SCREEN 1: AKIŞ (HOME) ────────────────── -->
+      <section id="screen-home" class="screen-view active">
+        <!-- Pull to refresh indicator -->
+        <div id="pull-refresh-indicator" style="text-align:center; padding:10px 0; color:var(--brand); display:none; font-size:12px; font-weight:700;">
+          <span>Haberler yenileniyor...</span>
+        </div>
+        <!-- Stories / Highlights Bar -->
+        <div class="stories-tray" id="stories-tray-container"></div>
+
+        <!-- Category Filter Pills -->
+        <div class="category-pills-bar" id="category-pills-container"></div>
+
+        <!-- Touch-Gesture Headline Carousel -->
+        <div class="headline-carousel-wrap">
+          <div class="carousel-viewport" id="carousel-viewport">
+            <div class="carousel-track" id="carousel-track"></div>
+          </div>
+          <!-- Dots Indicator -->
+          <div class="carousel-dots" id="carousel-dots-container"></div>
+        </div>
+
+        <!-- Quick Access: Pharmacy & Guide Bottom Sheet Triggers -->
+        <div class="quick-guide-strip">
+          <div class="quick-guide-card" onclick="openPharmacySheet()">
+            <div class="quick-icon-box red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>
+            </div>
+            <div class="quick-texts">
+              <h4>Nöbetçi Eczaneler</h4>
+              <p>Güncel Nöbetçi Listesi</p>
+            </div>
+          </div>
+
+          <div class="quick-guide-card" onclick="openVenueSheet()">
+            <div class="quick-icon-box blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            </div>
+            <div class="quick-texts">
+              <h4>Mekan Rehberi</h4>
+              <p>Restoran, Kafe, Hizmet</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- News Feed Section -->
+        <div class="feed-section-header">
+          <h2 class="feed-section-title">Günün Haberleri</h2>
+          <span class="feed-counter" id="news-feed-count"></span>
+        </div>
+
+        <!-- News Cards Container -->
+        <div class="news-cards-list" id="home-news-container"></div>
+        <div id="feed-loader-container" style="padding:16px; text-align:center;">
+          <button id="feed-load-more-btn" class="pharmacy-action-btn map" onclick="loadMoreNews()" style="margin:0 auto; padding:10px 22px; font-size:13px; display:none;">
+            <span>Daha Fazla Haber Yükle</span>
+          </button>
+          <div id="feed-spinner" style="display:none; color:var(--text-muted); font-size:12px; font-weight:600; padding:10px;">
+            Haberler yükleniyor...
+          </div>
+        </div>
+      </section>
+
+      <!-- ────────────────── SCREEN 2: E-DERGİ (MAGAZINE) ────────── -->
+      <section id="screen-magazine" class="screen-view">
+        <div class="mag-screen-wrap">
+          <div class="mag-hero-banner">
+            <div class="mag-hero-top">
+              <div class="mag-issue-badge">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px;height:13px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                <span>GÖKTÜRK DERGİSİ YAYINLARI</span>
+              </div>
+              <a href="https://www.gokturkdergisi.com/dergi" target="_blank" class="icon-btn" title="Web Sitesinde Gör">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:15px;height:15px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            </div>
+            <div class="mag-hero-title">E-Dergi & Özel Sayılar</div>
+            <p class="mag-hero-desc">Göktürk Dergisi'nin basılı sayıları, özel röportajları ve editoryal dergi içerikleri.</p>
+          </div>
+
+          <!-- Magazine Posts Grid -->
+          <div class="mag-grid" id="mag-grid-container"></div>
+
+          <!-- Load More Button -->
+          <div id="mag-loader-wrap" style="text-align:center; padding:10px 0;">
+            <button id="mag-load-more-btn" class="authors-more-btn" onclick="loadMagazinePosts(true)" style="display:none;">
+              Daha Fazla Dergi İçeriği
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ────────────────── SCREEN: YAZARLAR (AUTHORS) ────────── -->
+      <section id="screen-authors" class="screen-view">
+        <div class="authors-wrap">
+          <div id="authors-list-view">
+            <div class="authors-intro">
+              <h2>Köşe Yazarları</h2>
+              <p>Yazarlarımızı keşfedin, köşe yazılarını okuyun.</p>
+            </div>
+            <div class="authors-grid" id="authors-grid"></div>
+          </div>
+          <div id="author-detail-view" style="display:none;">
+            <button class="author-back-btn" onclick="closeAuthorDetail()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+              <span>Tüm Yazarlar</span>
+            </button>
+            <div class="author-profile-head" id="author-profile-head"></div>
+            <div class="column-list" id="author-columns"></div>
+            <button class="authors-more-btn" id="author-more-btn" style="display:none;" onclick="loadAuthorColumns(true)">Daha Fazla Yazı</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ────────────────── SCREEN 3: REHBER (GUIDE) ────────────── -->
+      <section id="screen-guide" class="screen-view">
+        <div class="guide-screen-wrap">
+          <div class="guide-tabs-pill">
+            <button class="guide-tab-btn active" id="gtab-pharmacy" onclick="switchGuideTab('pharmacy')">Nöbetçi Eczaneler</button>
+            <button class="guide-tab-btn" id="gtab-venues" onclick="switchGuideTab('venues')">Mekanlar & Kafe</button>
+            <button class="guide-tab-btn" id="gtab-emergency" onclick="switchGuideTab('emergency')">Önemli Numaralar</button>
+          </div>
+
+          <!-- Guide Section Content -->
+          <div id="guide-section-content" style="display:flex; flex-direction:column; gap:12px;"></div>
+        </div>
+      </section>
+
+      <!-- ────────────────── SCREEN 4: BİZE BİLDİR (REPORT) ──────── -->
+      <section id="screen-report" class="screen-view">
+        <div class="report-screen-wrap">
+          <div class="report-hero-card">
+            <div class="report-hero-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 11 18-5-5 18-4-7-9-6z"/></svg>
+            </div>
+            <div class="report-hero-texts">
+              <h3>Göktürk İhbar Masası</h3>
+              <p>Çevrenizde gelişen haber değeri taşıyan olayları editörlerimize ulaştırın.</p>
+            </div>
+          </div>
+
+          <form class="report-form" onsubmit="handleReportSubmit(event)">
+            <div class="form-group">
+              <label class="form-label">Haber / Olay Başlığı *</label>
+              <input type="text" id="report-title" class="form-input" placeholder="Örn: Göktürk Merkezde Su Patlağı" required/>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Kategori</label>
+              <select id="report-category" class="form-select">
+                <option value="Trafik / Yol">Trafik & Yol Durumu</option>
+                <option value="Belediye / Altyapı">Belediye & Çevre Hizmetleri</option>
+                <option value="Asayiş / Güvenlik">Asayiş & Güvenlik</option>
+                <option value="Etkinlik / Yaşam">Kültür, Sanat & Etkinlik</option>
+                <option value="Genel Haber">Diğer Yerel Gelişmeler</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Olay Konumu *</label>
+              <div class="location-picker-trigger" onclick="openLocationSheet()">
+                <div class="location-trigger-val">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" style="width:16px;height:16px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <span id="selected-location-label">Göktürk Merkez (İstanbul Cad.)</span>
+                </div>
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:14px;height:14px;"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Açıklama & Detaylar *</label>
+              <textarea id="report-desc" class="form-textarea" placeholder="Olay nasıl gelişti? Saat kaçta oldu?..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Fotoğraf veya Belge Ekle</label>
+              <input type="file" id="report-photo-input" accept="image/*" multiple style="display:none;" onchange="handlePhotoSelect(event)"/>
+              <div class="photo-upload-box" onclick="document.getElementById('report-photo-input').click()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" style="width:24px;height:24px;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span style="font-size:12px; font-weight:700; color:var(--text-main);">Fotoğraf Seç veya Çek</span>
+                <span style="font-size:10.5px; color:var(--text-muted);">Maksimum 3 adet görsel</span>
+              </div>
+              <div class="photo-preview-grid" id="photo-preview-container"></div>
+            </div>
+
+            <button type="submit" class="btn-submit-report">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <span>İhbarı Editöre İlet</span>
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- ────────────────── SCREEN 5: PROFİL & AYARLAR ─────────── -->
+      <section id="screen-profile" class="screen-view">
+        <div class="profile-screen-wrap">
+          <div class="profile-card">
+            <div class="profile-avatar">Ö</div>
+            <div class="profile-info">
+              <h3>Göktürk Dergisi Okuru</h3>
+              <p>Yerel Basında 20. Yıl • İstanbul</p>
+            </div>
+          </div>
+
+          <!-- Ayarlar Grubu 1: Tercihler -->
+          <div class="settings-group">
+            <div class="setting-item" onclick="toggleTheme()">
+              <div class="setting-left">
+                <div class="setting-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                </div>
+                <div class="setting-title">Titanyum Koyu Mod</div>
+              </div>
+              <label class="ios-switch" onclick="event.stopPropagation()">
+                <input type="checkbox" id="theme-switch-input" onchange="toggleTheme()"/>
+                <span class="ios-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-item">
+              <div class="setting-left">
+                <div class="setting-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                </div>
+                <div class="setting-title">Son Dakika Bildirimleri</div>
+              </div>
+              <label class="ios-switch">
+                <input type="checkbox" checked onchange="showToast('Bildirim tercihi güncellendi')"/>
+                <span class="ios-slider"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Ayarlar Grubu 2: Kaydedilenler & Dergi -->
+          <div class="settings-group">
+            <div class="setting-item" onclick="showSavedNews()">
+              <div class="setting-left">
+                <div class="setting-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div class="setting-title">Kaydettiğim Haberler</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+
+            <div class="setting-item" onclick="openAboutModal()">
+              <div class="setting-left">
+                <div class="setting-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="setting-title">Göktürk Dergisi 20. Yıl Hikayesi</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+
+            <div class="setting-item" onclick="openKunyeModal()">
+              <div class="setting-left">
+                <div class="setting-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                </div>
+                <div class="setting-title">Resmi Künye & Yayın Kurulu</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+
+            <div class="setting-item" onclick="openPrivacyModal()">
+              <div class="setting-left">
+                <div class="setting-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="setting-title">Gizlilik Politikası & KVKK</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+
+            <div class="setting-item" onclick="openTermsModal()">
+              <div class="setting-left">
+                <div class="setting-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <div class="setting-title">Kullanım Koşulları & Yayın İlkeleri</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+
+            <div class="setting-item" onclick="openContactModal()">
+              <div class="setting-left">
+                <div class="setting-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                </div>
+                <div class="setting-title">İletişim & Reklam Rezervasyon</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+
+          <!-- Versiyon ve Telif -->
+          <div style="text-align:center; padding:10px 0; font-size:11px; color:var(--text-muted);">
+            Göktürk Dergisi & Gazetesi • v3.0 Native Mobile PWA<br/>
+            Ümit Öner Medya Grubu © 2026
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /screens-wrapper -->
+
+    <!-- ────────────────── BOTTOM NAVIGATION BAR ────────────────── -->
+    <nav id="bottom-nav-bar">
+      <button class="nav-tab-btn active" id="tab-home" onclick="switchNavTab('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="nav-tab-label">Akış</span>
+      </button>
+
+      <button class="nav-tab-btn" id="tab-magazine" onclick="switchNavTab('magazine')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        <span class="nav-tab-label">E-Dergi</span>
+      </button>
+
+      <button class="nav-tab-btn" id="tab-authors" onclick="switchNavTab('authors')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span class="nav-tab-label">Yazarlar</span>
+      </button>
+
+      <button class="nav-tab-btn" id="tab-guide" onclick="switchNavTab('guide')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        <span class="nav-tab-label">Rehber</span>
+      </button>
+
+      <button class="nav-tab-btn" id="tab-report" onclick="switchNavTab('report')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 11 18-5-5 18-4-7-9-6z"/></svg>
+        <span class="nav-tab-label">Bize Bildir</span>
+      </button>
+
+      <button class="nav-tab-btn" id="tab-profile" onclick="switchNavTab('profile')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="nav-tab-label">Profil</span>
+      </button>
+    </nav>
+
+    <!-- ────────────────── BOTTOM SHEETS & MODALS ────────────────── -->
+
+    <!-- Nöbetçi Eczaneler Bottom Sheet -->
+    <div class="sheet-backdrop" id="sheet-pharmacy" onclick="closeSheetOnBackdrop(event, 'sheet-pharmacy')">
+      <div class="bottom-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <h3>Nöbetçi Eczaneler</h3>
+          <button class="sheet-close-btn" onclick="closeSheet('sheet-pharmacy')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="sheet-scroll-body" id="sheet-pharmacy-list"></div>
+      </div>
+    </div>
+
+    <!-- Mekan Rehberi Bottom Sheet -->
+    <div class="sheet-backdrop" id="sheet-venue" onclick="closeSheetOnBackdrop(event, 'sheet-venue')">
+      <div class="bottom-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <h3>Göktürk Mekan Rehberi</h3>
+          <button class="sheet-close-btn" onclick="closeSheet('sheet-venue')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="sheet-scroll-body" id="sheet-venue-list"></div>
+      </div>
+    </div>
+
+    <!-- Olay Konumu Seçici Bottom Sheet -->
+    <div class="sheet-backdrop" id="sheet-location" onclick="closeSheetOnBackdrop(event, 'sheet-location')">
+      <div class="bottom-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <h3>Olay Konumu Seçin</h3>
+          <button class="sheet-close-btn" onclick="closeSheet('sheet-location')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="sheet-scroll-body">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <button type="button" class="pharmacy-action-btn map" onclick="fetchLiveGps()" style="justify-content:flex-start; padding:12px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+              <span>Canlı GPS Konumumu Al</span>
+            </button>
+            <div style="font-size:11px; font-weight:700; color:var(--text-muted); margin-top:6px; text-transform:uppercase;">Önemli Noktalar</div>
+            <button type="button" class="pharmacy-action-btn map" onclick="selectLocationPreset('Göktürk Merkez (İstanbul Cad.)')" style="justify-content:flex-start; padding:12px;">Göktürk Merkez (İstanbul Cad.)</button>
+            <button type="button" class="pharmacy-action-btn map" onclick="selectLocationPreset('Kemerburgaz Meydanı')" style="justify-content:flex-start; padding:12px;">Kemerburgaz Meydanı (Mithatpaşa Cad.)</button>
+            <button type="button" class="pharmacy-action-btn map" onclick="selectLocationPreset('Göktürk Gölet Tabiat Parkı')" style="justify-content:flex-start; padding:12px;">Göktürk Gölet Tabiat Parkı</button>
+            <button type="button" class="pharmacy-action-btn map" onclick="selectLocationPreset('Hasdal - Göktürk Otoban Girişi')" style="justify-content:flex-start; padding:12px;">Hasdal - Göktürk Otoban Hattı</button>
+            <button type="button" class="pharmacy-action-btn map" onclick="selectLocationPreset('Kemer Country')" style="justify-content:flex-start; padding:12px;">Kemer Country Çıkışı</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Haber Detay Sheet / Full Reader -->
+    <div class="sheet-backdrop" id="detail-sheet" onclick="closeSheetOnBackdrop(event, 'detail-sheet')">
+      <div class="bottom-sheet">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <span class="detail-category-tag" id="detail-cat-tag">GÜNDEM</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button class="icon-btn" onclick="toggleSaveCurrentNews()" id="detail-save-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            </button>
+            <button class="sheet-close-btn" onclick="closeSheet('detail-sheet')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="sheet-scroll-body" id="detail-scroll-body">
+          <img src="" id="detail-img" class="detail-hero-img" alt="Haber Detay"/>
+          <h1 class="detail-title" id="detail-heading"></h1>
+          <div class="detail-meta-row">
+            <span id="detail-author">Göktürk Dergisi Haber Merkezi</span>
+            <span id="detail-time">10 dk önce</span>
+            <span id="detail-hit" style="display:inline-flex; align-items:center; gap:4px; font-size:11px; color:var(--text-muted);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:12px;height:12px;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <span id="detail-hit-val">0</span>
+            </span>
+          </div>
+          <div class="detail-body-text" id="detail-content"></div>
+
+          <div id="detail-related-section" style="margin:20px 0 16px 0; display:none;">
+            <div style="font-size:13px; font-weight:700; color:var(--text-main); margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+              <span style="display:inline-block; width:3px; height:13px; background:var(--brand); border-radius:2px;"></span>
+              <span>İlgili Haberler</span>
+            </div>
+            <div id="detail-related-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+          </div>
+          <div class="detail-actions-bar">
+            <button class="pharmacy-action-btn call" onclick="shareCurrentNews()" style="flex:1;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+              <span>Haberi Paylaş</span>
+            </button>
+            <a href="https://www.gokturkdergisi.com" target="_blank" class="pharmacy-action-btn map" id="detail-source-link" style="flex:1;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>Web Sitesinde Gör</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="sheet-backdrop" id="sheet-search" onclick="closeSheetOnBackdrop(event, 'sheet-search')">
+      <div class="bottom-sheet" style="max-height:85dvh;">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <h3>Haberlerde Ara</h3>
+          <button class="sheet-close-btn" onclick="closeSheet('sheet-search')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div style="margin-bottom:12px;">
+          <input type="text" id="live-search-input" class="form-input" placeholder="Haber, yazar veya mekan adı yazın..." oninput="handleSearch(this.value)"/>
+        </div>
+        <div class="sheet-scroll-body" id="search-results-container"></div>
+      </div>
+    </div>
+
+    <!-- Story Viewer Modal (Native Mobile Instagram & Apple News Style) -->
+    <div id="story-viewer-modal">
+      <!-- Dark/Clear Gradients for Guaranteed Legibility on Any Photo -->
+      <div class="story-gradient-top"></div>
+      <div class="story-gradient-bottom"></div>
+
+      <!-- Left / Right Touch Interaction Tap Zones -->
+      <div class="story-touch-zone story-touch-left" id="story-tap-prev" title="Önceki Hikaye"></div>
+      <div class="story-touch-zone story-touch-right" id="story-tap-next" title="Sonraki Hikaye"></div>
+
+      <!-- Segmented Progress Bars -->
+      <div class="story-progress-bar-wrap" id="story-progress-bars"></div>
+
+      <!-- Top Story Bar: Channel Avatar, Title, Time, Pause & Close -->
+      <div class="story-top-info">
+        <div class="story-author-info">
+          <div class="story-author-ring">
+            <img src="" id="story-author-avatar" class="story-author-img" alt="Avatar"/>
+          </div>
+          <div class="story-header-texts">
+            <span class="story-author-name" id="story-author-title">Göktürk Dergisi</span>
+            <span class="story-time-badge" id="story-time-badge">Özel Hikaye</span>
+          </div>
+        </div>
+        <div class="story-top-actions">
+          <button class="story-action-btn" id="story-pause-btn" onclick="toggleStoryPause(event)" title="Duraklat / Devam Et">
+            <svg id="story-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+            <svg id="story-icon-play" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;display:none;"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+          </button>
+          <button class="story-action-btn story-close-btn" onclick="closeStoryViewer()" title="Kapat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:18px;height:18px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Photo Media -->
+      <div class="story-media-wrapper">
+        <img src="" id="story-main-img" class="story-img-main" alt="Story Visual"/>
+      </div>
+
+      <!-- Bottom Caption, Tag Badge & Action CTA Button -->
+      <div class="story-caption-overlay">
+        <div class="story-badge" id="story-category-badge">ÖZEL DOSYA</div>
+        <h2 class="story-caption-title" id="story-caption-h"></h2>
+        <p class="story-caption-desc" id="story-caption-p"></p>
+        <button class="story-cta-btn" id="story-cta-btn" onclick="handleStoryCTA(event)">
+          <span id="story-cta-text">Haberi İncele</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:15px;height:15px;stroke-width:2.4;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    
+    <!-- Resmi Künye Bottom Sheet (Google Play News Policy Uyumlu) -->
+    <div class="sheet-backdrop" id="sheet-kunye" onclick="closeSheetOnBackdrop(event, 'sheet-kunye')">
+      <div class="bottom-sheet" style="max-height:88dvh;">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <h3>Göktürk Dergisi Künyesi</h3>
+          <button class="sheet-close-btn" onclick="closeSheet('sheet-kunye')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="sheet-scroll-body" style="font-size:13px; line-height:1.6; color:var(--text-secondary);">
+          <div style="background:var(--surface2); padding:14px; border-radius:12px; margin-bottom:14px; border:1px solid var(--border);">
+            <div style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">YAYIN SAHİBİ & KURUMSAL BİLGİLER</div>
+            <div style="font-weight:700; font-size:15px; color:var(--text-main); margin:4px 0;">ÜMİT ÖNER MEDYA GRUBU</div>
+            <div><strong>İmtiyaz Sahibi:</strong> Ümit Öner</div>
+            <div><strong>Yayın Türü:</strong> Süreli Yerel & Bölgesel Bağımsız Yayın</div>
+            <div><strong>Merkez:</strong> Göktürk Merkez Mah. İstanbul Cad. Eyüpsultan / İstanbul</div>
+            <div><strong>Telefon:</strong> <a href="tel:02123221545" style="color:var(--brand); text-decoration:none;">0212 322 15 45</a></div>
+            <div><strong>E-Posta:</strong> <a href="mailto:info@gokturkdergisi.com" style="color:var(--brand); text-decoration:none;">info@gokturkdergisi.com</a></div>
+            <div><strong>Web:</strong> <a href="https://www.gokturkdergisi.com" target="_blank" style="color:var(--brand); text-decoration:none;">www.gokturkdergisi.com</a></div>
+          </div>
+
+          <div style="margin-bottom:14px;">
+            <div style="font-weight:700; color:var(--text-main); margin-bottom:4px;">YAZI İŞLERİ & EDİTÖR MASASI</div>
+            <div><strong>Haber Koordinatörü:</strong> İkra Ferzan</div>
+            <div><strong>Haber Merkezi:</strong> Dilara Bora, Neslişah Özcan, Arda Öner, Ayşe Şengüneş</div>
+            <div><strong>Görsel Yönetmen:</strong> Göktürk Dergisi Medya Prodüksiyon</div>
+          </div>
+
+          <div style="background:var(--surface2); padding:12px; border-radius:10px; font-size:12px; border:1px solid var(--border);">
+            <strong>Basın Meslek İlkeleri:</strong> Göktürk Dergisi ve Gazetesi, Türkiye Gazetecileri Hak ve Sorumluluk Bildirgesi ile Basın Ahlak Yasası'na uymayı taahhüt eder. Ajans kaynaklı haberlerde ilgili ajansların telif hakları saklıdır.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gizlilik Politikası & KVKK Bottom Sheet (Google Play Data Safety Uyumlu) -->
+    <div class="sheet-backdrop" id="sheet-privacy" onclick="closeSheetOnBackdrop(event, 'sheet-privacy')">
+      <div class="bottom-sheet" style="max-height:88dvh;">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <h3>Gizlilik Politikası & KVKK</h3>
+          <button class="sheet-close-btn" onclick="closeSheet('sheet-privacy')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="sheet-scroll-body" style="font-size:12.5px; line-height:1.6; color:var(--text-secondary);">
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">1. Veri Sorumlusu</strong><br/>
+            Göktürk Dergisi ve Gazetesi (Ümit Öner Medya Grubu) olarak okurlarımızın gizliliğine ve kişisel verilerine 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) ve Google Play Geliştirici Politikaları kapsamında azami özen göstermekteyiz.
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">2. Toplanan Veriler ve Kullanım Amacı</strong><br/>
+            • <strong>Cihaz ve Yerel Bellek (Local Storage):</strong> Uygulamada seçtiğiniz karanlık/aydınlık tema tercihleri ve kaydettiğiniz haberler yalnızca kendi cihazınızda yerel olarak saklanır. Sunucularımıza kimlik bilgisi gönderilmez.<br/>
+            • <strong>Konum Verisi:</strong> "Bize Bildir" sekmesinde canlı GPS konumu eklemek istediğinizde, yalnızca sizin açık rızanız ve izninizle anlık koordinat alınır; arka planda sürekli konum takibi kesinlikle YAPILMAZ.<br/>
+            • <strong>İçerik Görüntüleme & Hit Sayımı:</strong> Haberlerin okunma sayısı, herhangi bir kişisel kimlik ilişkilendirilmeden yalnızca anonim sayaç mantığıyla işlenir.
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">3. Üçüncü Taraflarla Paylaşım</strong><br/>
+            Uygulamamız kullanıcı verilerini reklam hedeflemesi amacıyla üçüncü taraflarla paylaşmaz veya satmaz.
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">4. Kullanıcı Hakları ve İletişim</strong><br/>
+            KVKK Madde 11 uyarınca verilerinizle ilgili her türlü bilgi alma, güncelleme ve silinmesini talep etme hakkına sahipsiniz. Başvurularınızı <a href="mailto:kvkk@gokturkdergisi.com" style="color:var(--brand);">kvkk@gokturkdergisi.com</a> adresine iletebilirsiniz.
+          </div>
+
+          <div style="text-align:center; padding:10px 0;">
+            <a href="https://www.gokturkdergisi.com" target="_blank" class="pharmacy-action-btn map" style="display:inline-flex; width:auto; padding:8px 18px;">
+              <span>Web Sitesi Gizlilik Sözleşmesi</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Kullanım Koşulları & Yayın İlkeleri Bottom Sheet -->
+    <div class="sheet-backdrop" id="sheet-terms" onclick="closeSheetOnBackdrop(event, 'sheet-terms')">
+      <div class="bottom-sheet" style="max-height:88dvh;">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <h3>Kullanım Koşulları & Yayın İlkeleri</h3>
+          <button class="sheet-close-btn" onclick="closeSheet('sheet-terms')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="sheet-scroll-body" style="font-size:12.5px; line-height:1.6; color:var(--text-secondary);">
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">Telif Hakları:</strong> Göktürk Dergisi uygulamasında yer alan tüm makale, görsel, haber ve tasarım öğeleri 5846 sayılı Fikir ve Sanat Eserleri Kanunu ile korunmaktadır. Kaynak gösterilmeden kopyalanamaz veya ticari amaçla kullanılamaz.
+          </div>
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">İçerik Sorumluluğu:</strong> Köşe yazarlarımızın kaleme aldığı yazılar kendi şahsi görüşlerini yansıtmakta olup, Göktürk Dergisi tarafsız ve bağımsız gazetecilik ilkelerini benimser.
+          </div>
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">İhbar ve Kullanıcı Katkısı:</strong> "Bize Bildir" sekmesinden iletilen içeriklerin doğruluğu editör masamız tarafından incelenir ve yayın kararı dergi yönetimine aittir.
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div id="toast-msg">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" style="width:18px;height:18px;"><polyline points="20 6 9 17 4 12"/></svg>
+      <span id="toast-text">İşlem başarıyla gerçekleştirildi</span>
+    </div>
+
+  </div><!-- /app-root -->
+
+  <!-- ─────────────────────────────────────────────────────────────
+     JAVASCRIPT: UYGULAMA MANTIĞI & DATASETLER
+     ───────────────────────────────────────────────────────────── -->
+  
+  <script>
+    /* ══════════════════════════════════════════════════════════════════
+       NOVA CMS v2 API CLIENT — GÖKTÜRK DERGİSİ
+       Host: www.gokturkdergisi.com
+       Key: XWFqoFzV3IVUQxtM8vHdG1NULhnFP1g1W250uGN7760d3b94
+       ══════════════════════════════════════════════════════════════════ */
+    const NOVA_CONFIG = {
+      host: 'https://www.gokturkdergisi.com',
+      apiKey: 'XWFqoFzV3IVUQxtM8vHdG1NULhnFP1g1W250uGN7760d3b94',
+      get baseUrl() {
+        return `${this.host}/api/v2/${this.apiKey}`;
+      }
+    };
+
+    const NovaAPI = {
+      // 1. Manşetler (Vitrin Carousel)
+      async getHeadlines(limit = 8) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/posts/headlines/limit/${limit}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] getHeadlines hata:', e);
+          return [];
+        }
+      },
+
+      // 2. Flaş / Son Dakika
+      async getBreaking(limit = 5) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/posts/breaking/limit/${limit}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] getBreaking hata:', e);
+          return [];
+        }
+      },
+
+      // 3. Son Haberler (Akış & Sayfalama)
+      async getLatest(page = 1, limit = 12) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/posts/latest/page/${page}/limit/${limit}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return {
+            posts: json.data || [],
+            meta: json.meta || {}
+          };
+        } catch (e) {
+          console.warn('[NovaAPI] getLatest hata:', e);
+          return { posts: [], meta: {} };
+        }
+      },
+
+      // 4. Popüler Haberler
+      async getPopular(limit = 8, rangeDays = 7) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/posts/popular/limit/${limit}/range/${rangeDays}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] getPopular hata:', e);
+          return [];
+        }
+      },
+
+      // 5. Kategoriler Listesi
+      async getCategories() {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/categories/page/1/per-page/25`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] getCategories hata:', e);
+          return [];
+        }
+      },
+
+      // 6. Kategoriye Göre Haberler
+      async getCategoryPosts(catId, page = 1, limit = 12) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/posts/category/${catId}/page/${page}/limit/${limit}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return {
+            posts: json.data || [],
+            meta: json.meta || {}
+          };
+        } catch (e) {
+          console.warn('[NovaAPI] getCategoryPosts hata:', e);
+          return { posts: [], meta: {} };
+        }
+      },
+
+      // 7. Haber Detayı (HTML İçerik, Yazar, Hit)
+      async getPostDetail(id) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/posts/${id}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || null;
+        } catch (e) {
+          console.warn('[NovaAPI] getPostDetail hata:', e);
+          return null;
+        }
+      },
+
+      // Yazarlar Listesi
+      async getAuthors() {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/authors/page/1/per-page/100`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] getAuthors hata:', e);
+          return null;
+        }
+      },
+
+      // Yazarın Köşe Yazıları
+      async getAuthorArticles(authorId, page = 1) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/authors/${authorId}/articles?page=${page}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return { articles: json.data || [], meta: json.meta || {} };
+        } catch (e) {
+          console.warn('[NovaAPI] getAuthorArticles hata:', e);
+          return null;
+        }
+      },
+
+      // Köşe Yazısı Detayı
+      async getArticleDetail(id) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/articles/${id}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || null;
+        } catch (e) {
+          console.warn('[NovaAPI] getArticleDetail hata:', e);
+          return null;
+        }
+      },
+
+      // 8. İlgili Haberler
+      async getRelatedPosts(id, limit = 4) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/posts/${id}/related/limit/${limit}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] getRelatedPosts hata:', e);
+          return [];
+        }
+      },
+
+      // 9. Haber Arama
+      async search(query, page = 1, perPage = 20) {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/posts/search?q=${encodeURIComponent(query)}&page=${page}&per_page=${perPage}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] search hata:', e);
+          return [];
+        }
+      },
+
+      // 10. Canlı Piyasa / Kurlar (Dolar, Euro, Altın)
+      async getCurrencies() {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/services/currency/type/formatted`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || null;
+        } catch (e) {
+          console.warn('[NovaAPI] getCurrencies hata:', e);
+          return null;
+        }
+      },
+
+      // 11. Canlı Hava Durumu (Göktürk / Eyüpsultan)
+      async getWeather() {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/services/weather/city/istanbul/district/eyupsultan`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] getWeather hata:', e);
+          return [];
+        }
+      },
+
+      // 12. Nöbetçi Eczaneler (Göktürk / Eyüpsultan)
+      async getPharmacies() {
+        try {
+          const res = await fetch(`${NOVA_CONFIG.baseUrl}/services/pharmacy/city/istanbul/district/eyupsultan`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+          return json.data || [];
+        } catch (e) {
+          console.warn('[NovaAPI] getPharmacies hata:', e);
+          return [];
+        }
+      },
+
+      // 13. Hit Okunma Sayacı (Beacon)
+      trackHit(postId) {
+        try {
+          const body = 'reference_id=' + encodeURIComponent(postId) + '&reference_type=post';
+          fetch(`${NOVA_CONFIG.host}/bigdata/hit.json`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: body,
+            mode: 'no-cors'
+          }).catch(() => {});
+        } catch (e) {}
+      }
+    };
+
+    /* ── STATIC DATASETS (VENUES, STORIES, MAGAZINE) ── */
+    const GOKTURK_VENUES = [
+  {
+    id: 'v1',
+    category: 'gourmet',
+    categoryName: 'Restoran & Kafe',
+    name: 'Yalın Brasserie & Lounge',
+    address: 'Arcadium Life II, İstanbul Cad. No:26, Göktürk',
+    rating: '4.9',
+    phone: '02123224455',
+    mapQuery: 'Yalın+Brasserie+Göktürk',
+    img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=300&q=80'
+  },
+  {
+    id: 'v2',
+    category: 'gourmet',
+    categoryName: 'Gurme Kafe',
+    name: 'Minoa Books & Coffee Göktürk',
+    address: 'Cumhuriyet Cad. No:8, Göktürk',
+    rating: '4.8',
+    phone: '02123221234',
+    mapQuery: 'Minoa+Göktürk',
+    img: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=300&q=80'
+  },
+  {
+    id: 'v3',
+    category: 'gourmet',
+    categoryName: 'Doğa & Izgara',
+    name: 'Kemer Country Orman Evi',
+    address: 'Atlıspor Cad. Kemer Country Club, Kemerburgaz',
+    rating: '4.9',
+    phone: '02122397010',
+    mapQuery: 'Kemer+Country+Orman+Evi',
+    img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=300&q=80'
+  },
+  {
+    id: 'v4',
+    category: 'health',
+    categoryName: 'Ağız & Diş Sağlığı',
+    name: 'Arcadium Estetik & Diş Polikliniği',
+    address: 'Arcadium Çarşısı Kat:2, Göktürk',
+    rating: '5.0',
+    phone: '02123228899',
+    mapQuery: 'Arcadium+Göktürk',
+    img: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=300&q=80'
+  },
+  {
+    id: 'v5',
+    category: 'pet',
+    categoryName: '7/24 Acil & Bakım',
+    name: 'Göktürk Hayvan Hastanesi & Poliklinik',
+    address: 'İstanbul Cad. Çamlık Mevkii, Göktürk',
+    rating: '4.9',
+    phone: '02123227700',
+    mapQuery: 'Göktürk+Veteriner',
+    img: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=300&q=80'
+  },
+  {
+    id: 'v6',
+    category: 'lifestyle',
+    categoryName: 'Botanik & Peyzaj',
+    name: 'Kemerburgaz Botanik Bahçe & Peyzaj',
+    address: 'Mithatpaşa Cad. No:45, Kemerburgaz',
+    rating: '4.8',
+    phone: '02123601515',
+    mapQuery: 'Kemerburgaz+Botanik',
+    img: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=300&q=80'
+  }
+];
+    const GOKTURK_STORIES = [
+  {
+    id: 's1',
+    label: '20. Yıl Özel',
+    category: 'ÖZEL DOSYA',
+    title: 'Ümit Öner: 20 Yıllık Basın Serüvenimiz ve Yayıncılık Vizyonumuz',
+    desc: 'Göktürk Dergisi olarak çeyrek asra yaklaşan seçkin yayıncılık, cemiyet ve medya yolculuğumuzda yanımızda olan tüm okurlarımıza teşekkür ederiz.',
+    img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1080&q=85',
+    time: 'Özel Röportaj',
+    newsId: 2,
+    ctaText: 'Röportajı Oku',
+    action: 'news'
+  },
+  {
+    id: 's2',
+    label: 'Festival',
+    category: 'CEMİYET & YAŞAM',
+    title: 'Açık Hava Kültür, Sanat & Yaşam Festivalleri Başladı',
+    desc: 'Akustik konserler, gurme sokak lezzetleri ve çağdaş sanat buluşmalarıyla hafta sonu dopdolu geçecek.',
+    img: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1080&q=85',
+    time: '2s önce',
+    newsId: 4,
+    ctaText: 'Etkinliği İncele',
+    action: 'news'
+  },
+  {
+    id: 's3',
+    label: '34. Sayı',
+    category: 'YENİ SAYI',
+    title: '34. Sayı Çıktı: İş Dünyası ve Yaşamın En Seçkin Dosyaları',
+    desc: 'Özel röportajlar, iş dünyası liderleri ve sonbahar stil rehberi şimdi dijital e-dergide.',
+    img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=1080&q=85',
+    time: 'Yeni Sayı',
+    newsId: 7,
+    ctaText: 'E-Dergide Oku',
+    action: 'magazine'
+  },
+  {
+    id: 's4',
+    label: 'Gurme Rota',
+    category: 'GASTRONOMİ',
+    title: 'Şehrin Yeni Buluşma Noktaları ve Lezzet Durakları',
+    desc: 'İtalyan trattorialarından artisan kahvecilere bu ay mutlaka denemeniz gereken seçkin adresler.',
+    img: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1080&q=85',
+    time: '4s önce',
+    newsId: 5,
+    ctaText: 'Mekan Rehberine Git',
+    action: 'venue'
+  },
+  {
+    id: 's5',
+    label: 'Doğa & Yaşam',
+    category: 'LIFESTYLE',
+    title: 'Sonbaharda Doğa Kaçamakları ve Yürüyüş Rotaları',
+    desc: 'Metropolün gürültüsünden uzakta, yeşillikler içinde temiz hava ve dinginlik dolu rotalar.',
+    img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=1080&q=85',
+    time: '6s önce',
+    newsId: 8,
+    ctaText: 'Rotayı Gör',
+    action: 'news'
+  },
+  {
+    id: 's6',
+    label: 'Kültür Sanat',
+    category: 'AJANDA',
+    title: 'Ekim Ayı Seçkin Sergi & Sahne Sanatları Takvimi',
+    desc: 'Tiyatro temsilleri, klasik müzik resitalleri ve çağdaş heykel sergileri ajandası yayında.',
+    img: 'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?w=1080&q=85',
+    time: 'Dün',
+    newsId: 9,
+    ctaText: 'Ajandayı İncele',
+    action: 'news'
+  }
+];
+    const MAGAZINE_PAGES = [
+  {
+    page: 1,
+    section: "KAPAK",
+    title: "GÖKTÜRK DERGİSİ 34. SAYI",
+    image: "https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/whatsapp-image-2026-09-16-at-135205.jpeg",
+    fallback: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800&q=80",
+    content: `
+      <div style="text-align:center; padding:10px 0;">
+        <span style="background:var(--brand); color:#fff; font-size:11px; font-weight:800; padding:4px 10px; border-radius:4px; text-transform:uppercase;">EYLÜL - EKİM 2026 • SAYI 34</span>
+        <h1 style="font-family:var(--font-heading); font-size:22px; font-weight:800; color:#0f172a; margin:12px 0 6px; line-height:1.2;">ÜMİT ÖNER MEDYA 20. YILINI GÖRKEMLİ GECEDE KUTLADI</h1>
+        <p style="font-size:13px; color:#475569; line-height:1.5;">İş, sanat ve cemiyet hayatının buluştuğu Göktürk Dergisi 7. Başarı Ödülleri tüm ayrıntılarıyla bu sayıda.</p>
+        
+        <div style="margin:16px 0; border-radius:10px; overflow:hidden; border:1px solid #E2E8F0;">
+          <img src="https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-613.png" style="width:100%; height:180px; object-fit:cover;" alt="Kapak"/>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px; text-align:left; background:#F8FAFC; padding:12px; border-radius:8px; border:1px solid #E2E8F0;">
+          <div style="font-size:12px; font-weight:800; color:var(--brand);">BU SAYIDA ÖNE ÇIKANLAR:</div>
+          <div style="font-size:12px; color:#334155;">• Göktürk ve Kemerburgaz'da Huzur Denetimleri</div>
+          <div style="font-size:12px; color:#334155;">• Yeni Mekan: Pequ Cafe Kemerburgaz & Bitesy Bakery</div>
+          <div style="font-size:12px; color:#334155;">• İstanbul Caddesi Altyapı ve Asfalt Çalışmaları</div>
+        </div>
+
+        <div class="mag-hotspot-link" onclick="openNewsDetail(1)">
+          <span>Özel Manşet Haberini Uygulamada Oku</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 2,
+    section: "BAŞYAZI",
+    title: "Ümit Öner: 20 Yıllık Gurur ve Yerel Basının Gücü",
+    image: null,
+    content: `
+      <div style="padding:6px 0;">
+        <div style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">EDİTÖRDEN / BAŞYAZI</div>
+        <h2 style="font-family:var(--font-heading); font-size:18px; font-weight:800; color:#0f172a; margin:6px 0 10px;">Göktürk'ün ve Kemerburgaz'ın 20 Yıllık Hafızası</h2>
+        <div style="font-size:12px; font-weight:700; color:#64748B; margin-bottom:12px;">Ümit Öner • İmtiyaz Sahibi & Genel Yayın Yönetmeni</div>
+        
+        <p style="font-size:13px; line-height:1.6; color:#334155; margin-bottom:12px;">
+          Sevgili Göktürk ve Kemerburgazlı komşularımız, değerli okurlarımız;
+        </p>
+        <p style="font-size:13px; line-height:1.6; color:#334155; margin-bottom:12px;">
+          Tam 20 yıl önce bir hayalle yola çıktık: Bölgemizin doğasını, insanını, esnafını ve sorunlarını tarafsız bir dille kayda geçirmek. Bugün Göktürk Dergisi ve Gazetesi olarak Eyüpsultan'ın en köklü yerel yayın organı haline gelmiş olmanın gururunu yaşıyoruz.
+        </p>
+        <p style="font-size:13px; line-height:1.6; color:#334155; margin-bottom:12px;">
+          Düzenlediğimiz 7. Başarı Ödülleri gecesinde gördük ki, bir semti yaşanılır kılan en önemli güç komşuluk ve yerel dayanışmadır. Yeni mobil uygulamamız ve dijital okuyucumuzla artık her ay cebinizdeyiz.
+        </p>
+        <div style="border-left:3px solid var(--brand); padding-left:10px; font-style:italic; font-size:12px; color:#475569; margin:14px 0;">
+          "Bölgenin sorunlarını dile getirmeye, güzelliklerini tanıtmaya ve halkın sesi olmaya aynı kararlılıkla devam edeceğiz."
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 3,
+    section: "İÇİNDEKİLER",
+    title: "34. Sayı İçindekiler Tablosu & Künye",
+    image: null,
+    content: `
+      <div>
+        <h2 style="font-family:var(--font-heading); font-size:18px; font-weight:800; color:#0f172a; margin-bottom:12px;">İçindekiler & Bölüm Rehberi</h2>
+        
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div class="mag-toc-item" onclick="magJumpToPage(4)" style="background:#F1F5F9; border:1px solid #E2E8F0;">
+            <span class="mag-toc-name" style="color:#0f172a;">7. Başarı Ödülleri Görkemli Gecesi</span>
+            <span class="mag-toc-page">S. 04</span>
+          </div>
+          <div class="mag-toc-item" onclick="magJumpToPage(6)" style="background:#F1F5F9; border:1px solid #E2E8F0;">
+            <span class="mag-toc-name" style="color:#0f172a;">Eyüpsultan & Göktürk Asayiş Raporu</span>
+            <span class="mag-toc-page">S. 06</span>
+          </div>
+          <div class="mag-toc-item" onclick="magJumpToPage(7)" style="background:#F1F5F9; border:1px solid #E2E8F0;">
+            <span class="mag-toc-name" style="color:#0f172a;">İstanbul Caddesi Altyapı Yenilemeleri</span>
+            <span class="mag-toc-page">S. 07</span>
+          </div>
+          <div class="mag-toc-item" onclick="magJumpToPage(8)" style="background:#F1F5F9; border:1px solid #E2E8F0;">
+            <span class="mag-toc-name" style="color:#0f172a;">Kemerburgaz Pequ Cafe Tanıtımı</span>
+            <span class="mag-toc-page">S. 08</span>
+          </div>
+          <div class="mag-toc-item" onclick="magJumpToPage(9)" style="background:#F1F5F9; border:1px solid #E2E8F0;">
+            <span class="mag-toc-name" style="color:#0f172a;">Bitesy Artisan Bakery Lezzetleri</span>
+            <span class="mag-toc-page">S. 09</span>
+          </div>
+          <div class="mag-toc-item" onclick="magJumpToPage(10)" style="background:#F1F5F9; border:1px solid #E2E8F0;">
+            <span class="mag-toc-name" style="color:#0f172a;">Bebek Manavı Göktürk Açılışı</span>
+            <span class="mag-toc-page">S. 10</span>
+          </div>
+          <div class="mag-toc-item" onclick="magJumpToPage(11)" style="background:#F1F5F9; border:1px solid #E2E8F0;">
+            <span class="mag-toc-name" style="color:#0f172a;">Kemerburgaz Kent Ormanı Etkinlikleri</span>
+            <span class="mag-toc-page">S. 11</span>
+          </div>
+          <div class="mag-toc-item" onclick="magJumpToPage(12)" style="background:#F1F5F9; border:1px solid #E2E8F0;">
+            <span class="mag-toc-name" style="color:#0f172a;">Bize Bildir & İhbar Masası</span>
+            <span class="mag-toc-page">S. 12</span>
+          </div>
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 4,
+    section: "ÖZEL DOSYA",
+    title: "Ümit Öner Medya 20. Yıl & 7. Başarı Ödülleri",
+    image: "https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-613.png",
+    content: `
+      <div>
+        <span style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">GÖKTÜRK CEMİYET & BAŞARI</span>
+        <h2 style="font-family:var(--font-heading); font-size:17px; font-weight:800; color:#0f172a; margin:6px 0;">Ödül Gecesinde Yıldızlar Geçidi</h2>
+        <img src="https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-613.png" style="width:100%; height:160px; object-fit:cover; border-radius:8px; margin-bottom:10px;" alt="Ödül Gecesi"/>
+        <p style="font-size:12px; line-height:1.5; color:#334155;">
+          Ümit Öner Medya Grubu'nun 20. kuruluş yıldönümü ve 7. Başarı Ödülleri gecesi, iş ve sanat dünyasının zirve isimlerini bir araya getirdi. Törende Göktürk ve Kemerburgaz'a değer katan isimlere plaketleri verildi.
+        </p>
+        <div class="mag-hotspot-link" onclick="openNewsDetail(1)">
+          <span>Bu Haberin Tamamını ve Foto Galeriye Git</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 5,
+    section: "ÖDÜL ALBÜMÜ",
+    title: "Ödül Töreni Fotoğraf Albümü ve Konuşmalar",
+    image: null,
+    content: `
+      <div>
+        <h2 style="font-family:var(--font-heading); font-size:16px; font-weight:800; color:#0f172a; margin-bottom:10px;">Geceden Unutulmaz Kareler</h2>
+        <p style="font-size:12px; color:#475569; line-height:1.5; margin-bottom:12px;">Bölgenin seçkin iş insanları, sivil toplum başkanları ve sanatçılar gecede Göktürk Dergisi'nin 20. yaşını kutladı.</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=80" style="width:100%; height:100px; object-fit:cover; border-radius:6px;"/>
+          <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=400&q=80" style="width:100%; height:100px; object-fit:cover; border-radius:6px;"/>
+        </div>
+        <p style="font-size:11px; color:#64748B; margin-top:8px; font-style:italic;">Göktürk Dergisi 7. Başarı Ödülleri Fotoğraf Arşivi © 2026</p>
+      </div>
+    `
+  },
+  {
+    page: 6,
+    section: "ASAYİŞ",
+    title: "Eyüpsultan, Kemerburgaz ve Göktürk'te Huzur Denetimi",
+    image: "https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-599.png",
+    content: `
+      <div>
+        <span style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">GÜVENLİK VE ASAYİŞ</span>
+        <h2 style="font-family:var(--font-heading); font-size:17px; font-weight:800; color:#0f172a; margin:6px 0;">İstanbul Caddesi ve Kemer Kavşağında Sıkı Kontrol</h2>
+        <img src="https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-599.png" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:10px;" alt="Denetim"/>
+        <p style="font-size:12px; line-height:1.5; color:#334155;">
+          İlçe Emniyet Müdürlüğü ekipleri bölgenin huzur ve güvenliği için ana giriş-çıkış noktalarında denetim yaptı. Vatandaşlar denetimlerden duydukları memnuniyeti dile getirdi.
+        </p>
+        <div class="mag-hotspot-link" onclick="openNewsDetail(2)">
+          <span>Asayiş Detaylarını Uygulamada Oku</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 7,
+    section: "BELEDİYE",
+    title: "İstanbul Caddesi ve Orbay Sokak Yol Çalışmaları",
+    image: "https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-13-3.png",
+    content: `
+      <div>
+        <span style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">KENT VE ALTYAPI</span>
+        <h2 style="font-family:var(--font-heading); font-size:17px; font-weight:800; color:#0f172a; margin:6px 0;">Fen İşleri Ekipleri Bozuk Yolları Yeniliyor</h2>
+        <img src="https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-13-3.png" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:10px;" alt="Yol"/>
+        <p style="font-size:12px; line-height:1.5; color:#334155;">
+          Eyüpsultan Belediyesi Fen İşleri ekipleri, kış öncesi ana cadde ve bağlantı yollarında asfalt serim ve kaldırım düzenleme çalışmalarına hız verdi.
+        </p>
+        <div class="mag-hotspot-link" onclick="openNewsDetail(6)">
+          <span>Yol Çalışması Haberini Görüntüle</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 8,
+    section: "MEKAN",
+    title: "Kemerburgaz’da Yeni Bir Soluk: Pequ Cafe",
+    image: "https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-2026-09-02t151856317.png",
+    content: `
+      <div>
+        <span style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">LEZZET & YAŞAM</span>
+        <h2 style="font-family:var(--font-heading); font-size:17px; font-weight:800; color:#0f172a; margin:6px 0;">Doğayla Bütünleşen Kahve Keyfi</h2>
+        <img src="https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/manset-2026-09-02t151856317.png" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:10px;" alt="Pequ Cafe"/>
+        <p style="font-size:12px; line-height:1.5; color:#334155;">
+          Kemerburgaz meydanında kapılarını açan Pequ Cafe, zengin kahve menüsü ve huzurlu bahçesiyle şimdiden bölgenin favori mekanları arasına girdi.
+        </p>
+        <div class="mag-hotspot-link" onclick="openNewsDetail(3)">
+          <span>Mekan İncelemesi ve Menüye Git</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 9,
+    section: "GASTRONOMİ",
+    title: "Göktürk’ün Artisan Fırını: Bitesy Bakery",
+    image: "https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/whatsapp-image-2026-09-17-at-165658.jpeg",
+    content: `
+      <div>
+        <span style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">YEREL TİCARET</span>
+        <h2 style="font-family:var(--font-heading); font-size:17px; font-weight:800; color:#0f172a; margin:6px 0;">Ekşi Mayalı Ekmekler & Fransız Kruvasanı</h2>
+        <img src="https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/09/whatsapp-image-2026-09-17-at-165658.jpeg" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:10px;" alt="Bitesy Bakery"/>
+        <p style="font-size:12px; line-height:1.5; color:#334155;">
+          Katkısız unlar ve uzun fermantasyon tekniği ile hazırlanan ekşi mayalı özel artisan ekmekler Göktürklü lezzet meraklılarını bekliyor.
+        </p>
+        <div class="mag-hotspot-link" onclick="openNewsDetail(4)">
+          <span>Fırın Haberini Uygulamada Oku</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 10,
+    section: "ALIŞVERİŞ",
+    title: "Bebek Manavı Göktürk İstanbul Caddesi’nde",
+    image: "https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/05/manset-2026-05-14t131255091.png",
+    content: `
+      <div>
+        <span style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">TAZE PAZAR</span>
+        <h2 style="font-family:var(--font-heading); font-size:17px; font-weight:800; color:#0f172a; margin:6px 0;">Dalından Sofraya Organik Meyve & Sebze</h2>
+        <img src="https://gokturkdergisicom.teimg.com/crop/860x504/gokturkdergisi-com/uploads/2026/05/manset-2026-05-14t131255091.png" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:10px;" alt="Bebek Manavı"/>
+        <p style="font-size:12px; line-height:1.5; color:#334155;">
+          İstanbul'un seçkin manav zincirlerinden Bebek Manavı, Göktürk şubesi ile kaliteli ve taze ürünleri bölge halkına sunuyor.
+        </p>
+        <div class="mag-hotspot-link" onclick="openNewsDetail(5)">
+          <span>Bebek Manavı Haberine Git</span>
+        </div>
+      </div>
+    `
+  },
+  {
+    page: 11,
+    section: "DOĞA & SPOR",
+    title: "Kemerburgaz Kent Ormanı Hafta Sonu Rehberi",
+    image: null,
+    content: `
+      <div>
+        <span style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">KÜLTÜR & DOĞA</span>
+        <h2 style="font-family:var(--font-heading); font-size:17px; font-weight:800; color:#0f172a; margin:6px 0;">Aileler İçin Doğa Yürüyüşleri ve Festivaller</h2>
+        <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=600&q=80" style="width:100%; height:150px; object-fit:cover; border-radius:8px; margin-bottom:10px;" alt="Orman"/>
+        <p style="font-size:12px; line-height:1.5; color:#334155;">
+          Kemerburgaz Kent Ormanı, bisiklet yolları, gölet çevresi yürüyüş parkurları ve çocuk atölyeleri ile bu hafta sonu da dopdolu bir program sunuyor.
+        </p>
+      </div>
+    `
+  },
+  {
+    page: 12,
+    section: "ARKA KAPAK",
+    title: "Göktürk Dergisi İlan & İhbar Masası",
+    image: null,
+    content: `
+      <div style="text-align:center; padding:10px 0;">
+        <div style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase;">BİZE BİLDİR • İHBAR MASASI</div>
+        <h2 style="font-family:var(--font-heading); font-size:18px; font-weight:800; color:#0f172a; margin:8px 0;">Siz de Bölgenizdeki Olayları Bildirin</h2>
+        <p style="font-size:12px; color:#475569; line-height:1.5; margin-bottom:16px;">
+          Göktürk veya Kemerburgaz'da gördüğünüz yol, trafik, çevre sorunlarını veya ilginç gelişmeleri anında editörlerimize gönderin.
+        </p>
+        
+        <button class="btn-submit-report" onclick="closeMagazineReader(); switchNavTab('report');" style="margin-bottom:14px;">
+          Hemen Olay Bildir
+        </button>
+
+        <div style="border-top:1px solid #E2E8F0; padding-top:14px; font-size:11px; color:#64748B;">
+          <strong>Reklam & İlan:</strong> reklam@gokturkdergisi.com<br/>
+          <strong>WhatsApp:</strong> 0532 234 40 40<br/>
+          Göktürk Dergisi & Gazetesi © 2026 Tüm Hakları Saklıdır.
+        </div>
+      </div>
+    `
+  }
+];
+
+    let DUTY_PHARMACIES = [
+      {
+        name: "Larus Eczanesi",
+        region: "Göktürk Merkez",
+        address: "Göktürk Merkez Mah. Belediye Cad. No:21/B Larus Loft",
+        phone: "+902128090776",
+        phoneFormatted: "0212 809 07 76",
+        status: "Nöbetçi"
+      },
+      {
+        name: "Güleç Eczanesi",
+        region: "Eyüpsultan",
+        address: "Alibeyköy Mah. Atatürk Cad. No:42/A",
+        phone: "+905312620992",
+        phoneFormatted: "0531 262 09 92",
+        status: "Nöbetçi"
+      }
+    ];
+
+    /* ── APP STATE ── */
+    let postsMap = new Map(); // id -> post object
+    let headlinesList = [];
+    let breakingPost = null;
+    let categoriesList = [];
+    let currentSelectedCategory = 'TÜMÜ';
+    let currentSelectedCatId = null;
+    let currentFeedPage = 1;
+    let hasMoreFeed = true;
+    let isLoadingFeed = false;
+
+    let currentSlide = 0;
+    let slideTimer = null;
+    let currentMagPage = 1;
+    let currentActiveTab = 'home';
+    let savedNewsIds = JSON.parse(localStorage.getItem('gokturk_saved_news') || '[]');
+    let currentDetailNewsId = null;
+    let currentStoryIndex = 0;
+    let storyAutoTimer = null;
+    let storyProgressInterval = null;
+    let reportSelectedPhotos = [];
+
+    // Fallback Image
+    const DEFAULT_IMG = 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80';
+
+    /* ── UTILITY FUNCTIONS ── */
+    function getPostImg(imgData, size = 'medium') {
+      if (!imgData) return DEFAULT_IMG;
+      if (typeof imgData === 'string') return imgData;
+      if (imgData.cropped) {
+        if (size === 'large' && imgData.cropped.large) return imgData.cropped.large;
+        if (size === 'medium' && imgData.cropped.medium) return imgData.cropped.medium;
+        if (size === 'thumb' && imgData.cropped.thumb) return imgData.cropped.thumb;
+        if (imgData.cropped.medium) return imgData.cropped.medium;
+      }
+      if (imgData.original) return imgData.original;
+      return DEFAULT_IMG;
+    }
+
+    function getPostCategory(post) {
+      if (!post) return 'GÖKTÜRK';
+      if (post.categories) {
+        if (typeof post.categories === 'object') {
+          const vals = Object.values(post.categories);
+          if (vals.length > 0) return vals[0];
+        }
+      }
+      return 'GÖKTÜRK';
+    }
+
+    function formatTimeAgo(isoString) {
+      if (!isoString) return 'Yeni';
+      try {
+        const d = new Date(isoString);
+        const now = new Date();
+        const diffMs = now - d;
+        const diffMin = Math.floor(diffMs / (1000 * 60));
+        if (diffMin < 1) return 'Az önce';
+        if (diffMin < 60) return diffMin + ' dk önce';
+        const diffHour = Math.floor(diffMin / 60);
+        if (diffHour < 24) return diffHour + ' saat önce';
+        const diffDay = Math.floor(diffHour / 24);
+        if (diffDay < 7) return diffDay + ' gün önce';
+        return d.toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' });
+      } catch (e) {
+        return 'Bugün';
+      }
+    }
+
+    function cleanHtmlText(html) {
+      if (!html) return '';
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.innerText || div.textContent || '';
+    }
+
+    
+    /* ── ANDROID HARDWARE BACK BUTTON & HISTORY API ── */
+    let lastBackPressTime = 0;
+    let activeSheetStack = [];
+
+    function openSheet(sheetId) {
+      const el = document.getElementById(sheetId);
+      if (!el) return;
+      el.classList.add('active');
+      activeSheetStack.push(sheetId);
+      history.pushState({ modalId: sheetId }, '');
+    }
+
+    function closeSheet(sheetId, fromPopState = false) {
+      const el = document.getElementById(sheetId);
+      if (el) el.classList.remove('active');
+      activeSheetStack = activeSheetStack.filter(id => id !== sheetId);
+      if (!fromPopState && history.state && history.state.modalId === sheetId) {
+        history.back();
+      }
+    }
+
+    window.addEventListener('popstate', (e) => {
+      if (activeSheetStack.length > 0) {
+        const topSheet = activeSheetStack.pop();
+        const el = document.getElementById(topSheet);
+        if (el) el.classList.remove('active');
+        return;
+      }
+
+      if (currentActiveTab !== 'home') {
+        switchNavTab('home');
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastBackPressTime < 2000) {
+        // Double press exit
+      } else {
+        lastBackPressTime = now;
+        showToast('Çıkmak için tekrar dokunun');
+      }
+    });
+
+    function openKunyeModal() {
+      openSheet('sheet-kunye');
+    }
+
+    function openPrivacyModal() {
+      openSheet('sheet-privacy');
+    }
+
+    function openTermsModal() {
+      openSheet('sheet-terms');
+    }
+
+    /* ── OFFLINE STORAGE & NETWORK LISTENER ── */
+    function saveOfflineCache(key, data) {
+      try {
+        localStorage.setItem('gokturk_cache_' + key, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function getOfflineCache(key) {
+      try {
+        const raw = localStorage.getItem('gokturk_cache_' + key);
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    window.addEventListener('online', () => {
+      const bar = document.getElementById('offline-bar');
+      if (bar) bar.style.display = 'none';
+      showToast('İnternet bağlantısı sağlandı');
+      loadNewsFeed(true);
+      loadHeadlinesAndBreaking();
+      loadWeatherAndCurrencies();
+    });
+
+    window.addEventListener('offline', () => {
+      const bar = document.getElementById('offline-bar');
+      if (bar) bar.style.display = 'flex';
+      showToast('Çevrimdışı mod: Önbellek gösteriliyor');
+    });
+
+    /* ── PULL TO REFRESH GESTURE ── */
+    function initPullToRefresh() {
+      const homeScreen = document.getElementById('screen-home');
+      if (!homeScreen) return;
+      let startY = 0;
+      let isPulling = false;
+      const indicator = document.getElementById('pull-refresh-indicator');
+
+      homeScreen.addEventListener('touchstart', (e) => {
+        if (homeScreen.scrollTop <= 5) {
+          startY = e.touches[0].clientY;
+          isPulling = true;
+        } else {
+          isPulling = false;
+        }
+      }, { passive: true });
+
+      homeScreen.addEventListener('touchmove', (e) => {
+        if (!isPulling) return;
+        const currentY = e.touches[0].clientY;
+        const diff = currentY - startY;
+        if (diff > 55 && homeScreen.scrollTop <= 5) {
+          if (indicator) indicator.style.display = 'block';
+        }
+      }, { passive: true });
+
+      homeScreen.addEventListener('touchend', async () => {
+        if (indicator && indicator.style.display === 'block') {
+          showToast('Akış yenileniyor...');
+          await Promise.all([loadHeadlinesAndBreaking(), loadNewsFeed(true)]);
+          indicator.style.display = 'none';
+        }
+        isPulling = false;
+      }, { passive: true });
+    }
+
+    /* ── INITIALIZATION ── */
+    document.addEventListener('DOMContentLoaded', async () => {
+      initTheme();
+      renderStories();
+      renderMagPage(1);
+
+      // 1. Canlı Servisler (Hava Durumu, Kurlar, Eczaneler)
+      loadWeatherAndCurrencies();
+      loadLivePharmacies();
+      initPullToRefresh();
+
+      // 2. Kategoriler
+      await loadCategories();
+
+      // 3. Manşetler & Flaş Haber
+      await loadHeadlinesAndBreaking();
+
+      // 4. Ana Akış Haberleri
+      await loadNewsFeed(true);
+
+      // Infinite scroll listener
+      const homeScreen = document.getElementById('screen-home');
+      if (homeScreen) {
+        homeScreen.addEventListener('scroll', () => {
+          if (homeScreen.scrollTop + homeScreen.clientHeight >= homeScreen.scrollHeight - 160) {
+            if (!isLoadingFeed && hasMoreFeed) {
+              loadMoreNews();
+            }
+          }
+        }, { passive: true });
+      }
+    });
+
+    /* ── WEATHER & CURRENCIES ── */
+    async function loadWeatherAndCurrencies() {
+      // Hava Durumu
+      NovaAPI.getWeather().then(weatherList => {
+        if (weatherList && weatherList.length > 0) {
+          const w = weatherList[0];
+          const deg = w.degree || 16;
+          const desc = w.desc || 'Parçalı Bulutlu';
+          const txt = `Göktürk ${deg}°C ${desc}`;
+          const chipEl = document.getElementById('chip-weather-text');
+          if (chipEl) chipEl.innerText = txt;
+        }
+      }).catch(() => {});
+
+      // Kurlar
+      NovaAPI.getCurrencies().then(currencies => {
+        if (currencies) {
+          let str = '';
+          if (currencies.dolar && currencies.dolar.selling) {
+            str += `Dolar: ${currencies.dolar.selling} ₺`;
+          }
+          if (currencies.euro && currencies.euro.selling) {
+            if (str) str += ' • ';
+            str += `Euro: ${currencies.euro.selling} ₺`;
+          }
+          if (currencies.gram_altin && currencies.gram_altin.selling) {
+            if (str) str += ' • ';
+            str += `Altın: ${currencies.gram_altin.selling} ₺`;
+          }
+          const currEl = document.getElementById('chip-currency-text');
+          if (currEl && str) currEl.innerText = str;
+        }
+      }).catch(() => {});
+    }
+
+    /* ── LIVE PHARMACIES ── */
+    async function loadLivePharmacies() {
+      try {
+        const list = await NovaAPI.getPharmacies();
+        if (list && list.length > 0) {
+          DUTY_PHARMACIES = list.map(item => ({
+            name: item.name || 'Nöbetçi Eczane',
+            region: item.dist || 'Göktürk / Eyüpsultan',
+            address: item.address || '',
+            phone: item.phone || '',
+            phoneFormatted: item.phone || '',
+            status: 'Nöbetçi'
+          }));
+          renderGuidePharmacies();
+        }
+      } catch (e) {
+        console.warn('Pharmacy load fallback:', e);
+      }
+    }
+
+    /* ── CATEGORIES ── */
+    async function loadCategories() {
+      const container = document.getElementById('category-pills-container');
+      if (!container) return;
+
+      // Default pills
+      let cats = [
+        { id: null, name: 'TÜMÜ' },
+        { id: 7, name: 'GÖKTÜRK' },
+        { id: 15, name: 'KEMERBURGAZ' },
+        { id: 1, name: 'GÜNDEM' },
+        { id: 3, name: 'ÖZEL HABER' },
+        { id: 12, name: 'MAGAZİN' },
+        { id: 16, name: 'KÜLTÜR - SANAT' },
+        { id: 6, name: 'EKONOMİ' },
+        { id: 17, name: 'DERGİ' }
+      ];
+
+      try {
+        const apiCats = await NovaAPI.getCategories();
+        if (apiCats && apiCats.length > 0) {
+          // Merge with unique names
+          const existingNames = new Set(cats.map(c => c.name.toUpperCase()));
+          apiCats.forEach(ac => {
+            if (ac.name && !existingNames.has(ac.name.toUpperCase())) {
+              cats.push({ id: ac.id, name: ac.name });
+              existingNames.add(ac.name.toUpperCase());
+            }
+          });
+        }
+      } catch (e) {}
+
+      categoriesList = cats;
+
+      container.innerHTML = cats.map((cat, idx) => `
+        <button class="cat-pill ${idx === 0 ? 'active' : ''}" onclick="selectCategoryTab(this, '${cat.name}', ${cat.id})">
+          ${cat.name}
+        </button>
+      `).join('');
+    }
+
+    function selectCategoryTab(btn, catName, catId) {
+      document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSelectedCategory = catName;
+      currentSelectedCatId = catId;
+      loadNewsFeed(true);
+    }
+
+    /* ── HEADLINES & BREAKING ── */
+    async function loadHeadlinesAndBreaking() {
+      // 1. Flaş / Son Dakika
+      try {
+        const breaking = await NovaAPI.getBreaking(3);
+        const tickerEl = document.getElementById('breaking-ticker-text');
+        if (breaking && breaking.length > 0) {
+          breakingPost = breaking[0];
+          postsMap.set(breakingPost.id, breakingPost);
+          if (tickerEl) tickerEl.innerText = breakingPost.name;
+        }
+      } catch (e) {}
+
+      // 2. Manşetler
+      try {
+        const headlines = await NovaAPI.getHeadlines(8);
+        if (headlines && headlines.length > 0) {
+          headlinesList = headlines; saveOfflineCache('headlines', headlines);
+          headlines.forEach(h => postsMap.set(h.id, h));
+          if (!breakingPost && headlines[0]) {
+            breakingPost = headlines[0];
+            const tickerEl = document.getElementById('breaking-ticker-text');
+            if (tickerEl) tickerEl.innerText = breakingPost.name;
+          }
+          renderHeadlineCarousel(headlines);
+          populateStoriesFromHeadlines(headlines);
+        }
+      } catch (e) {
+        console.warn('Headlines error:', e);
+      }
+    }
+
+    function populateStoriesFromHeadlines(headlines) {
+      if (!headlines || headlines.length === 0) return;
+      const liveStories = [
+        {
+          id: 'story-brand-20',
+          label: '20. Yıl',
+          category: 'ÖZEL DOSYA',
+          title: 'Göktürk Dergisi: 20 Yıllık Basın ve Yayıncılık Serüveni',
+          desc: 'Çeyrek asra yaklaşan seçkin yayıncılık, cemiyet ve medya yolculuğumuzda yanımızda olan tüm okurlarımıza teşekkür ederiz.',
+          img: 'assets/icon.png',
+          time: 'Özel Hikaye',
+          newsId: headlines[0] ? headlines[0].id : null,
+          ctaText: 'Haberi Oku',
+          action: 'news'
+        }
+      ];
+
+      headlines.slice(0, 7).forEach((h) => {
+        liveStories.push({
+          id: 'story-news-' + h.id,
+          label: (h.categories && Object.values(h.categories)[0]) ? Object.values(h.categories)[0] : (h.name ? h.name.slice(0, 10) + '...' : 'Haber'),
+          category: getPostCategory(h) || 'GÜNCEL',
+          title: h.name || '',
+          desc: (h.description || '').slice(0, 140) + '...',
+          img: getPostImg(h.image, 'large'),
+          time: formatTimeAgo(h.created_at),
+          newsId: h.id,
+          ctaText: 'Haberi Oku',
+          action: 'news'
+        });
+      });
+
+      window.GOKTURK_STORIES = liveStories;
+      renderStories();
+    }
+
+    function renderHeadlineCarousel(items) {
+      const track = document.getElementById('carousel-track');
+      const dots = document.getElementById('carousel-dots-container');
+      if (!track || !dots) return;
+
+      track.innerHTML = items.map((n, i) => `
+        <div class="carousel-slide ${i === 0 ? 'active' : ''}" onclick="openNewsDetail(${n.id})">
+          <img src="${getPostImg(n.image, 'large')}" alt="${n.name || ''}" onerror="this.src='${DEFAULT_IMG}'"/>
+          <div class="carousel-overlay">
+            <span class="carousel-cat-tag">${getPostCategory(n)}</span>
+            <h3 class="carousel-title">${n.name || ''}</h3>
+            <div class="carousel-meta">
+              <span>${(n.author && n.author.name) || 'Göktürk Dergisi'}</span>
+              <span>•</span>
+              <span>${formatTimeAgo(n.created_at)}</span>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      dots.innerHTML = items.map((_, i) => `
+        <div class="dot-indicator ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>
+      `).join('');
+
+      startSlideLoop();
+      initCarouselSwipe();
+    }
+
+    function goToSlide(idx) {
+      currentSlide = idx;
+      const slides = document.querySelectorAll('.carousel-slide');
+      const dots = document.querySelectorAll('.dot-indicator');
+      slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }
+
+    function nextSlide() {
+      if (headlinesList.length === 0) return;
+      currentSlide = (currentSlide + 1) % headlinesList.length;
+      goToSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      if (headlinesList.length === 0) return;
+      currentSlide = (currentSlide - 1 + headlinesList.length) % headlinesList.length;
+      goToSlide(currentSlide);
+    }
+
+    function startSlideLoop() {
+      clearInterval(slideTimer);
+      slideTimer = setInterval(() => nextSlide(), 5500);
+    }
+
+    function initCarouselSwipe() {
+      const vp = document.getElementById('carousel-viewport');
+      if (!vp) return;
+      let startX = 0, deltaX = 0;
+      vp.addEventListener('touchstart', (e) => {
+        clearInterval(slideTimer);
+        startX = e.touches[0].clientX;
+        deltaX = 0;
+      }, { passive: true });
+      vp.addEventListener('touchmove', (e) => {
+        deltaX = e.touches[0].clientX - startX;
+      }, { passive: true });
+      vp.addEventListener('touchend', () => {
+        if (deltaX > 45) prevSlide();
+        else if (deltaX < -45) nextSlide();
+        startSlideLoop();
+      }, { passive: true });
+    }
+
+    /* ── NEWS FEED STREAM ── */
+    async function loadNewsFeed(reset = false) {
+      if (isLoadingFeed) return;
+      isLoadingFeed = true;
+
+      const container = document.getElementById('home-news-container');
+      const countEl = document.getElementById('news-feed-count');
+      const loadBtn = document.getElementById('feed-load-more-btn');
+      const spinner = document.getElementById('feed-spinner');
+
+      if (reset) {
+        currentFeedPage = 1;
+        hasMoreFeed = true;
+        if (container) {
+          container.innerHTML = `
+            <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:13px;">
+              Haberler yükleniyor...
+            </div>
+          `;
+        }
+      }
+
+      if (spinner) spinner.style.display = 'block';
+      if (loadBtn) loadBtn.style.display = 'none';
+
+      try {
+        let result;
+        if (currentSelectedCatId) {
+          result = await NovaAPI.getCategoryPosts(currentSelectedCatId, currentFeedPage, 12);
+        } else {
+          result = await NovaAPI.getLatest(currentFeedPage, 12);
+        }
+
+        const posts = result.posts || [];
+        const meta = result.meta || {};
+
+        posts.forEach(p => postsMap.set(p.id, p)); saveOfflineCache('feed_' + (currentSelectedCatId || 'all'), posts);
+
+        if (reset) {
+          if (container) container.innerHTML = '';
+        }
+
+        if (posts.length === 0 && reset) {
+          if (container) {
+            container.innerHTML = `
+              <div style="padding:32px 16px; text-align:center; color:var(--text-muted); font-size:13px;">
+                Bu kategoride henüz haber bulunmuyor.
+              </div>
+            `;
+          }
+          hasMoreFeed = false;
+        } else {
+          renderFeedItems(posts, !reset);
+          hasMoreFeed = meta.has_more !== false && posts.length >= 10;
+        }
+
+        if (countEl) {
+          countEl.innerText = postsMap.size + ' Haber';
+        }
+      } catch (e) {
+        console.warn('Feed load error:', e);
+        if (reset && container) {
+          container.innerHTML = `
+            <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:13px;">
+              Haberler yüklenirken bir sorun oluştu.
+            </div>
+          `;
+        }
+      } finally {
+        isLoadingFeed = false;
+        if (spinner) spinner.style.display = 'none';
+        if (loadBtn) loadBtn.style.display = hasMoreFeed ? 'block' : 'none';
+      }
+    }
+
+    function renderFeedItems(posts, append = false) {
+      const container = document.getElementById('home-news-container');
+      if (!container) return;
+
+      const html = posts.map(n => `
+        <div class="news-item-card" onclick="openNewsDetail(${n.id})">
+          <div class="news-item-left">
+            <div class="news-item-top">
+              <span class="news-cat-badge">${getPostCategory(n)}</span>
+            </div>
+            <h3 class="news-item-title">${n.name || ''}</h3>
+            <div class="news-item-footer">
+              <span>${formatTimeAgo(n.created_at)}</span>
+              <span>•</span>
+              <span>${(n.author && n.author.name) || 'Göktürk Haber'}</span>
+            </div>
+          </div>
+          <div class="news-item-img-wrap">
+            <img class="news-item-img" src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" onerror="this.src='${DEFAULT_IMG}'"/>
+          </div>
+        </div>
+      `).join('');
+
+      if (append) {
+        container.insertAdjacentHTML('beforeend', html);
+      } else {
+        container.innerHTML = html;
+      }
+    }
+
+    function loadMoreNews() {
+      if (isLoadingFeed || !hasMoreFeed) return;
+      currentFeedPage++;
+      loadNewsFeed(false);
+    }
+
+    /* ── NEWS DETAIL READER & HIT TRACKING ── */
+    async function openNewsDetail(id) {
+      currentDetailNewsId = id;
+      resetDetailSheetForNews();
+      openSheet('detail-sheet');
+
+      // Scroll to top of sheet & reset horizontal scroll
+      const scrollBody = document.getElementById('detail-scroll-body');
+      if (scrollBody) {
+        scrollBody.scrollTop = 0;
+        scrollBody.scrollLeft = 0;
+      }
+
+      // Check if we have cached basic data
+      let post = postsMap.get(id);
+
+      if (post) {
+        document.getElementById('detail-cat-tag').innerText = getPostCategory(post);
+        document.getElementById('detail-heading').innerText = post.name || '';
+        document.getElementById('detail-author').innerText = (post.author && post.author.name) || 'Göktürk Dergisi Haber Merkezi';
+        document.getElementById('detail-time').innerText = formatTimeAgo(post.created_at);
+        document.getElementById('detail-content').innerHTML = post.description || 'Haber yükleniyor...';
+        document.getElementById('detail-img').src = getPostImg(post.image, 'large');
+        const sourceLink = document.getElementById('detail-source-link');
+        if (sourceLink) sourceLink.href = post.url || post.slug || 'https://www.gokturkdergisi.com';
+      }
+
+      updateDetailSaveButton(id);
+
+      // Fetch Full Article from API (rich content HTML, hit count, etc.)
+      try {
+        const fullPost = await NovaAPI.getPostDetail(id);
+        if (fullPost) {
+          postsMap.set(id, fullPost);
+          post = fullPost;
+
+          document.getElementById('detail-cat-tag').innerText = getPostCategory(post);
+          document.getElementById('detail-heading').innerText = post.name || '';
+          document.getElementById('detail-author').innerText = (post.author && post.author.name) || 'Göktürk Dergisi';
+          document.getElementById('detail-time').innerText = formatTimeAgo(post.created_at);
+          document.getElementById('detail-img').src = getPostImg(post.image, 'large');
+
+          const hitValEl = document.getElementById('detail-hit-val');
+          if (hitValEl) hitValEl.innerText = (post.hit || 1).toLocaleString('tr-TR');
+
+          const sourceLink = document.getElementById('detail-source-link');
+          if (sourceLink) sourceLink.href = post.url || post.slug || 'https://www.gokturkdergisi.com';
+
+          // Body HTML with strict image/element width sanitization
+          const bodyEl = document.getElementById('detail-content');
+          if (bodyEl) {
+            bodyEl.innerHTML = post.content || post.description || '';
+            bodyEl.querySelectorAll('img, iframe, table, figure').forEach(el => {
+              el.removeAttribute('width');
+              el.removeAttribute('height');
+              el.style.maxWidth = '100%';
+              el.style.width = '100%';
+              el.style.height = 'auto';
+              el.style.boxSizing = 'border-box';
+              el.style.display = 'block';
+            });
+          }
+
+          // Trigger hit count beacon as instructed in API guide
+          NovaAPI.trackHit(id);
+        }
+      } catch (e) {
+        console.warn('Detail fetch error:', e);
+      }
+
+      // Fetch Related Posts
+      try {
+        const related = await NovaAPI.getRelatedPosts(id, 4);
+        const relSection = document.getElementById('detail-related-section');
+        const relList = document.getElementById('detail-related-list');
+        if (related && related.length > 0 && relSection && relList) {
+          relSection.style.display = 'block';
+          relList.innerHTML = related.map(r => `
+            <div class="news-item-card" onclick="openNewsDetail(${r.id})" style="padding:10px; margin-bottom:0;">
+              <div class="news-item-left">
+                <span class="news-cat-badge" style="font-size:9px;">${getPostCategory(r)}</span>
+                <h4 class="news-item-title" style="font-size:13px; line-height:1.3;">${r.name || ''}</h4>
+              </div>
+              <div class="news-item-img-wrap" style="width:54px; height:54px;">
+                <img src="${getPostImg(r.image, 'thumb')}" class="news-item-img" onerror="this.src='${DEFAULT_IMG}'"/>
+              </div>
+            </div>
+          `).join('');
+        } else if (relSection) {
+          relSection.style.display = 'none';
+        }
+      } catch (e) {}
+    }
+
+    function openBreakingNews() {
+      if (breakingPost) {
+        openNewsDetail(breakingPost.id);
+      } else if (headlinesList.length > 0) {
+        openNewsDetail(headlinesList[0].id);
+      }
+    }
+
+    function updateDetailSaveButton(id) {
+      const btn = document.getElementById('detail-save-btn');
+      const isSaved = savedNewsIds.includes(id);
+      if (btn) {
+        btn.style.color = isSaved ? 'var(--brand)' : 'var(--text-main)';
+      }
+    }
+
+    function toggleSaveCurrentNews() {
+      if (!currentDetailNewsId) return;
+      const idx = savedNewsIds.indexOf(currentDetailNewsId);
+      if (idx > -1) {
+        savedNewsIds.splice(idx, 1);
+        showToast('Haber kaydedilenlerden çıkarıldı');
+      } else {
+        savedNewsIds.push(currentDetailNewsId);
+        showToast('Haber kaydedildi');
+      }
+      localStorage.setItem('gokturk_saved_news', JSON.stringify(savedNewsIds));
+      updateDetailSaveButton(currentDetailNewsId);
+    }
+
+    function shareCurrentNews() {
+      const post = postsMap.get(currentDetailNewsId);
+      if (!post) return;
+      const url = post.url || post.slug || window.location.href;
+      if (navigator.share) {
+        navigator.share({
+          title: post.name,
+          text: cleanHtmlText(post.description || post.name),
+          url: url
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast('Haber linki panoya kopyalandı');
+        });
+      }
+    }
+
+    /* ── LIVE SEARCH ENGINE ── */
+    let searchDebounceTimer = null;
+    function openSearchModal() {
+      openSheet('sheet-search');
+      setTimeout(() => {
+        const inp = document.getElementById('live-search-input');
+        if (inp) inp.focus();
+      }, 300);
+    }
+
+    function handleSearch(query) {
+      clearTimeout(searchDebounceTimer);
+      const container = document.getElementById('search-results-container');
+      const q = query.trim();
+
+      if (!q) {
+        container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:12px;">Arama yapmak için bir kelime yazın.</div>';
+        return;
+      }
+
+      container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:12px;">Sonuçlar aranıyor...</div>';
+
+      searchDebounceTimer = setTimeout(async () => {
+        try {
+          const results = await NovaAPI.search(q);
+          if (!results || results.length === 0) {
+            container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:12px;">Eşleşen haber bulunamadı.</div>';
+            return;
+          }
+
+          results.forEach(r => postsMap.set(r.id, r));
+
+          container.innerHTML = results.map(n => `
+            <div class="news-item-card" onclick="closeSheet('sheet-search'); openNewsDetail(${n.id})">
+              <div class="news-item-left">
+                <span class="news-cat-badge">${getPostCategory(n)}</span>
+                <h4 class="news-item-title">${n.name || ''}</h4>
+                <span style="font-size:11px; color:var(--text-muted);">${formatTimeAgo(n.created_at)}</span>
+              </div>
+              <div class="news-item-img-wrap" style="width:64px; height:64px;">
+                <img src="${getPostImg(n.image, 'thumb')}" class="news-item-img" onerror="this.src='${DEFAULT_IMG}'"/>
+              </div>
+            </div>
+          `).join('');
+        } catch (e) {
+          container.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-muted); font-size:12px;">Arama sırasında hata oluştu.</div>';
+        }
+      }, 350);
+    }
+
+    /* ── STORIES / HIGHLIGHTS (NATIVE MOBILE EXPERIENCE) ── */
+    let isStoryPaused = false;
+    let storyCurrentPercent = 0;
+    let viewedStories = JSON.parse(localStorage.getItem('gokturk_viewed_stories') || '[]');
+    let storyTouchStartY = 0;
+    let storyTouchHolding = false;
+    let storyHoldTimer = null;
+
+    function renderStories() {
+      const container = document.getElementById('stories-tray-container');
+      if (!container || !GOKTURK_STORIES) return;
+
+      container.innerHTML = GOKTURK_STORIES.map((s, idx) => {
+        const isViewed = viewedStories.includes(s.id);
+        return `
+          <div class="story-item ${isViewed ? 'viewed' : ''}" onclick="openStoryViewer(${idx})" title="${s.label}">
+            <div class="story-ring">
+              <img src="${s.img}" class="story-img" alt="${s.label}" onerror="this.src='${DEFAULT_IMG}'"/>
+            </div>
+            <span class="story-label">${s.label}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openStoryViewer(idx) {
+      if (window.navigator?.vibrate) window.navigator.vibrate(15);
+      currentStoryIndex = idx;
+      isStoryPaused = false;
+      const modal = document.getElementById('story-viewer-modal');
+      modal.classList.add('active');
+      setupStoryTouchEvents();
+      loadStorySlide(idx);
+    }
+
+    function loadStorySlide(idx) {
+      const s = GOKTURK_STORIES[idx];
+      if (!s) return;
+
+      // Mark as viewed
+      if (!viewedStories.includes(s.id)) {
+        viewedStories.push(s.id);
+        try { localStorage.setItem('gokturk_viewed_stories', JSON.stringify(viewedStories)); } catch(e){}
+        renderStories();
+      }
+
+      // Populate story content
+      const authorTitle = document.getElementById('story-author-title');
+      const authorAvatar = document.getElementById('story-author-avatar');
+      const mainImg = document.getElementById('story-main-img');
+      const badge = document.getElementById('story-category-badge');
+      const title = document.getElementById('story-caption-h');
+      const desc = document.getElementById('story-caption-p');
+      const timeBadge = document.getElementById('story-time-badge');
+      const ctaBtn = document.getElementById('story-cta-btn');
+      const ctaText = document.getElementById('story-cta-text');
+
+      if (authorTitle) authorTitle.innerText = s.label;
+      if (authorAvatar) authorAvatar.src = s.img;
+      if (mainImg) mainImg.src = s.img;
+      if (badge) badge.innerText = s.category || 'ÖZEL DOSYA';
+      if (title) title.innerText = s.title;
+      if (desc) desc.innerText = s.desc;
+      if (timeBadge) timeBadge.innerText = s.time || 'Göktürk Dergisi';
+      if (ctaText) ctaText.innerText = s.ctaText || 'Haberi İncele';
+
+      // Reset pause icon
+      isStoryPaused = false;
+      updateStoryPauseIcon();
+
+      // Render progress segments
+      const wrap = document.getElementById('story-progress-bars');
+      wrap.innerHTML = GOKTURK_STORIES.map((_, i) => `
+        <div class="story-bar-segment">
+          <div class="story-bar-fill" id="story-fill-${i}" style="width: ${i < idx ? '100%' : '0%'};"></div>
+        </div>
+      `).join('');
+
+      clearInterval(storyProgressInterval);
+      storyCurrentPercent = 0;
+
+      startStoryProgress(idx);
+    }
+
+    function startStoryProgress(idx) {
+      clearInterval(storyProgressInterval);
+      const fillEl = document.getElementById('story-fill-' + idx);
+      
+      storyProgressInterval = setInterval(() => {
+        if (isStoryPaused) return;
+
+        storyCurrentPercent += 1.25; // ~4.5 seconds per slide
+        if (fillEl) fillEl.style.width = Math.min(storyCurrentPercent, 100) + '%';
+
+        if (storyCurrentPercent >= 100) {
+          clearInterval(storyProgressInterval);
+          if (idx < GOKTURK_STORIES.length - 1) {
+            loadStorySlide(idx + 1);
+          } else {
+            closeStoryViewer();
+          }
+        }
+      }, 50);
+    }
+
+    function storyPrevSlide(e) {
+      if (e) e.stopPropagation();
+      if (window.navigator?.vibrate) window.navigator.vibrate(10);
+      if (currentStoryIndex > 0) {
+        loadStorySlide(currentStoryIndex - 1);
+      } else {
+        loadStorySlide(0);
+      }
+    }
+
+    function storyNextSlide(e) {
+      if (e) e.stopPropagation();
+      if (window.navigator?.vibrate) window.navigator.vibrate(10);
+      if (currentStoryIndex < GOKTURK_STORIES.length - 1) {
+        loadStorySlide(currentStoryIndex + 1);
+      } else {
+        closeStoryViewer();
+      }
+    }
+
+    function toggleStoryPause(e) {
+      if (e) e.stopPropagation();
+      isStoryPaused = !isStoryPaused;
+      updateStoryPauseIcon();
+    }
+
+    function updateStoryPauseIcon() {
+      const pauseIcon = document.getElementById('story-icon-pause');
+      const playIcon = document.getElementById('story-icon-play');
+      if (pauseIcon && playIcon) {
+        if (isStoryPaused) {
+          pauseIcon.style.display = 'none';
+          playIcon.style.display = 'block';
+        } else {
+          pauseIcon.style.display = 'block';
+          playIcon.style.display = 'none';
+        }
+      }
+    }
+
+    function handleStoryCTA(e) {
+      if (e) e.stopPropagation();
+      if (window.navigator?.vibrate) window.navigator.vibrate(20);
+      const s = GOKTURK_STORIES[currentStoryIndex];
+      closeStoryViewer();
+      if (!s) return;
+
+      if (s.action === 'magazine') {
+        switchNavTab('magazine');
+      } else if (s.action === 'venue') {
+        openVenueSheet();
+      } else if (s.newsId) {
+        openNewsDetail(s.newsId);
+      } else {
+        switchNavTab('home');
+      }
+    }
+
+    function closeStoryViewer() {
+      clearInterval(storyProgressInterval);
+      isStoryPaused = false;
+      const modal = document.getElementById('story-viewer-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function setupStoryTouchEvents() {
+      const modal = document.getElementById('story-viewer-modal');
+      if (!modal || modal.dataset.touchBound) return;
+      modal.dataset.touchBound = 'true';
+
+      const prevTap = document.getElementById('story-tap-prev');
+      const nextTap = document.getElementById('story-tap-next');
+      if (prevTap) prevTap.onclick = (e) => storyPrevSlide(e);
+      if (nextTap) nextTap.onclick = (e) => storyNextSlide(e);
+
+      // Press and hold to pause story
+      const handlePressStart = (e) => {
+        if (e.target.closest('.story-action-btn') || e.target.closest('.story-cta-btn')) return;
+        storyHoldTimer = setTimeout(() => {
+          storyTouchHolding = true;
+          isStoryPaused = true;
+          updateStoryPauseIcon();
+        }, 180);
+      };
+
+      const handlePressEnd = () => {
+        clearTimeout(storyHoldTimer);
+        if (storyTouchHolding) {
+          storyTouchHolding = false;
+          isStoryPaused = false;
+          updateStoryPauseIcon();
+        }
+      };
+
+      modal.addEventListener('touchstart', (e) => {
+        if (e.touches && e.touches[0]) storyTouchStartY = e.touches[0].clientY;
+        handlePressStart(e);
+      }, { passive: true });
+
+      modal.addEventListener('touchend', (e) => {
+        if (e.changedTouches && e.changedTouches[0]) {
+          const deltaY = e.changedTouches[0].clientY - storyTouchStartY;
+          if (deltaY > 90) {
+            // Swipe down gesture to dismiss
+            closeStoryViewer();
+            return;
+          }
+        }
+        handlePressEnd();
+      }, { passive: true });
+
+      modal.addEventListener('mousedown', handlePressStart);
+      modal.addEventListener('mouseup', handlePressEnd);
+    }
+
+    /* ── E-DERGİ VIEWER ── */
+    function renderMagPage(pageNum) {
+      currentMagPage = pageNum;
+      const display = document.getElementById('mag-page-display');
+      const counter = document.getElementById('mag-page-counter');
+      const page = MAGAZINE_PAGES.find(p => p.page === pageNum) || MAGAZINE_PAGES[0];
+
+      if (counter) counter.innerText = `Sayfa ${pageNum} / ${MAGAZINE_PAGES.length}`;
+      if (display) {
+        display.innerHTML = `
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="border-radius:12px; overflow:hidden; border:1px solid var(--border); box-shadow:0 4px 14px rgba(0,0,0,0.06);">
+              <img src="${page.image || DEFAULT_IMG}" style="width:100%; height:260px; object-fit:cover;" onerror="this.src='${DEFAULT_IMG}'"/>
+            </div>
+            <div style="padding:4px;">
+              ${page.content}
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function magNextPage() {
+      if (currentMagPage < MAGAZINE_PAGES.length) {
+        renderMagPage(currentMagPage + 1);
+      } else {
+        showToast('Son sayfadasınız');
+      }
+    }
+
+    function magPrevPage() {
+      if (currentMagPage > 1) {
+        renderMagPage(currentMagPage - 1);
+      } else {
+        showToast('İlk sayfadasınız');
+      }
+    }
+
+    function downloadMagPdf() {
+      showToast('E-Dergi PDF indiriliyor...');
+      window.open('https://www.gokturkdergisi.com', '_blank');
+    }
+
+    /* ── LOCAL GUIDE (REHBER) ── */
+    function switchGuideTab(tab) {
+      document.querySelectorAll('.guide-tab-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('gtab-' + tab);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      if (tab === 'pharmacy') renderGuidePharmacies();
+      else if (tab === 'venues') renderGuideVenues();
+      else if (tab === 'emergency') renderGuideEmergency();
+    }
+
+    function renderGuidePharmacies() {
+      const container = document.getElementById('guide-section-content');
+      if (!container) return;
+      container.innerHTML = DUTY_PHARMACIES.map(p => `
+        <div class="pharmacy-card">
+          <div class="pharmacy-card-top">
+            <div>
+              <span style="font-size:10px; font-weight:800; color:var(--brand); text-transform:uppercase;">${p.region}</span>
+              <h3 class="pharmacy-name">${p.name}</h3>
+            </div>
+            <span class="pharmacy-badge">${p.status}</span>
+          </div>
+          <div class="pharmacy-address">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:14px;height:14px;flex-shrink:0;margin-top:2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>${p.address}</span>
+          </div>
+          <div class="pharmacy-actions">
+            <a href="tel:${p.phone}" class="pharmacy-action-btn call">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>Ara (${p.phoneFormatted})</span>
+            </a>
+            <a href="https://maps.google.com/?q=${encodeURIComponent(p.name + ' ' + p.address)}" target="_blank" class="pharmacy-action-btn map">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+              <span>Yol Tarifi</span>
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderGuideVenues() {
+      const container = document.getElementById('guide-section-content');
+      if (!container) return;
+      container.innerHTML = GOKTURK_VENUES.map(v => `
+        <div class="venue-card">
+          <div class="venue-img-wrap">
+            <img src="${v.img}" class="venue-img" alt="${v.name}" onerror="this.src='${DEFAULT_IMG}'"/>
+          </div>
+          <div class="venue-info">
+            <div>
+              <span class="venue-cat">${v.categoryName}</span>
+              <h4 class="venue-name">${v.name}</h4>
+              <p class="venue-address">${v.address}</p>
+            </div>
+            <div class="venue-bottom">
+              <span class="venue-rating">
+                <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>${v.rating} Puan</span>
+              </span>
+              <div style="display:flex; gap:6px;">
+                <a href="tel:${v.phone}" class="pharmacy-action-btn call" style="padding:4px 8px; font-size:11px;">Ara</a>
+                <a href="https://maps.google.com/?q=${encodeURIComponent(v.name + ' Göktürk')}" target="_blank" class="pharmacy-action-btn map" style="padding:4px 8px; font-size:11px;">Harita</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderGuideEmergency() {
+      const container = document.getElementById('guide-section-content');
+      if (!container) return;
+      const numbers = [
+        { title: 'Göktürk Jandarma Karakolu', phone: '02123221100', desc: 'Asayiş & Güvenlik Hattı' },
+        { title: 'Eyüpsultan Zabıta Müdürlüğü', phone: '02124401500', desc: 'Zabıta & Çevre Şikayet' },
+        { title: 'Göktürk Aile Sağlığı Merkezi', phone: '02123224050', desc: 'Birinci Basamak Sağlık' },
+        { title: 'İSKİ Arıza & Su Kesintisi', phone: '185', desc: 'Su ve Kanalizasyon Hattı' },
+        { title: 'BEDAŞ Elektrik Arıza', phone: '186', desc: 'Elektrik Kesintisi İhbar' },
+        { title: 'İGDAŞ Doğalgaz Acil', phone: '187', desc: '24 Saat Acil Müdahale' }
+      ];
+      container.innerHTML = numbers.map(n => `
+        <div class="pharmacy-card">
+          <div class="pharmacy-card-top">
+            <div>
+              <h4 class="pharmacy-name">${n.title}</h4>
+              <p style="font-size:11.5px; color:var(--text-muted); margin-top:2px;">${n.desc}</p>
+            </div>
+            <a href="tel:${n.phone}" class="pharmacy-action-btn call" style="padding:6px 12px;">${n.phone}</a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* ── BOTTOM SHEETS ENGINE ── */
+    function openSheet(sheetId) {
+      const el = document.getElementById(sheetId);
+      if (el) el.classList.add('active');
+    }
+
+    function closeSheet(sheetId) {
+      const el = document.getElementById(sheetId);
+      if (el) el.classList.remove('active');
+    }
+
+    function closeSheetOnBackdrop(e, sheetId) {
+      if (e.target.id === sheetId) closeSheet(sheetId);
+    }
+
+    function openPharmacySheet() {
+      const list = document.getElementById('sheet-pharmacy-list');
+      if (list) {
+        list.innerHTML = DUTY_PHARMACIES.map(p => `
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-top">
+              <div>
+                <span style="font-size:10px; font-weight:800; color:var(--brand); text-transform:uppercase;">${p.region}</span>
+                <h4 class="pharmacy-name">${p.name}</h4>
+              </div>
+              <span class="pharmacy-badge">${p.status}</span>
+            </div>
+            <div class="pharmacy-address">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:14px;height:14px;flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span>${p.address}</span>
+            </div>
+            <div class="pharmacy-actions">
+              <a href="tel:${p.phone}" class="pharmacy-action-btn call">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <span>Ara (${p.phoneFormatted})</span>
+              </a>
+              <a href="https://maps.google.com/?q=${encodeURIComponent(p.name + ' ' + p.address)}" target="_blank" class="pharmacy-action-btn map">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+                <span>Yol Tarifi</span>
+              </a>
+            </div>
+          </div>
+        `).join('');
+      }
+      openSheet('sheet-pharmacy');
+    }
+
+    function openVenueSheet() {
+      const list = document.getElementById('sheet-venue-list');
+      if (list) {
+        list.innerHTML = GOKTURK_VENUES.map(v => `
+          <div class="venue-card">
+            <div class="venue-img-wrap">
+              <img src="${v.img}" class="venue-img" alt="${v.name}" onerror="this.src='${DEFAULT_IMG}'"/>
+            </div>
+            <div class="venue-info">
+              <div>
+                <span class="venue-cat">${v.categoryName}</span>
+                <h4 class="venue-name">${v.name}</h4>
+                <p class="venue-address">${v.address}</p>
+              </div>
+              <div class="venue-bottom">
+                <span class="venue-rating">
+                  <svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <span>${v.rating}</span>
+                </span>
+                <div style="display:flex; gap:6px;">
+                  <a href="tel:${v.phone}" class="pharmacy-action-btn call" style="padding:4px 8px; font-size:11px;">Ara</a>
+                  <a href="https://maps.google.com/?q=${encodeURIComponent(v.name + ' Göktürk')}" target="_blank" class="pharmacy-action-btn map" style="padding:4px 8px; font-size:11px;">Harita</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+      openSheet('sheet-venue');
+    }
+
+    function openLocationSheet() {
+      openSheet('sheet-location');
+    }
+
+    function selectLocationPreset(loc) {
+      const lbl = document.getElementById('selected-location-label');
+      if (lbl) lbl.innerText = loc;
+      closeSheet('sheet-location');
+      showToast('Konum seçildi: ' + loc);
+    }
+
+    function fetchLiveGps() {
+      showToast('GPS koordinatları alınıyor...');
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          const coords = `Göktürk (${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)})`;
+          const lbl = document.getElementById('selected-location-label');
+          if (lbl) lbl.innerText = coords;
+          closeSheet('sheet-location');
+          showToast('Canlı GPS konumu eklendi');
+        }, () => {
+          selectLocationPreset('Göktürk Merkez (İstanbul Cad.)');
+        });
+      } else {
+        selectLocationPreset('Göktürk Merkez (İstanbul Cad.)');
+      }
+    }
+
+    /* ── NAVIGATION & TAB SWITCHER ── */
+    function switchNavTab(tabName) {
+      currentActiveTab = tabName;
+      document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+
+      const targetScreen = document.getElementById('screen-' + tabName);
+      const targetBtn = document.getElementById('tab-' + tabName);
+
+      if (targetScreen) targetScreen.classList.add('active');
+      if (targetBtn) targetBtn.classList.add('active');
+      if (targetScreen) targetScreen.scrollTop = 0;
+      if (tabName === 'authors') loadAuthors();
+      if (tabName === 'magazine') {
+        if (!magPostsLoaded) loadMagazinePosts(false);
+      }
+    }
+
+    /* ── E-DERGİ (LIVE CATEGORY 17) ── */
+    let magPostsLoaded = false;
+    let magCurrentPage = 1;
+    let magPostIds = new Set();
+
+    async function loadMagazinePosts(append = false) {
+      const container = document.getElementById('mag-grid-container');
+      const moreBtn = document.getElementById('mag-load-more-btn');
+      if (!container) return;
+
+      if (!append) {
+        magCurrentPage = 1;
+        magPostIds = new Set();
+        container.innerHTML = '<div class="authors-state" style="grid-column:1/-1;">Dergi içerikleri yükleniyor...</div>';
+        if (moreBtn) moreBtn.style.display = 'none';
+      } else {
+        magCurrentPage++;
+        if (moreBtn) moreBtn.innerText = 'Yükleniyor...';
+      }
+
+      const res = await NovaAPI.getCategoryPosts(17, magCurrentPage, 12);
+      if (moreBtn) moreBtn.innerText = 'Daha Fazla Dergi İçeriği';
+
+      if (!res || !res.posts || res.posts.length === 0) {
+        if (!append) {
+          container.innerHTML = '<div class="authors-state" style="grid-column:1/-1;">Dergi içeriği bulunamadı.</div>';
+        }
+        if (moreBtn) moreBtn.style.display = 'none';
+        return;
+      }
+
+      const freshPosts = res.posts.filter(p => !magPostIds.has(p.id));
+      freshPosts.forEach(p => {
+        magPostIds.add(p.id);
+        postsMap.set(p.id, p);
+      });
+
+      magPostsLoaded = true;
+
+      const html = freshPosts.map(p => `
+        <div class="mag-card" onclick="openNewsDetail(${p.id})">
+          <img class="mag-card-cover" src="${escHtml(getPostImg(p.image, 'large'))}" alt="${escHtml(p.name || '')}" loading="lazy" onerror="this.src='${DEFAULT_IMG}'"/>
+          <div class="mag-card-body">
+            <div>
+              <span class="mag-card-tag">DERGİ</span>
+              <h3 class="mag-card-title">${escHtml(p.name || '')}</h3>
+            </div>
+            <div class="mag-card-meta">
+              <span>${formatTimeAgo(p.created_at)}</span>
+              ${p.author && p.author.name ? ` • <span>${escHtml(p.author.name)}</span>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      if (append) {
+        container.insertAdjacentHTML('beforeend', html);
+      } else {
+        container.innerHTML = html;
+      }
+
+      if (moreBtn) {
+        moreBtn.style.display = (res.meta && res.meta.has_more && freshPosts.length > 0) ? 'inline-block' : 'none';
+      }
+    }
+
+    /* ── YAZARLAR (AUTHORS) ── */
+    let authorsLoaded = false;
+    let currentAuthor = null;
+    let authorPage = 1;
+    let authorArticleIds = new Set();
+
+    function escHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function getAuthorImg(a) {
+      if (!a) return 'assets/icon-192.png';
+      if (typeof a.image === 'string') return a.image || 'assets/icon-192.png';
+      const img = a.image || {};
+      return (img.cropped && img.cropped.square) || img.original || 'assets/icon-192.png';
+    }
+
+    function formatColumnDate(iso) {
+      if (!iso) return '';
+      try {
+        return new Date(iso).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+      } catch (e) { return ''; }
+    }
+
+    async function loadAuthors() {
+      if (authorsLoaded) return;
+      const grid = document.getElementById('authors-grid');
+      grid.innerHTML = '<div class="authors-state" style="grid-column:1/-1;">Yazarlar yükleniyor...</div>';
+      const authors = await NovaAPI.getAuthors();
+      if (!authors) {
+        grid.innerHTML = '<div class="authors-state" style="grid-column:1/-1;">Yazarlar yüklenemedi. <br/><button class="authors-more-btn" onclick="loadAuthors()">Tekrar Dene</button></div>';
+        return;
+      }
+      if (authors.length === 0) {
+        grid.innerHTML = '<div class="authors-state" style="grid-column:1/-1;">Henüz yazar bulunmuyor.</div>';
+        return;
+      }
+      authorsLoaded = true;
+      window._authorsById = {};
+      grid.innerHTML = authors.map((a, i) => {
+        window._authorsById[a.id] = a;
+        return `
+        <div class="author-card" style="animation-delay:${Math.min(i, 12) * 30}ms" onclick="openAuthorDetail(${a.id})">
+          <img class="author-avatar" src="${escHtml(getAuthorImg(a))}" alt="${escHtml(a.name)}" loading="lazy" onerror="this.src='assets/icon-192.png'"/>
+          <div class="author-name">${escHtml(a.name)}</div>
+          <div class="author-role">KÖŞE YAZARI</div>
+        </div>`;
+      }).join('');
+    }
+
+    function openAuthorDetail(authorId) {
+      currentAuthor = (window._authorsById || {})[authorId] || { id: authorId, name: '' };
+      document.getElementById('authors-list-view').style.display = 'none';
+      document.getElementById('author-detail-view').style.display = 'block';
+      document.getElementById('author-profile-head').innerHTML = `
+        <img class="author-avatar" src="${escHtml(getAuthorImg(currentAuthor))}" alt="${escHtml(currentAuthor.name)}" onerror="this.src='assets/icon-192.png'"/>
+        <div>
+          <h2>${escHtml(currentAuthor.name)}</h2>
+          <p>${currentAuthor.description ? escHtml(currentAuthor.description) : 'Göktürk Dergisi Köşe Yazarı'}</p>
+        </div>`;
+      const screen = document.getElementById('screen-authors');
+      if (screen) screen.scrollTop = 0;
+      loadAuthorColumns(false);
+    }
+
+    function closeAuthorDetail() {
+      currentAuthor = null;
+      document.getElementById('author-detail-view').style.display = 'none';
+      document.getElementById('authors-list-view').style.display = 'block';
+    }
+
+    async function loadAuthorColumns(append) {
+      if (!currentAuthor) return;
+      const list = document.getElementById('author-columns');
+      const moreBtn = document.getElementById('author-more-btn');
+      if (!append) {
+        authorPage = 1;
+        authorArticleIds = new Set();
+        list.innerHTML = '<div class="authors-state">Yazılar yükleniyor...</div>';
+        moreBtn.style.display = 'none';
+      } else {
+        authorPage++;
+        moreBtn.innerText = 'Yükleniyor...';
+      }
+      const authorId = currentAuthor.id;
+      const result = await NovaAPI.getAuthorArticles(authorId, authorPage);
+      if (!currentAuthor || currentAuthor.id !== authorId) return;
+      moreBtn.innerText = 'Daha Fazla Yazı';
+
+      if (!result) {
+        if (!append) list.innerHTML = '<div class="authors-state">Yazılar yüklenemedi.</div>';
+        return;
+      }
+      const fresh = result.articles.filter(a => !authorArticleIds.has(a.id));
+      fresh.forEach(a => authorArticleIds.add(a.id));
+
+      if (!append && fresh.length === 0) {
+        list.innerHTML = '<div class="authors-state">Bu yazarın henüz yazısı bulunmuyor.</div>';
+        return;
+      }
+      const html = fresh.map(a => `
+        <div class="column-item" onclick="openArticleDetail(${a.id})">
+          <div class="column-date">${formatColumnDate(a.created_at)}</div>
+          <div class="column-title">${escHtml(a.name)}</div>
+          ${a.description ? `<div class="column-excerpt">${escHtml(a.description)}</div>` : ''}
+        </div>`).join('');
+      if (append) list.insertAdjacentHTML('beforeend', html); else list.innerHTML = html;
+
+      moreBtn.style.display = (result.meta && result.meta.has_more && fresh.length > 0) ? 'block' : 'none';
+    }
+
+    function resetDetailSheetForNews() {
+      const img = document.getElementById('detail-img');
+      if (img) img.style.display = '';
+      const saveBtn = document.getElementById('detail-save-btn');
+      if (saveBtn) saveBtn.style.display = '';
+    }
+
+    async function openArticleDetail(id) {
+      currentDetailNewsId = null;
+      const img = document.getElementById('detail-img');
+      if (img) { img.style.display = 'none'; img.src = ''; }
+      const saveBtn = document.getElementById('detail-save-btn');
+      if (saveBtn) saveBtn.style.display = 'none';
+      const rel = document.getElementById('detail-related-section');
+      if (rel) rel.style.display = 'none';
+
+      document.getElementById('detail-cat-tag').innerText = 'KÖŞE YAZISI';
+      document.getElementById('detail-heading').innerText = '';
+      document.getElementById('detail-author').innerText = (currentAuthor && currentAuthor.name) || '';
+      document.getElementById('detail-time').innerText = '';
+      document.getElementById('detail-hit-val').innerText = '-';
+      document.getElementById('detail-content').innerHTML = '<p style="color:var(--text-muted);">Yazı yükleniyor...</p>';
+      openSheet('detail-sheet');
+      const scrollBody = document.getElementById('detail-scroll-body');
+      if (scrollBody) scrollBody.scrollTop = 0;
+
+      const art = await NovaAPI.getArticleDetail(id);
+      if (!art) {
+        document.getElementById('detail-content').innerHTML = '<p>Yazı yüklenemedi. Lütfen tekrar deneyin.</p>';
+        return;
+      }
+      document.getElementById('detail-heading').innerText = art.name || '';
+      document.getElementById('detail-author').innerText = (art.author && art.author.name) || '';
+      document.getElementById('detail-time').innerText = formatColumnDate(art.created_at);
+      document.getElementById('detail-hit-val').innerText = (art.hit || 0).toLocaleString('tr-TR');
+      document.getElementById('detail-content').innerHTML = art.content || art.description || '';
+      const artImg = art.image && (art.image.cropped && art.image.cropped.large || art.image.original);
+      if (artImg && img) { img.src = artImg; img.style.display = ''; }
+      const sourceLink = document.getElementById('detail-source-link');
+      if (sourceLink) sourceLink.href = art.url || 'https://www.gokturkdergisi.com/yazarlar';
+    }
+
+    /* ── REPORT FORM & PHOTOS ── */
+    function handlePhotoSelect(e) {
+      const files = Array.from(e.target.files).slice(0, 3);
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          reportSelectedPhotos.push(event.target.result);
+          renderReportThumbnails();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderReportThumbnails() {
+      const container = document.getElementById('photo-preview-container');
+      if (!container) return;
+      container.innerHTML = reportSelectedPhotos.map((src, i) => `
+        <div class="photo-thumb-item">
+          <img src="${src}"/>
+          <button type="button" class="photo-thumb-del" onclick="removeReportPhoto(${i})">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:12px;height:12px;stroke-width:2.5;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function removeReportPhoto(idx) {
+      reportSelectedPhotos.splice(idx, 1);
+      renderReportThumbnails();
+    }
+
+    function handleReportSubmit(e) {
+      e.preventDefault();
+      showToast('İhbarınız editör masasına iletildi. Teşekkür ederiz!');
+      e.target.reset();
+      reportSelectedPhotos = [];
+      renderReportThumbnails();
+      setTimeout(() => switchNavTab('home'), 1200);
+    }
+
+    /* ── SAVED NEWS ── */
+    function showSavedNews() {
+      const saved = Array.from(postsMap.values()).filter(n => savedNewsIds.includes(n.id));
+      if (saved.length === 0) {
+        showToast('Henüz kaydedilmiş haberiniz bulunmuyor.');
+        return;
+      }
+      openSearchModal();
+      const container = document.getElementById('search-results-container');
+      container.innerHTML = '<div style="font-weight:700; font-size:13px; margin-bottom:8px;">Kaydedilen Haberler:</div>' +
+        saved.map(n => `
+          <div class="news-item-card" onclick="closeSheet('sheet-search'); openNewsDetail(${n.id})">
+            <div class="news-item-left">
+              <span class="news-cat-badge">${getPostCategory(n)}</span>
+              <h4 class="news-item-title">${n.name || ''}</h4>
+            </div>
+            <div class="news-item-img-wrap" style="width:64px; height:64px;">
+              <img src="${getPostImg(n.image, 'thumb')}" class="news-item-img" onerror="this.src='${DEFAULT_IMG}'"/>
+            </div>
+          </div>
+        `).join('');
+    }
+
+    function openAboutModal() {
+      if (headlinesList.length > 0) {
+        openNewsDetail(headlinesList[0].id);
+      } else {
+        showToast('Göktürk Dergisi: 20 yıldır bölgenin öncü yayın organı.');
+      }
+    }
+
+    function openContactModal() {
+      showToast('İletişim: info@gokturkdergisi.com • 0212 322 15 45');
+    }
+
+    /* ── THEME ENGINE ── */
+    function initTheme() {
+      const savedTheme = localStorage.getItem('gokturk_theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        const m = document.getElementById('meta-theme-color');
+        if (m) m.setAttribute('content', '#111215');
+        const sw = document.getElementById('theme-switch-input');
+        if (sw) sw.checked = true;
+        updateThemeIcons(true);
+      } else {
+        document.body.classList.remove('dark');
+        const m = document.getElementById('meta-theme-color');
+        if (m) m.setAttribute('content', '#F8F9FA');
+        const sw = document.getElementById('theme-switch-input');
+        if (sw) sw.checked = false;
+        updateThemeIcons(false);
+      }
+    }
+
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle('dark');
+      localStorage.setItem('gokturk_theme', isDark ? 'dark' : 'light');
+      const m = document.getElementById('meta-theme-color');
+      if (m) m.setAttribute('content', isDark ? '#111215' : '#F8F9FA');
+      const sw = document.getElementById('theme-switch-input');
+      if (sw) sw.checked = isDark;
+      updateThemeIcons(isDark);
+      showToast(isDark ? 'Karanlık Mod devrede' : 'Aydınlık Mod devrede');
+    }
+
+    function updateThemeIcons(isDark) {
+      const sun = document.getElementById('theme-icon-sun');
+      const moon = document.getElementById('theme-icon-moon');
+      if (sun && moon) {
+        sun.style.display = isDark ? 'block' : 'none';
+        moon.style.display = isDark ? 'none' : 'block';
+      }
+    }
+
+    /* ── TOAST NOTIFICATION ── */
+    let toastTimeout = null;
+    function showToast(text) {
+      const el = document.getElementById('toast-msg');
+      const txt = document.getElementById('toast-text');
+      if (!el || !txt) return;
+      txt.innerText = text;
+      el.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        el.classList.remove('show');
+      }, 2600);
+    }
+
+    /* ── SERVICE WORKER (OFFLINE & PWA CACHE) ── */
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
+
+    /* ── iOS PWA SMART INSTALL HELPER ── */
+    function checkIosPwaBanner() {
+      const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+      const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+      const isDismissed = localStorage.getItem('gokturk_ios_pwa_dismissed') === '1';
+
+      if (isIos && !isStandalone && !isDismissed) {
+        setTimeout(() => {
+          const banner = document.getElementById('ios-install-banner');
+          if (banner) banner.style.display = 'block';
+        }, 2200);
+      }
+    }
+
+    function dismissIosBanner() {
+      const banner = document.getElementById('ios-install-banner');
+      if (banner) banner.style.display = 'none';
+      localStorage.setItem('gokturk_ios_pwa_dismissed', '1');
+    }
+
+    window.addEventListener('DOMContentLoaded', checkIosPwaBanner);
+  </script>
+
+  <!-- iOS Safari PWA Install Smart Helper -->
+  <div id="ios-install-banner" class="ios-install-banner" style="display: none;" role="dialog" aria-label="iOS Kurulum Rehberi">
+    <div class="ios-install-card">
+      <div class="ios-install-header">
+        <img src="assets/apple-touch-icon.png" alt="Göktürk" class="ios-install-icon" />
+        <div class="ios-install-meta">
+          <strong>Göktürk Uygulamasını Yükleyin</strong>
+          <span>iPhone'unuza ekleyip tam ekran kullanın</span>
+        </div>
+        <button type="button" class="ios-install-close" onclick="dismissIosBanner()" aria-label="Kapat">✕</button>
+      </div>
+      <div class="ios-install-steps">
+        <div class="ios-step-item">
+          <span class="ios-step-num">1</span>
+          <span>Safari'de alttaki <strong>Paylaş</strong> simgesine dokunun: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; display: inline-block; margin-left: 3px;"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
+        </div>
+        <div class="ios-step-item">
+          <span class="ios-step-num">2</span>
+          <span>Menüyü kaydırıp <strong>'Ana Ekrana Ekle'</strong>ye dokunun.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

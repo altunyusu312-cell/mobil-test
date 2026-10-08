@@ -1,0 +1,26 @@
+{
+  "name": "gokturk-dergisi-mobile",
+  "version": "1.0.0",
+  "description": "Göktürk Dergisi Resmi Mobil Haber Uygulaması",
+  "main": "index.html",
+  "scripts": {
+    "sync": "node node_modules/@capacitor/cli/bin/capacitor sync android",
+    "sync:ios": "node node_modules/@capacitor/cli/bin/capacitor sync ios",
+    "open:android": "node node_modules/@capacitor/cli/bin/capacitor open android"
+  },
+  "keywords": [
+    "news",
+    "gokturk",
+    "android",
+    "ios",
+    "mobile"
+  ],
+  "author": "Ümit Öner Medya Grubu",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/android": "^7.0.1",
+    "@capacitor/cli": "^7.0.1",
+    "@capacitor/core": "^7.0.1",
+    "@capacitor/ios": "^7.0.1"
+  }
+}
