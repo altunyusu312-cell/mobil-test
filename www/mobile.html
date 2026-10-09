@@ -2529,6 +2529,283 @@
       background: #DE3636;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
     }
+
+    /* ─────────────────────────────────────────────────────────────
+       13. NOTIFICATION CENTER & SOLID NOTIFICATION CARDS
+       ───────────────────────────────────────────────────────────── */
+    .notif-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .notif-clear-btn {
+      background: none;
+      border: none;
+      color: var(--brand);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 6px;
+      touch-action: manipulation;
+    }
+    .notif-clear-btn:active {
+      opacity: 0.6;
+    }
+    body.dark .notif-clear-btn {
+      color: #F87171;
+    }
+
+    .notif-filter-pills {
+      display: flex;
+      gap: 6px;
+      padding: 4px 0 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      flex-shrink: 0;
+    }
+    .notif-filter-pills::-webkit-scrollbar { display: none; }
+
+    .notif-filter-pill {
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 11.5px;
+      font-weight: 700;
+      background: var(--surface2);
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+    .notif-filter-pill:active {
+      transform: scale(0.96);
+    }
+    .notif-filter-pill.active {
+      background: var(--brand);
+      color: #FFFFFF;
+      border-color: transparent;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    body.dark .notif-filter-pill.active {
+      background: #DE3636;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .notif-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 20px;
+    }
+
+    /* Solid Notification Card */
+    .notif-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 13px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      cursor: pointer;
+      position: relative;
+      touch-action: manipulation;
+      transition: transform 0.15s ease, background-color 0.15s ease;
+      contain: layout style paint;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .notif-card:active {
+      transform: scale(0.985);
+      background: var(--surface2);
+    }
+
+    .notif-card.unread {
+      border-left: 3.5px solid var(--brand);
+    }
+    body.dark .notif-card.unread {
+      border-left-color: #DE3636;
+      background: rgba(222, 54, 54, 0.035);
+    }
+
+    .notif-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .notif-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .notif-type-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .notif-type-tag.breaking {
+      background: rgba(222, 54, 54, 0.12);
+      color: #B91C1C;
+    }
+    body.dark .notif-type-tag.breaking {
+      background: rgba(222, 54, 54, 0.18);
+      color: #F87171;
+    }
+
+    .notif-type-tag.local {
+      background: rgba(59, 130, 246, 0.12);
+      color: #2563EB;
+    }
+    body.dark .notif-type-tag.local {
+      background: rgba(59, 130, 246, 0.18);
+      color: #60A5FA;
+    }
+
+    .notif-type-tag.pharmacy {
+      background: rgba(16, 185, 129, 0.12);
+      color: #059669;
+    }
+    body.dark .notif-type-tag.pharmacy {
+      background: rgba(16, 185, 129, 0.18);
+      color: #34D399;
+    }
+
+    .notif-type-tag.magazine {
+      background: rgba(245, 158, 11, 0.12);
+      color: #D97706;
+    }
+    body.dark .notif-type-tag.magazine {
+      background: rgba(245, 158, 11, 0.18);
+      color: #FBBF24;
+    }
+
+    .notif-time {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .notif-main-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .notif-texts {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .notif-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .notif-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .notif-thumb {
+      width: 58px;
+      height: 58px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+    }
+
+    .notif-card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+      padding-top: 7px;
+      border-top: 1px dashed var(--border-subtle);
+    }
+
+    .notif-action-link {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--brand);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    body.dark .notif-action-link {
+      color: #F87171;
+    }
+
+    .notif-dismiss-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 3px 6px;
+      border-radius: 4px;
+      touch-action: manipulation;
+    }
+    .notif-dismiss-btn:hover {
+      color: var(--text-main);
+    }
+
+    .notif-empty-state {
+      text-align: center;
+      padding: 44px 16px;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    .notif-empty-state svg {
+      width: 44px;
+      height: 44px;
+      stroke: var(--text-muted);
+      opacity: 0.5;
+    }
+    .notif-empty-state h4 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .notif-empty-state p {
+      font-size: 12px;
+      color: var(--text-muted);
+      max-width: 240px;
+    }
   </style>
 </head>
 
@@ -2570,6 +2847,15 @@
       </div>
 
       <div class="header-actions">
+        <!-- Notifications Bell Button -->
+        <button class="icon-btn" onclick="openNotificationsModal()" title="Bildirimler" id="btn-notifications" aria-label="Bildirimler">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span class="btn-badge-dot" id="header-notif-dot" style="display:none;"></span>
+        </button>
+
         <!-- Quick Search Button -->
         <button class="icon-btn" onclick="openSearchModal()" title="Ara">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -2953,6 +3239,39 @@
     </nav>
 
     <!-- ────────────────── BOTTOM SHEETS & MODALS ────────────────── -->
+
+    <!-- Bildirim Merkezi Bottom Sheet -->
+    <div class="sheet-backdrop" id="sheet-notifications" onclick="closeSheetOnBackdrop(event, 'sheet-notifications')">
+      <div class="bottom-sheet" style="max-height:85dvh;">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <h3>Bildirimler</h3>
+            <span id="notif-unread-count-tag" style="background:var(--brand-light); color:var(--brand); font-size:10.5px; font-weight:800; padding:2px 8px; border-radius:10px;">Yeni</span>
+          </div>
+          <div class="notif-header-actions">
+            <button class="notif-clear-btn" onclick="markAllNotifsAsRead()">Tümünü Oku</button>
+            <button class="sheet-close-btn" onclick="closeSheet('sheet-notifications')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Pills Bar -->
+        <div class="notif-filter-pills">
+          <button class="notif-filter-pill active" onclick="setNotifFilter('all', this)">Tümü</button>
+          <button class="notif-filter-pill" onclick="setNotifFilter('breaking', this)">🚨 Son Dakika</button>
+          <button class="notif-filter-pill" onclick="setNotifFilter('local', this)">📍 Göktürk</button>
+          <button class="notif-filter-pill" onclick="setNotifFilter('pharmacy', this)">💊 Nöbetçi Eczane</button>
+          <button class="notif-filter-pill" onclick="setNotifFilter('magazine', this)">📖 E-Dergi</button>
+        </div>
+
+        <!-- Notifications Scroll Container -->
+        <div class="sheet-scroll-body" id="sheet-notifications-list">
+          <!-- Dynamically populated solid notification cards -->
+        </div>
+      </div>
+    </div>
 
     <!-- Nöbetçi Eczaneler Bottom Sheet -->
     <div class="sheet-backdrop" id="sheet-pharmacy" onclick="closeSheetOnBackdrop(event, 'sheet-pharmacy')">
@@ -4115,6 +4434,7 @@
       initTheme();
       renderStories();
       renderMagPage(1);
+      updateNotifBadge();
 
       // 1. Canlı Servisler (Hava Durumu, Kurlar, Eczaneler)
       loadWeatherAndCurrencies();
@@ -5062,6 +5382,199 @@
 
     function closeSheetOnBackdrop(e, sheetId) {
       if (e.target.id === sheetId) closeSheet(sheetId);
+    }
+
+    /* ── NOTIFICATION ENGINE ── */
+    let currentNotifFilter = 'all';
+    const DEFAULT_NOTIFICATIONS = [
+      {
+        id: 'notif-1',
+        type: 'breaking',
+        tagText: 'Son Dakika',
+        title: 'Hasdal - Göktürk Yolu Trafik Yoğunluğu ve Şerit Bakımı',
+        desc: 'Hasdal kavşağı bağlantı viyadüğünde yürütülen asfalt yenileme çalışması sebebiyle trafik akışı kontrollü sağlanmaktadır. Kemerburgaz alternatif güzergahını kullanabilirsiniz.',
+        time: '8 dk önce',
+        unread: true,
+        img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=400&q=80',
+        actionType: 'toast'
+      },
+      {
+        id: 'notif-2',
+        type: 'pharmacy',
+        tagText: 'Nöbetçi Eczane',
+        title: 'Bu Gece Göktürk\'te Nöbetçi: Yeni Göktürk Eczanesi',
+        desc: 'İstanbul Caddesi No:32 adresindeki eczane sabaha kadar kesintisiz nöbetçi hizmet vermektedir. Acil reçeteleriniz için açık.',
+        time: '45 dk önce',
+        unread: true,
+        img: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400&q=80',
+        actionType: 'pharmacy'
+      },
+      {
+        id: 'notif-3',
+        type: 'local',
+        tagText: 'Göktürk Yaşam',
+        title: 'Kemerburgaz Kent Ormanı Bahar Etkinlikleri Takvimi Açıklandı',
+        desc: 'Bu hafta sonu çocuk açık hava atölyeleri, doğa yürüyüşü rotaları ve gölet çevresi spor aktiviteleri başlıyor.',
+        time: '2 saat önce',
+        unread: true,
+        img: 'https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80',
+        actionType: 'feed'
+      },
+      {
+        id: 'notif-4',
+        type: 'magazine',
+        tagText: 'E-Dergi',
+        title: 'Göktürk Dergisi & Gazetesi Yeni Sayısı Dijitalde Yayında!',
+        desc: 'Bölgenin önde gelen isimleriyle özel röportajlar, gurme mekan rehberi ve kültür-sanat sayfaları okurlarla buluştu.',
+        time: 'Dün',
+        unread: false,
+        img: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&q=80',
+        actionType: 'magazine'
+      }
+    ];
+
+    function getAppNotifications() {
+      try {
+        const raw = localStorage.getItem('gokturk_user_notifications');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return [...DEFAULT_NOTIFICATIONS];
+    }
+
+    function saveAppNotifications(list) {
+      try {
+        localStorage.setItem('gokturk_user_notifications', JSON.stringify(list));
+      } catch (e) {}
+      updateNotifBadge();
+    }
+
+    function updateNotifBadge() {
+      const list = getAppNotifications();
+      const unreadCount = list.filter(n => n.unread).length;
+      const dot = document.getElementById('header-notif-dot');
+      const tag = document.getElementById('notif-unread-count-tag');
+      if (dot) dot.style.display = unreadCount > 0 ? 'block' : 'none';
+      if (tag) {
+        tag.innerText = unreadCount > 0 ? `${unreadCount} Yeni` : 'Tümü Okundu';
+        tag.style.opacity = unreadCount > 0 ? '1' : '0.6';
+      }
+    }
+
+    function openNotificationsModal() {
+      if (window.navigator?.vibrate) window.navigator.vibrate(12);
+      renderNotifications();
+      openSheet('sheet-notifications');
+    }
+
+    function setNotifFilter(type, btnEl) {
+      currentNotifFilter = type;
+      document.querySelectorAll('.notif-filter-pill').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderNotifications();
+    }
+
+    function markAllNotifsAsRead() {
+      const list = getAppNotifications().map(n => ({ ...n, unread: false }));
+      saveAppNotifications(list);
+      renderNotifications();
+      showToast('Tüm bildirimler okundu');
+    }
+
+    function dismissNotification(id, e) {
+      if (e) e.stopPropagation();
+      const list = getAppNotifications().filter(n => n.id !== id);
+      saveAppNotifications(list);
+      renderNotifications();
+      showToast('Bildirim silindi');
+    }
+
+    function handleNotificationClick(id) {
+      const list = getAppNotifications();
+      const target = list.find(n => n.id === id);
+      if (!target) return;
+
+      target.unread = false;
+      saveAppNotifications(list);
+      renderNotifications();
+
+      closeSheet('sheet-notifications');
+
+      if (target.actionType === 'pharmacy') {
+        setTimeout(() => openPharmacySheet(), 250);
+      } else if (target.actionType === 'magazine') {
+        setTimeout(() => switchNavTab('magazine'), 250);
+      } else if (target.actionType === 'news' && target.newsId) {
+        setTimeout(() => openNewsDetail(target.newsId), 250);
+      } else if (target.actionType === 'feed') {
+        setTimeout(() => switchNavTab('home'), 250);
+      } else {
+        showToast(target.title);
+      }
+    }
+
+    function renderNotifications() {
+      const container = document.getElementById('sheet-notifications-list');
+      if (!container) return;
+
+      const allList = getAppNotifications();
+      const filtered = currentNotifFilter === 'all'
+        ? allList
+        : allList.filter(n => n.type === currentNotifFilter);
+
+      updateNotifBadge();
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="notif-empty-state">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <h4>Yeni Bildirim Yok</h4>
+            <p>Seçilen kategoride gösterilecek bildirim bulunmuyor.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(n => {
+        const typeClass = n.type || 'breaking';
+        return `
+          <div class="notif-card ${n.unread ? 'unread' : ''}" onclick="handleNotificationClick('${n.id}')">
+            <div class="notif-card-top">
+              <div class="notif-badge-row">
+                <span class="notif-type-tag ${typeClass}">
+                  ${n.type === 'breaking' ? '<span class="pulse-dot" style="width:5px;height:5px;"></span>' : ''}
+                  ${n.tagText}
+                </span>
+                ${n.unread ? '<span style="width:6px;height:6px;border-radius:50%;background:var(--brand);display:inline-block;"></span>' : ''}
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="notif-time">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:11px;height:11px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  ${n.time}
+                </span>
+                <button class="notif-dismiss-btn" onclick="dismissNotification('${n.id}', event)" title="Sil" aria-label="Sil">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px;height:13px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="notif-main-row">
+              <div class="notif-texts">
+                <h4 class="notif-title">${n.title}</h4>
+                <p class="notif-desc">${n.desc}</p>
+              </div>
+              ${n.img ? `<img src="${n.img}" class="notif-thumb" alt="${n.title}" loading="lazy" decoding="async" onerror="this.style.display='none'"/>` : ''}
+            </div>
+
+            <div class="notif-card-bottom">
+              <span class="notif-action-link">
+                <span>Detayı Gör</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:12px;height:12px;"><polyline points="9 18 15 12 9 6"/></svg>
+              </span>
+              <span style="font-size:11px; color:var(--text-muted); font-weight:600;">Göktürk Medya</span>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     function openPharmacySheet() {
