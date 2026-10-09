@@ -407,10 +407,10 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: #B91C1C;
+      background: var(--brand);
       border-radius: 3px;
       transform: translateX(-100%);
-      animation: splashLoad 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.3s forwards;
+      animation: splashLoad 5.2s cubic-bezier(0.25, 0.1, 0.25, 1) 0.3s forwards;
     }
     @keyframes splashLogoIn { to { opacity: 1; transform: scale(1); } }
     @keyframes splashFadeUp { to { opacity: 1; transform: translateY(0); } }
@@ -2545,8 +2545,8 @@
       var s = document.getElementById('splash-screen');
       if (!s) return;
       s.classList.add('hide');
-      setTimeout(function () { s.remove(); }, 350);
-    }, 650);
+      setTimeout(function () { s.remove(); }, 600);
+    }, 5500);
   </script>
 
   <div id="app-root">
