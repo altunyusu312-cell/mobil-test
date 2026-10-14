@@ -672,15 +672,16 @@
     /* ─────────────────────────────────────────────────────────────
        5. SCREEN 1: AKIŞ (HOME FEED)
        ───────────────────────────────────────────────────────────── */
-    /* Stories Tray */
+    /* Stories Tray (Editorial Instagram & Vogue Style) */
     .stories-tray {
-      padding: 14px 16px 10px;
+      padding: 14px 16px 12px;
       display: flex;
       gap: 14px;
       overflow-x: auto;
       scrollbar-width: none;
       -webkit-overflow-scrolling: touch;
-      align-items: center;
+      align-items: flex-start;
+      scroll-snap-type: x proximity;
     }
 
     .stories-tray::-webkit-scrollbar {
@@ -691,11 +692,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       cursor: pointer;
       flex-shrink: 0;
-      width: 72px;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 74px;
+      position: relative;
+      scroll-snap-align: start;
+      transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     .story-item:active {
@@ -703,22 +706,30 @@
     }
 
     .story-ring {
-      width: 66px;
-      height: 66px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       padding: 2.5px;
-      background: linear-gradient(135deg, var(--brand) 0%, var(--gold) 100%);
+      background: linear-gradient(135deg, #E11D48 0%, #F59E0B 50%, #991B1B 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 14px var(--brand-glow);
+      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.28);
+      position: relative;
       transition: all 0.25s ease;
     }
 
+    /* Viewed Story: Subtle refined ring border, 100% crisp full-brightness photo inside */
     .story-item.viewed .story-ring {
       background: var(--border);
       box-shadow: none;
-      opacity: 0.55;
+      opacity: 1;
+    }
+
+    /* Special Brand / 20. Yıl story ring */
+    .story-item.is-special .story-ring {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 60%, #B45309 100%);
+      box-shadow: 0 4px 16px rgba(217, 119, 6, 0.38);
     }
 
     .story-img {
@@ -727,19 +738,52 @@
       border-radius: 50%;
       object-fit: cover;
       background: var(--surface2);
-      border: 2px solid var(--surface);
+      border: 2.5px solid var(--surface);
+      display: block;
+    }
+
+    .story-badge-chip {
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #B91C1C 0%, #E11D48 100%);
+      color: #FFFFFF;
+      font-size: 8.5px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      padding: 1.5px 6px;
+      border-radius: 8px;
+      border: 1.5px solid var(--surface);
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .story-item.is-special .story-badge-chip {
+      background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
+      color: #000;
     }
 
     .story-label {
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 600;
       color: var(--text-main);
       text-align: center;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
       overflow: hidden;
-      text-overflow: ellipsis;
       max-width: 100%;
+      line-height: 1.25;
       letter-spacing: -0.15px;
+      transition: color 0.2s ease;
+    }
+
+    .story-item.viewed .story-label {
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
     /* Category Filter Pills */
@@ -2441,24 +2485,31 @@
     .story-gradient-bottom {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      height: 360px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.80) 45%, rgba(0,0,0,0.3) 75%, transparent 100%);
+      height: 380px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.75) 50%, rgba(0,0,0,0.25) 80%, transparent 100%);
       pointer-events: none;
       z-index: 405;
     }
 
-    /* Touch Navigation Zones */
+    /* Touch Navigation Zones (100% horizontal coverage without dead zones) */
     .story-touch-zone {
       position: absolute;
-      top: 90px;
-      bottom: 200px;
-      width: 35%;
-      z-index: 408;
+      top: 75px;
+      bottom: 140px;
+      z-index: 410;
       cursor: pointer;
     }
 
-    .story-touch-left { left: 0; }
-    .story-touch-right { right: 0; }
+    .story-touch-left {
+      left: 0;
+      width: 35%;
+    }
+
+    .story-touch-right {
+      left: 35%;
+      right: 0;
+      width: 65%;
+    }
 
     .story-progress-bar-wrap {
       position: absolute;
@@ -2468,7 +2519,7 @@
       height: 3px;
       display: flex;
       gap: 5px;
-      z-index: 412;
+      z-index: 415;
     }
 
     .story-bar-segment {
@@ -2496,7 +2547,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      z-index: 412;
+      z-index: 415;
     }
 
     .story-author-info {
@@ -2506,14 +2557,15 @@
     }
 
     .story-author-ring {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       padding: 1.5px;
-      background: linear-gradient(135deg, var(--brand) 0%, #991B1B 100%);
+      background: linear-gradient(135deg, var(--brand) 0%, #F59E0B 100%);
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
 
     .story-author-img {
@@ -2539,7 +2591,7 @@
     }
 
     .story-time-badge {
-      color: rgba(255, 255, 255, 0.72);
+      color: rgba(255, 255, 255, 0.75);
       font-size: 11px;
       font-weight: 500;
       line-height: 1.2;
@@ -2555,10 +2607,10 @@
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.35);
+      background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #FFFFFF;
       display: flex;
       align-items: center;
@@ -2569,7 +2621,7 @@
 
     .story-action-btn:active {
       transform: scale(0.9);
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.25);
     }
 
     .story-media-wrapper {
@@ -2580,13 +2632,18 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
     .story-img-main {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.3s ease;
+      display: block;
+      transform-origin: center center;
+    }
+
+    .story-img-main.story-img-animating {
       animation: storyScale 5s linear forwards;
     }
 
@@ -2597,15 +2654,22 @@
 
     .story-caption-overlay {
       position: absolute;
-      bottom: calc(var(--safe-bottom) + 26px);
-      left: 18px;
-      right: 18px;
+      bottom: calc(var(--safe-bottom) + 20px);
+      left: 14px;
+      right: 14px;
       color: #FFFFFF;
-      z-index: 412;
+      z-index: 415;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       pointer-events: auto;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.92) 100%);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 20px;
+      padding: 16px 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     .story-badge {
@@ -2613,34 +2677,32 @@
       align-items: center;
       gap: 5px;
       padding: 4px 10px;
-      border-radius: 6px;
-      background: rgba(185, 28, 28, 0.9);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      border-radius: 7px;
+      background: linear-gradient(135deg, #E11D48 0%, #B91C1C 100%);
       color: #FFFFFF;
       font-size: 10.5px;
       font-weight: 800;
       letter-spacing: 0.8px;
       text-transform: uppercase;
       margin-bottom: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 2px 10px rgba(225, 29, 72, 0.35);
     }
 
     .story-caption-title {
       font-family: var(--font-heading);
-      font-size: 21px;
+      font-size: 19px;
       font-weight: 700;
-      line-height: 1.25;
-      margin-bottom: 8px;
+      line-height: 1.28;
+      margin-bottom: 6px;
       color: #FFFFFF;
       text-shadow: 0 2px 12px rgba(0,0,0,0.85);
     }
 
     .story-caption-desc {
-      font-size: 13.5px;
+      font-size: 13px;
       color: rgba(255, 255, 255, 0.92);
       line-height: 1.45;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-shadow: 0 1px 6px rgba(0,0,0,0.7);
       display: -webkit-box;
       -webkit-line-clamp: 3;
@@ -2652,7 +2714,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 11px 22px;
+      padding: 10px 20px;
       border-radius: 24px;
       background: #FFFFFF;
       color: #0F172A;
@@ -2661,7 +2723,7 @@
       font-weight: 700;
       border: none;
       cursor: pointer;
-      box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
       transition: transform 0.15s ease, background 0.15s ease;
     }
 
@@ -3986,11 +4048,11 @@
       <!-- Segmented Progress Bars -->
       <div class="story-progress-bar-wrap" id="story-progress-bars"></div>
 
-      <!-- Top Story Bar: Channel Avatar, Title, Time, Pause & Close -->
+      <!-- Top Story Bar: Channel Avatar, Title, Time, Pause, Share & Close -->
       <div class="story-top-info">
         <div class="story-author-info">
           <div class="story-author-ring">
-            <img src="" id="story-author-avatar" class="story-author-img" alt="Avatar"/>
+            <img src="" id="story-author-avatar" class="story-author-img" alt="Avatar" onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80'"/>
           </div>
           <div class="story-header-texts">
             <span class="story-author-name" id="story-author-title">Göktürk Dergisi</span>
@@ -4002,6 +4064,9 @@
             <svg id="story-icon-pause" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
             <svg id="story-icon-play" viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px;display:none;"><polygon points="6 4 20 12 6 20 6 4"/></svg>
           </button>
+          <button class="story-action-btn" id="story-share-btn" onclick="shareCurrentStory(event)" title="Hikayeyi Paylaş">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:15px;height:15px;stroke-width:2;"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
           <button class="story-action-btn story-close-btn" onclick="closeStoryViewer()" title="Kapat">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:18px;height:18px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
@@ -4010,7 +4075,7 @@
 
       <!-- Main Photo Media -->
       <div class="story-media-wrapper">
-        <img src="" id="story-main-img" class="story-img-main" alt="Story Visual"/>
+        <img src="" id="story-main-img" class="story-img-main" alt="Story Visual" onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=800&q=80'"/>
       </div>
 
       <!-- Bottom Caption, Tag Badge & Action CTA Button -->
@@ -4681,7 +4746,7 @@
     img: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=300&q=80'
   }
 ];
-    const GOKTURK_STORIES = [
+    let GOKTURK_STORIES = [
   {
     id: 's1',
     label: '20. Yıl Özel',
@@ -4692,10 +4757,25 @@
     time: 'Özel Röportaj',
     newsId: 2,
     ctaText: 'Röportajı Oku',
-    action: 'news'
+    action: 'news',
+    isSpecial: true,
+    chipText: '20. Yıl'
   },
   {
     id: 's2',
+    label: 'E-Dergi 34',
+    category: 'YENİ SAYI',
+    title: '34. Sayı Çıktı: İş Dünyası ve Yaşamın En Seçkin Dosyaları',
+    desc: 'Özel röportajlar, iş dünyası liderleri ve sonbahar stil rehberi şimdi dijital e-dergide yayında.',
+    img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=1080&q=85',
+    time: 'Yeni Sayı',
+    newsId: 7,
+    ctaText: 'E-Dergide Oku',
+    action: 'magazine',
+    chipText: 'Yeni'
+  },
+  {
+    id: 's3',
     label: 'Festival',
     category: 'CEMİYET & YAŞAM',
     title: 'Açık Hava Kültür, Sanat & Yaşam Festivalleri Başladı',
@@ -4705,18 +4785,6 @@
     newsId: 4,
     ctaText: 'Etkinliği İncele',
     action: 'news'
-  },
-  {
-    id: 's3',
-    label: '34. Sayı',
-    category: 'YENİ SAYI',
-    title: '34. Sayı Çıktı: İş Dünyası ve Yaşamın En Seçkin Dosyaları',
-    desc: 'Özel röportajlar, iş dünyası liderleri ve sonbahar stil rehberi şimdi dijital e-dergide.',
-    img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=1080&q=85',
-    time: 'Yeni Sayı',
-    newsId: 7,
-    ctaText: 'E-Dergide Oku',
-    action: 'magazine'
   },
   {
     id: 's4',
@@ -4755,6 +4823,7 @@
     action: 'news'
   }
 ];
+window.GOKTURK_STORIES = GOKTURK_STORIES;
     const MAGAZINE_PAGES = [
   {
     page: 1,
@@ -5601,36 +5670,72 @@
 
     function populateStoriesFromHeadlines(headlines) {
       if (!headlines || headlines.length === 0) return;
+
       const liveStories = [
         {
           id: 'story-brand-20',
-          label: '20. Yıl',
+          label: '20. Yıl Özel',
           category: 'ÖZEL DOSYA',
           title: 'Göktürk Dergisi: 20 Yıllık Basın ve Yayıncılık Serüveni',
           desc: 'Çeyrek asra yaklaşan seçkin yayıncılık, cemiyet ve medya yolculuğumuzda yanımızda olan tüm okurlarımıza teşekkür ederiz.',
-          img: 'assets/icon.png',
-          time: 'Özel Hikaye',
-          newsId: headlines[0] ? headlines[0].id : null,
+          img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1080&q=85',
+          avatar: 'assets/icon.png',
+          time: 'Özel Dosya',
+          newsId: headlines[0] ? headlines[0].id : 2,
           ctaText: 'Haberi Oku',
-          action: 'news'
+          action: 'news',
+          isSpecial: true,
+          chipText: '20. Yıl'
+        },
+        {
+          id: 'story-brand-edergi',
+          label: 'E-Dergi 34',
+          category: 'YENİ SAYI',
+          title: '34. Sayı Çıktı: İş Dünyası ve Yaşamın En Seçkin Dosyaları',
+          desc: 'Özel röportajlar, cemiyet ve sonbahar stil rehberi şimdi dijital e-dergide.',
+          img: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=1080&q=85',
+          avatar: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=300&q=80',
+          time: 'Yeni Sayı',
+          newsId: null,
+          ctaText: 'E-Dergide Oku',
+          action: 'magazine',
+          chipText: 'Yeni'
         }
       ];
 
-      headlines.slice(0, 7).forEach((h) => {
+      headlines.slice(0, 6).forEach((h) => {
+        let shortLabel = '';
+        if (h.name) {
+          const cleanName = h.name.trim();
+          const words = cleanName.split(/\s+/);
+          shortLabel = words.slice(0, 2).join(' ');
+          if (shortLabel.length > 15) shortLabel = shortLabel.slice(0, 14) + '…';
+        }
+        if (!shortLabel && h.categories) {
+          const catVals = Object.values(h.categories);
+          if (catVals.length > 0 && typeof catVals[0] === 'string') {
+            shortLabel = catVals[0].split(' ')[0];
+          }
+        }
+        if (!shortLabel) shortLabel = 'Haber';
+
         liveStories.push({
           id: 'story-news-' + h.id,
-          label: (h.categories && Object.values(h.categories)[0]) ? Object.values(h.categories)[0] : (h.name ? h.name.slice(0, 10) + '...' : 'Haber'),
+          label: shortLabel,
           category: getPostCategory(h) || 'GÜNCEL',
           title: h.name || '',
-          desc: (h.description || '').slice(0, 140) + '...',
+          desc: (h.description || '').replace(/<[^>]*>/g, '').slice(0, 140) + '...',
           img: getPostImg(h.image, 'large'),
+          avatar: getPostImg(h.image, 'thumb'),
           time: formatTimeAgo(h.created_at),
           newsId: h.id,
           ctaText: 'Haberi Oku',
-          action: 'news'
+          action: 'news',
+          chipText: 'Haber'
         });
       });
 
+      GOKTURK_STORIES = liveStories;
       window.GOKTURK_STORIES = liveStories;
       renderStories();
     }
@@ -6020,14 +6125,19 @@
 
     function renderStories() {
       const container = document.getElementById('stories-tray-container');
-      if (!container || !GOKTURK_STORIES) return;
+      if (!container || !GOKTURK_STORIES || GOKTURK_STORIES.length === 0) return;
 
       container.innerHTML = GOKTURK_STORIES.map((s, idx) => {
         const isViewed = viewedStories.includes(s.id);
+        const isSpecial = Boolean(s.isSpecial || idx === 0);
+        const chipText = s.chipText || (isSpecial ? 'Özel' : '');
+        const thumbImg = s.avatar || s.img || DEFAULT_IMG;
+
         return `
-          <div class="story-item ${isViewed ? 'viewed' : ''}" onclick="openStoryViewer(${idx})" title="${s.label}">
+          <div class="story-item ${isViewed ? 'viewed' : ''} ${isSpecial ? 'is-special' : ''}" onclick="openStoryViewer(${idx})" title="${s.label || s.title}">
             <div class="story-ring">
-              <img src="${s.img}" class="story-img" alt="${s.label}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+              <img src="${thumbImg}" class="story-img" alt="${s.label}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+              ${chipText ? `<span class="story-badge-chip">${chipText}</span>` : ''}
             </div>
             <span class="story-label">${s.label}</span>
           </div>
@@ -6036,16 +6146,24 @@
     }
 
     function openStoryViewer(idx) {
+      if (!GOKTURK_STORIES || GOKTURK_STORIES.length === 0) return;
       if (window.navigator?.vibrate) window.navigator.vibrate(15);
+      if (idx < 0) idx = 0;
+      if (idx >= GOKTURK_STORIES.length) idx = GOKTURK_STORIES.length - 1;
       currentStoryIndex = idx;
       isStoryPaused = false;
       const modal = document.getElementById('story-viewer-modal');
-      modal.classList.add('active');
+      if (modal) modal.classList.add('active');
       setupStoryTouchEvents();
       loadStorySlide(idx);
     }
 
     function loadStorySlide(idx) {
+      if (!GOKTURK_STORIES || GOKTURK_STORIES.length === 0) return;
+      if (idx < 0) idx = 0;
+      if (idx >= GOKTURK_STORIES.length) idx = GOKTURK_STORIES.length - 1;
+      currentStoryIndex = idx;
+
       const s = GOKTURK_STORIES[idx];
       if (!s) return;
 
@@ -6067,13 +6185,23 @@
       const ctaBtn = document.getElementById('story-cta-btn');
       const ctaText = document.getElementById('story-cta-text');
 
-      if (authorTitle) authorTitle.innerText = s.label;
-      if (authorAvatar) authorAvatar.src = s.img;
-      if (mainImg) mainImg.src = s.img;
+      if (authorTitle) authorTitle.innerText = s.author || 'Göktürk Dergisi';
+      if (authorAvatar) {
+        authorAvatar.src = s.avatar || s.img || DEFAULT_IMG;
+        authorAvatar.onerror = function() { this.src = DEFAULT_IMG; };
+      }
+      if (mainImg) {
+        mainImg.src = s.img || DEFAULT_IMG;
+        mainImg.onerror = function() { this.src = DEFAULT_IMG; };
+        // Reset scale zoom animation
+        mainImg.classList.remove('story-img-animating');
+        void mainImg.offsetWidth;
+        mainImg.classList.add('story-img-animating');
+      }
       if (badge) badge.innerText = s.category || 'ÖZEL DOSYA';
-      if (title) title.innerText = s.title;
-      if (desc) desc.innerText = s.desc;
-      if (timeBadge) timeBadge.innerText = s.time || 'Göktürk Dergisi';
+      if (title) title.innerText = s.title || '';
+      if (desc) desc.innerText = s.desc || '';
+      if (timeBadge) timeBadge.innerText = (s.time ? s.time + ' • ' : '') + `${idx + 1}/${GOKTURK_STORIES.length}`;
       if (ctaText) ctaText.innerText = s.ctaText || 'Haberi İncele';
 
       // Reset pause icon
@@ -6082,11 +6210,13 @@
 
       // Render progress segments
       const wrap = document.getElementById('story-progress-bars');
-      wrap.innerHTML = GOKTURK_STORIES.map((_, i) => `
-        <div class="story-bar-segment">
-          <div class="story-bar-fill" id="story-fill-${i}" style="width: ${i < idx ? '100%' : '0%'};"></div>
-        </div>
-      `).join('');
+      if (wrap) {
+        wrap.innerHTML = GOKTURK_STORIES.map((_, i) => `
+          <div class="story-bar-segment">
+            <div class="story-bar-fill" id="story-fill-${i}" style="width: ${i < idx ? '100%' : '0%'};"></div>
+          </div>
+        `).join('');
+      }
 
       clearInterval(storyProgressInterval);
       storyCurrentPercent = 0;
@@ -6101,7 +6231,7 @@
       storyProgressInterval = setInterval(() => {
         if (isStoryPaused) return;
 
-        storyCurrentPercent += 1.25; // ~4.5 seconds per slide
+        storyCurrentPercent += 1.25; // ~4.0 seconds per slide
         if (fillEl) fillEl.style.width = Math.min(storyCurrentPercent, 100) + '%';
 
         if (storyCurrentPercent >= 100) {
@@ -6155,6 +6285,23 @@
       }
     }
 
+    function shareCurrentStory(e) {
+      if (e) e.stopPropagation();
+      const s = GOKTURK_STORIES[currentStoryIndex];
+      if (!s) return;
+      const shareData = {
+        title: s.title || s.label || 'Göktürk Dergisi Hikayeler',
+        text: s.desc || 'Göktürk Dergisi mobil hikayesi',
+        url: window.location.href
+      };
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => {});
+      } else {
+        showToast('Hikaye bağlantısı kopyalandı');
+        try { navigator.clipboard.writeText(window.location.href); } catch(err){}
+      }
+    }
+
     function handleStoryCTA(e) {
       if (e) e.stopPropagation();
       if (window.navigator?.vibrate) window.navigator.vibrate(20);
@@ -6178,6 +6325,8 @@
       isStoryPaused = false;
       const modal = document.getElementById('story-viewer-modal');
       if (modal) modal.classList.remove('active');
+      const mainImg = document.getElementById('story-main-img');
+      if (mainImg) mainImg.classList.remove('story-img-animating');
     }
 
     function setupStoryTouchEvents() {
@@ -6228,6 +6377,15 @@
 
       modal.addEventListener('mousedown', handlePressStart);
       modal.addEventListener('mouseup', handlePressEnd);
+
+      // Keyboard navigation support for web / browser testing
+      document.addEventListener('keydown', (e) => {
+        if (!modal.classList.contains('active')) return;
+        if (e.key === 'Escape') closeStoryViewer();
+        else if (e.key === 'ArrowRight') storyNextSlide(e);
+        else if (e.key === 'ArrowLeft') storyPrevSlide(e);
+        else if (e.key === ' ') { e.preventDefault(); toggleStoryPause(e); }
+      });
     }
 
     /* ── E-DERGİ VIEWER ── */
