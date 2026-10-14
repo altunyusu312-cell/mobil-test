@@ -2806,24 +2806,57 @@
       color: var(--text-muted);
       max-width: 240px;
     }
+
+    /* ── GOOGLE PLAY DATA SAFETY & ÇEREZ / GİZLİLİK ONAY SİSTEMİ ── */
+    .consent-card-row {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .consent-card-row:hover {
+      border-color: var(--brand-border);
+    }
+    .consent-badge-mandatory {
+      display: inline-block;
+      padding: 2px 7px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      border-radius: 6px;
+      background: var(--brand-light);
+      color: var(--brand);
+      border: 1px solid var(--brand-border);
+    }
   </style>
 </head>
 
 <body>
   <!-- Splash Screen -->
-  <div id="splash-screen" aria-hidden="true">
+  <div id="splash-screen" aria-hidden="true" onclick="dismissSplashScreen()" style="cursor:pointer;" title="Atlamak için dokunun">
     <img src="assets/icon.png" class="splash-logo" alt="Göktürk"/>
     <div class="splash-title">Göktürk</div>
     <div class="splash-sub">DERGİSİ VE GAZETESİ</div>
     <div class="splash-bar"></div>
   </div>
   <script>
-    setTimeout(function () {
+    function dismissSplashScreen() {
       var s = document.getElementById('splash-screen');
-      if (!s) return;
+      if (!s || s.classList.contains('hide')) return;
       s.classList.add('hide');
-      setTimeout(function () { s.remove(); }, 600);
-    }, 5500);
+      setTimeout(function () {
+        s.remove();
+        if (typeof checkConsentOnStartup === 'function') {
+          checkConsentOnStartup();
+        }
+      }, 400);
+    }
+    setTimeout(dismissSplashScreen, 5500);
   </script>
 
   <div id="app-root">
@@ -3164,12 +3197,38 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
 
+            <div class="setting-item" onclick="openConsentModal(false)">
+              <div class="setting-left">
+                <div class="setting-icon" style="color:var(--brand); background:var(--brand-light);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+                </div>
+                <div>
+                  <div class="setting-title">Gizlilik & Çerez Tercihleri</div>
+                  <div style="font-size:10.5px; color:var(--text-muted); font-weight:500;" id="profile-consent-status">KVKK & Play Store Uyumlu</div>
+                </div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+
             <div class="setting-item" onclick="openPrivacyModal()">
               <div class="setting-left">
                 <div class="setting-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                 </div>
                 <div class="setting-title">Gizlilik Politikası & KVKK</div>
+              </div>
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+
+            <div class="setting-item" onclick="clearAllAppDataAndCache()">
+              <div class="setting-left">
+                <div class="setting-icon" style="color:var(--brand); background:var(--brand-light);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                </div>
+                <div>
+                  <div class="setting-title" style="color:var(--brand);">Verileri ve Önbelleği Sıfırla</div>
+                  <div style="font-size:10.5px; color:var(--text-muted); font-weight:500;">Google Play Veri Silme Standardı</div>
+                </div>
               </div>
               <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:16px;height:16px;"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
@@ -3485,6 +3544,135 @@
       </div>
     </div>
 
+    <!-- ─────────────────────────────────────────────────────────────
+         GİZLİLİK POLİTİKASI, KVKK & ÇEREZ ONAY MODALI (GOOGLE PLAY VERİ GÜVENLİĞİ UYUMLU)
+         ───────────────────────────────────────────────────────────── -->
+    <div class="sheet-backdrop" id="sheet-consent" onclick="closeConsentOnBackdrop(event)">
+      <div class="bottom-sheet" style="max-height:90dvh;">
+        <div class="sheet-drag-handle"></div>
+        <div class="sheet-header">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:34px; height:34px; border-radius:10px; background:var(--brand-light); color:var(--brand); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:18px;height:18px;stroke-width:2.2;">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <div>
+              <h3 style="font-size:16px; font-weight:800; line-height:1.2;">Gizlilik ve Çerez Tercihleriniz</h3>
+              <span style="font-size:11px; color:var(--text-muted); font-weight:600;">Google Play & 6698 KVKK Veri Güvenliği Standardı</span>
+            </div>
+          </div>
+          <button class="sheet-close-btn" id="consent-sheet-close" onclick="closeSheet('sheet-consent')" aria-label="Kapat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <div class="sheet-scroll-body" style="font-size:12.5px; line-height:1.55; color:var(--text-secondary); padding-bottom:8px;">
+          
+          <div style="background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:12px; margin-bottom:4px;">
+            <p style="margin-bottom:8px; color:var(--text-main);">
+              <strong>Göktürk Dergisi & Gazetesi</strong> olarak kişisel verilerinizin gizliliğine ve güvenliğine azami özen göstermekteyiz. Size kesintisiz mobil deneyim sunmak, çevrimdışı haber okuma sağlamak ve uygulama tercihlerinizi saklamak için cihazınızda yerel depolama ve çerez teknolojileri kullanıyoruz.
+            </p>
+            <p style="font-size:11.5px; color:var(--text-muted); margin:0;">
+              Google Play Geliştirici Politikaları uyarınca; verileriniz hiçbir zaman izinsiz satılmaz veya üçüncü taraf reklam takipçileriyle paylaşılmaz.
+            </p>
+          </div>
+
+          <!-- Tercihleri Özelleştir Butonu -->
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:11.5px; font-weight:700; color:var(--text-main);">İzin ve Veri Grupları</span>
+            <button type="button" id="consent-btn-toggle-custom" onclick="toggleConsentCustomSection()" style="background:none; border:none; color:var(--brand); font-size:11.5px; font-weight:700; cursor:pointer; padding:4px 0;">
+              ▼ Tercihleri Özelleştir
+            </button>
+          </div>
+
+          <!-- Özelleştirilebilir Çerez ve İzin Grupları -->
+          <div id="consent-custom-options" style="display:flex; flex-direction:column; gap:10px;">
+            
+            <!-- 1. Temel / Zorunlu Depolama -->
+            <div class="consent-card-row">
+              <div style="flex:1;">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+                  <strong style="color:var(--text-main); font-size:13px;">1. Zorunlu Yerel Depolama</strong>
+                  <span class="consent-badge-mandatory">GEREKLİ</span>
+                </div>
+                <p style="font-size:11.5px; color:var(--text-muted); margin:0; line-height:1.4;">
+                  Koyu/Aydınlık tema tercihi, son dakika haber önbelleği ve kaydedilen içeriklerin cihazınızda tutulması için şarttır. Devre dışı bırakılamaz.
+                </p>
+              </div>
+              <div style="flex-shrink:0; padding-top:2px;">
+                <span style="font-size:11.5px; font-weight:700; color:var(--brand);">Aktif</span>
+              </div>
+            </div>
+
+            <!-- 2. Analitik ve Performans Ölçümü -->
+            <div class="consent-card-row">
+              <div style="flex:1;">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+                  <strong style="color:var(--text-main); font-size:13px;">2. Performans ve Okunma Analitiği</strong>
+                </div>
+                <p style="font-size:11.5px; color:var(--text-muted); margin:0; line-height:1.4;">
+                  Haberlerin okunma sayılarını anonim olarak ölçümleyerek yayın kalitesini artırmamıza yardımcı olur. Kişisel kimlik ilişkilendirilmez.
+                </p>
+              </div>
+              <div style="flex-shrink:0; padding-top:2px;">
+                <label class="ios-switch">
+                  <input type="checkbox" id="consent-toggle-analytics" checked />
+                  <span class="ios-slider"></span>
+                </label>
+              </div>
+            </div>
+
+            <!-- 3. Son Dakika & Bildirim İzinleri -->
+            <div class="consent-card-row">
+              <div style="flex:1;">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+                  <strong style="color:var(--text-main); font-size:13px;">3. Son Dakika Haber Bildirimleri</strong>
+                </div>
+                <p style="font-size:11.5px; color:var(--text-muted); margin:0; line-height:1.4;">
+                  Göktürk bölgesi ve ulusal acil haber duyurularının cihazınıza anlık bildirim olarak ulaştırılmasını sağlar.
+                </p>
+              </div>
+              <div style="flex-shrink:0; padding-top:2px;">
+                <label class="ios-switch">
+                  <input type="checkbox" id="consent-toggle-notif" checked />
+                  <span class="ios-slider"></span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Yasal Metin Bağlantıları -->
+          <div style="font-size:11px; color:var(--text-muted); text-align:center; padding:6px 4px; line-height:1.5;">
+            Devam ederek 
+            <a href="javascript:void(0)" onclick="openPrivacyModal()" style="color:var(--brand); font-weight:700; text-decoration:underline;">Gizlilik Politikası & KVKK Metni</a> 
+            ve 
+            <a href="javascript:void(0)" onclick="openTermsModal()" style="color:var(--brand); font-weight:700; text-decoration:underline;">Kullanım Şartları</a>'nı okuyup kabul etmiş sayılırsınız.
+          </div>
+
+          <!-- Aksiyon Butonları -->
+          <div style="display:flex; flex-direction:column; gap:8px; margin-top:4px;">
+            <button type="button" class="btn-submit-report" onclick="acceptAllConsent()" style="width:100%; justify-content:center; font-size:13.5px; padding:12px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px;stroke-width:2.5;"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Tümünü Kabul Et ve Devam Et</span>
+            </button>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+              <button type="button" class="pharmacy-action-btn map" onclick="saveCustomConsent()" style="padding:10px; font-size:12px;">
+                <span>Seçilenleri Kaydet</span>
+              </button>
+              <button type="button" class="pharmacy-action-btn map" onclick="acceptNecessaryConsent()" style="padding:10px; font-size:12px; color:var(--text-secondary);">
+                <span>Yalnızca Zorunlular</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     <!-- Gizlilik Politikası & KVKK Bottom Sheet (Google Play Data Safety Uyumlu) -->
     <div class="sheet-backdrop" id="sheet-privacy" onclick="closeSheetOnBackdrop(event, 'sheet-privacy')">
       <div class="bottom-sheet" style="max-height:88dvh;">
@@ -3509,18 +3697,36 @@
           </div>
 
           <div style="margin-bottom:12px;">
-            <strong style="color:var(--text-main);">3. Üçüncü Taraflarla Paylaşım</strong><br/>
-            Uygulamamız kullanıcı verilerini reklam hedeflemesi amacıyla üçüncü taraflarla paylaşmaz veya satmaz.
+            <strong style="color:var(--text-main);">3. Çerezler (Cookies) ve Yerel Veri Depolama</strong><br/>
+            Uygulamamız kullanıcı deneyimini optimize etmek için çerez benzeri HTML5 LocalStorage teknolojisi kullanır. Bu veriler yalnızca cihazınızda tutulur ve reklam hedeflemesi amacıyla kullanılmaz.
           </div>
 
           <div style="margin-bottom:12px;">
-            <strong style="color:var(--text-main);">4. Kullanıcı Hakları ve İletişim</strong><br/>
+            <strong style="color:var(--text-main);">4. Üçüncü Taraflarla Paylaşım</strong><br/>
+            Uygulamamız kullanıcı verilerini reklam hedeflemesi amacıyla üçüncü taraflarla paylaşmaz veya satmaz. Cihaz reklam kimliği (GAID) toplanmaz.
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">5. Google Play Veri Güvenliği ve Veri Silme</strong><br/>
+            Google Play Data Safety standartları gereğince dilediğiniz an cihazınızdaki tüm kayıtlı haberleri, çerez tercihlerini ve yerel önbelleği Ayarlar menüsünden veya aşağıdaki buton ile sıfırlayabilirsiniz.
+          </div>
+
+          <div style="margin-bottom:12px;">
+            <strong style="color:var(--text-main);">6. Kullanıcı Hakları ve İletişim</strong><br/>
             KVKK Madde 11 uyarınca verilerinizle ilgili her türlü bilgi alma, güncelleme ve silinmesini talep etme hakkına sahipsiniz. Başvurularınızı <a href="mailto:kvkk@gokturkdergisi.com" style="color:var(--brand);">kvkk@gokturkdergisi.com</a> adresine iletebilirsiniz.
           </div>
 
-          <div style="text-align:center; padding:10px 0;">
-            <a href="https://www.gokturkdergisi.com" target="_blank" class="pharmacy-action-btn map" style="display:inline-flex; width:auto; padding:8px 18px;">
-              <span>Web Sitesi Gizlilik Sözleşmesi</span>
+          <div style="display:flex; flex-direction:column; gap:8px; padding:10px 0;">
+            <button type="button" class="pharmacy-action-btn call" onclick="closeSheet('sheet-privacy'); openConsentModal(false);" style="width:100%; padding:10px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>
+              <span>Çerez ve İzin Tercihlerini Yönet</span>
+            </button>
+            <button type="button" class="pharmacy-action-btn map" onclick="clearAllAppDataAndCache()" style="width:100%; padding:10px; color:var(--brand);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              <span>Yerel Önbelleği ve Geçmişi Temizle</span>
+            </button>
+            <a href="https://www.gokturkdergisi.com" target="_blank" class="pharmacy-action-btn map" style="display:flex; width:100%; padding:10px;">
+              <span>Web Sitesi Resmi Gizlilik Politikası</span>
             </a>
           </div>
         </div>
@@ -4362,6 +4568,130 @@
       openSheet('sheet-terms');
     }
 
+    /* ── GOOGLE PLAY & KVKK ÇEREZ / GİZLİLİK ONAY SİSTEMİ ── */
+    function getStoredConsent() {
+      try {
+        const raw = localStorage.getItem('gokturk_user_consent');
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function openConsentModal(isFirstLaunch = false) {
+      const sheet = document.getElementById('sheet-consent');
+      if (!sheet) return;
+
+      const saved = getStoredConsent();
+      if (saved) {
+        const swAnalytics = document.getElementById('consent-toggle-analytics');
+        const swNotif = document.getElementById('consent-toggle-notif');
+        if (swAnalytics) swAnalytics.checked = !!saved.analytics;
+        if (swNotif) swNotif.checked = !!saved.notifications;
+      }
+
+      const closeBtn = document.getElementById('consent-sheet-close');
+      if (closeBtn) {
+        closeBtn.style.display = isFirstLaunch ? 'none' : 'flex';
+      }
+      sheet.dataset.firstLaunch = isFirstLaunch ? 'true' : 'false';
+
+      openSheet('sheet-consent');
+    }
+
+    function closeConsentOnBackdrop(e) {
+      const sheet = document.getElementById('sheet-consent');
+      if (sheet && sheet.dataset.firstLaunch === 'true') {
+        return; // İlk açılışta kullanıcının bir seçim yapması zorunludur
+      }
+      closeSheetOnBackdrop(e, 'sheet-consent');
+    }
+
+    function saveConsent(analyticsChoice, notifChoice) {
+      const consentData = {
+        accepted: true,
+        necessary: true,
+        analytics: !!analyticsChoice,
+        notifications: !!notifChoice,
+        timestamp: Date.now(),
+        dateStr: new Date().toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }),
+        version: '1.0'
+      };
+      try {
+        localStorage.setItem('gokturk_user_consent', JSON.stringify(consentData));
+      } catch (e) {}
+
+      updateConsentUIStatus();
+      closeSheet('sheet-consent');
+      showToast('Gizlilik ve çerez tercihleriniz kaydedildi');
+    }
+
+    function acceptAllConsent() {
+      saveConsent(true, true);
+    }
+
+    function acceptNecessaryConsent() {
+      saveConsent(false, false);
+    }
+
+    function saveCustomConsent() {
+      const swAnalytics = document.getElementById('consent-toggle-analytics');
+      const swNotif = document.getElementById('consent-toggle-notif');
+      const analytics = swAnalytics ? swAnalytics.checked : false;
+      const notif = swNotif ? swNotif.checked : false;
+      saveConsent(analytics, notif);
+    }
+
+    function toggleConsentCustomSection() {
+      const customSection = document.getElementById('consent-custom-options');
+      const btn = document.getElementById('consent-btn-toggle-custom');
+      if (!customSection) return;
+      const isHidden = customSection.style.display === 'none';
+      customSection.style.display = isHidden ? 'flex' : 'none';
+      if (btn) {
+        btn.textContent = isHidden ? '▲ Tercihleri Gizle' : '▼ Tercihleri Özelleştir';
+      }
+    }
+
+    function updateConsentUIStatus() {
+      const label = document.getElementById('profile-consent-status');
+      if (!label) return;
+      const saved = getStoredConsent();
+      if (saved && saved.accepted) {
+        label.textContent = `Onaylandı • ${saved.dateStr || 'KVKK & Play Store Uyumlu'}`;
+        label.style.color = 'var(--brand)';
+      } else {
+        label.textContent = 'Henüz Ayarlanmadı (İncelemek için dokunun)';
+        label.style.color = 'var(--text-muted)';
+      }
+    }
+
+    function checkConsentOnStartup() {
+      const saved = getStoredConsent();
+      updateConsentUIStatus();
+      if (!saved || !saved.accepted) {
+        openConsentModal(true);
+      }
+    }
+
+    function clearAllAppDataAndCache() {
+      if (confirm('Uygulama önbelleği, kaydedilen haberler ve çerez tercihleri sıfırlanacaktır. Devam etmek istiyor musunuz?')) {
+        try {
+          localStorage.clear();
+          sessionStorage.clear();
+          if ('caches' in window) {
+            caches.keys().then(keys => {
+              keys.forEach(k => caches.delete(k));
+            });
+          }
+        } catch (e) {}
+        showToast('Tüm yerel veriler temizlendi');
+        setTimeout(() => {
+          window.location.reload();
+        }, 800);
+      }
+    }
+
     /* ── OFFLINE STORAGE & NETWORK LISTENER ── */
     function saveOfflineCache(key, data) {
       try {
@@ -4432,6 +4762,13 @@
     /* ── INITIALIZATION ── */
     document.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      updateConsentUIStatus();
+      setTimeout(() => {
+        // Fallback: Eğer splash screen daha önce kaldırılmışsa veya yoksa
+        if (!document.getElementById('splash-screen')) {
+          checkConsentOnStartup();
+        }
+      }, 5800);
       renderStories();
       renderMagPage(1);
       updateNotifBadge();
@@ -5369,17 +5706,7 @@
       `).join('');
     }
 
-    /* ── BOTTOM SHEETS ENGINE ── */
-    function openSheet(sheetId) {
-      const el = document.getElementById(sheetId);
-      if (el) el.classList.add('active');
-    }
-
-    function closeSheet(sheetId) {
-      const el = document.getElementById(sheetId);
-      if (el) el.classList.remove('active');
-    }
-
+    /* ── BOTTOM SHEETS ENGINE (Backdrop Helper) ── */
     function closeSheetOnBackdrop(e, sheetId) {
       if (e.target.id === sheetId) closeSheet(sheetId);
     }
