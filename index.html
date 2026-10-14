@@ -505,8 +505,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 16px;
+      padding: 0 14px;
       height: 38px;
+      gap: 10px;
+      overflow: hidden;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       flex-shrink: 0;
@@ -518,15 +520,23 @@
     .live-strip-left {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       font-weight: 600;
       font-family: var(--font-display);
       cursor: pointer;
       color: var(--text-secondary);
-      white-space: nowrap;
+      flex: 1;
+      min-width: 0;
       overflow: hidden;
+      white-space: nowrap;
       text-overflow: ellipsis;
       transition: color 0.15s ease;
+    }
+
+    .live-strip-left span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .live-strip-left:hover {
@@ -2444,33 +2454,36 @@
     #story-viewer-modal {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
+      width: 100vw;
+      height: 100dvh;
       background: #0B0E14;
-      z-index: 400;
+      z-index: 10000;
       display: none;
       flex-direction: column;
       overflow: hidden;
-      touch-action: pan-y;
+      touch-action: none;
       -webkit-user-select: none;
       user-select: none;
     }
 
     @media (min-width: 600px) {
       #story-viewer-modal {
-        max-width: 440px;
-        height: 94dvh;
-        max-height: 900px;
+        width: 100% !important;
+        max-width: 440px !important;
+        height: 94dvh !important;
+        max-height: 900px !important;
         top: 50% !important;
         left: 50% !important;
         right: auto !important;
         bottom: auto !important;
-        transform: translate(-50%, -50%);
-        border-radius: 28px;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+        transform: translate(-50%, -50%) !important;
+        border-radius: 28px !important;
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75) !important;
       }
     }
 
     #story-viewer-modal.active {
-      display: flex;
+      display: flex !important;
     }
 
     .story-gradient-top {
@@ -5546,23 +5559,38 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
         }
       }).catch(() => {});
 
-      // Kurlar
+      // Kurlar (Kompakt ve estetik görünüm, tıklanınca detaylı toast)
       NovaAPI.getCurrencies().then(currencies => {
         if (currencies) {
-          let str = '';
+          let compactParts = [];
+          let detailParts = [];
+
           if (currencies.dolar && currencies.dolar.selling) {
-            str += `Dolar: ${currencies.dolar.selling} ₺`;
+            const raw = parseFloat(String(currencies.dolar.selling).replace(',', '.'));
+            const dVal = !isNaN(raw) ? raw.toFixed(2).replace('.', ',') : currencies.dolar.selling;
+            compactParts.push(`$ ${dVal} ₺`);
+            detailParts.push(`Dolar: ${currencies.dolar.selling} ₺`);
           }
           if (currencies.euro && currencies.euro.selling) {
-            if (str) str += ' • ';
-            str += `Euro: ${currencies.euro.selling} ₺`;
+            const raw = parseFloat(String(currencies.euro.selling).replace(',', '.'));
+            const eVal = !isNaN(raw) ? raw.toFixed(2).replace('.', ',') : currencies.euro.selling;
+            compactParts.push(`€ ${eVal} ₺`);
+            detailParts.push(`Euro: ${currencies.euro.selling} ₺`);
           }
           if (currencies.gram_altin && currencies.gram_altin.selling) {
-            if (str) str += ' • ';
-            str += `Altın: ${currencies.gram_altin.selling} ₺`;
+            detailParts.push(`Gram Altın: ${currencies.gram_altin.selling} ₺`);
           }
+
           const currEl = document.getElementById('chip-currency-text');
-          if (currEl && str) currEl.innerText = str;
+          if (currEl && compactParts.length > 0) {
+            currEl.innerText = compactParts.join(' • ');
+          }
+
+          const chipWrap = document.getElementById('chip-currency');
+          if (chipWrap && detailParts.length > 0) {
+            const detailMsg = detailParts.join(' • ');
+            chipWrap.onclick = () => showToast(detailMsg);
+          }
         }
       }).catch(() => {});
     }
@@ -6119,7 +6147,8 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
     let isStoryPaused = false;
     let storyCurrentPercent = 0;
     let viewedStories = JSON.parse(localStorage.getItem('gokturk_viewed_stories') || '[]');
-    let storyTouchStartY = 0;
+    let storyTouchStartY = null;
+    let storyTouchActive = false;
     let storyTouchHolding = false;
     let storyHoldTimer = null;
 
@@ -6152,8 +6181,16 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
       if (idx >= GOKTURK_STORIES.length) idx = GOKTURK_STORIES.length - 1;
       currentStoryIndex = idx;
       isStoryPaused = false;
+      storyTouchStartY = null;
+      storyTouchActive = false;
+      storyTouchHolding = false;
+      clearTimeout(storyHoldTimer);
+
       const modal = document.getElementById('story-viewer-modal');
-      if (modal) modal.classList.add('active');
+      if (modal) {
+        modal.classList.add('active');
+        modal.style.display = 'flex';
+      }
       setupStoryTouchEvents();
       loadStorySlide(idx);
     }
@@ -6171,7 +6208,8 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
       if (!viewedStories.includes(s.id)) {
         viewedStories.push(s.id);
         try { localStorage.setItem('gokturk_viewed_stories', JSON.stringify(viewedStories)); } catch(e){}
-        renderStories();
+        const trayItem = document.querySelector(`.story-item[onclick*="openStoryViewer(${idx})"]`);
+        if (trayItem) trayItem.classList.add('viewed');
       }
 
       // Populate story content
@@ -6323,10 +6361,18 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
     function closeStoryViewer() {
       clearInterval(storyProgressInterval);
       isStoryPaused = false;
+      storyTouchStartY = null;
+      storyTouchActive = false;
+      clearTimeout(storyHoldTimer);
+      storyTouchHolding = false;
       const modal = document.getElementById('story-viewer-modal');
-      if (modal) modal.classList.remove('active');
+      if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+      }
       const mainImg = document.getElementById('story-main-img');
       if (mainImg) mainImg.classList.remove('story-img-animating');
+      renderStories();
     }
 
     function setupStoryTouchEvents() {
@@ -6346,7 +6392,7 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
           storyTouchHolding = true;
           isStoryPaused = true;
           updateStoryPauseIcon();
-        }, 180);
+        }, 220);
       };
 
       const handlePressEnd = () => {
@@ -6359,19 +6405,29 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
       };
 
       modal.addEventListener('touchstart', (e) => {
-        if (e.touches && e.touches[0]) storyTouchStartY = e.touches[0].clientY;
+        if (e.touches && e.touches[0]) {
+          storyTouchStartY = e.touches[0].clientY;
+          storyTouchActive = true;
+        } else {
+          storyTouchStartY = null;
+          storyTouchActive = false;
+        }
         handlePressStart(e);
       }, { passive: true });
 
       modal.addEventListener('touchend', (e) => {
-        if (e.changedTouches && e.changedTouches[0]) {
+        if (storyTouchActive && storyTouchStartY !== null && e.changedTouches && e.changedTouches[0]) {
           const deltaY = e.changedTouches[0].clientY - storyTouchStartY;
-          if (deltaY > 90) {
+          storyTouchStartY = null;
+          storyTouchActive = false;
+          if (deltaY > 120) {
             // Swipe down gesture to dismiss
             closeStoryViewer();
             return;
           }
         }
+        storyTouchStartY = null;
+        storyTouchActive = false;
         handlePressEnd();
       }, { passive: true });
 
