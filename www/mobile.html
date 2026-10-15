@@ -398,12 +398,12 @@
       cursor: pointer;
     }
 
-    /* ── ULTRA-LUXURY SPLASH SCREEN ── */
+    /* ── ULTRA-LUXURY SPLASH SCREEN (100% SOLID OPAQUE) ── */
     #splash-screen {
       position: fixed;
       inset: 0;
       z-index: 99999;
-      background: radial-gradient(circle at 50% 38%, rgba(200, 16, 46, 0.12) 0%, #FAFAFA 55%, #F0F1F4 100%);
+      background-color: #08090C !important; /* 100% SOLID OPAQUE - NO SEE-THROUGH */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -411,34 +411,36 @@
       cursor: pointer;
       user-select: none;
       -webkit-user-select: none;
-      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease;
+      transition: opacity 0.4s ease, visibility 0.4s ease;
       overflow: hidden;
     }
     #splash-screen.hide {
-      opacity: 0;
-      visibility: hidden;
+      opacity: 0 !important;
+      visibility: hidden !important;
       pointer-events: none;
     }
 
     body.dark #splash-screen {
-      background: radial-gradient(circle at 50% 36%, rgba(200, 16, 46, 0.22) 0%, rgba(13, 14, 18, 0.98) 55%, #060709 100%) !important;
+      background-color: #08090C !important;
+    }
+    body:not(.dark) #splash-screen {
+      background-color: #FFFFFF !important;
     }
 
     .splash-ambient-glow {
       position: absolute;
-      width: 320px;
-      height: 320px;
+      width: 280px;
+      height: 280px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(200, 16, 46, 0.28) 0%, rgba(200, 16, 46, 0) 70%);
+      background: radial-gradient(circle, rgba(200, 16, 46, 0.25) 0%, rgba(200, 16, 46, 0) 70%);
       filter: blur(40px);
       pointer-events: none;
-      animation: splashAmbientPulse 3s infinite ease-in-out;
     }
 
     .splash-emblem-wrap {
       position: relative;
-      width: 130px;
-      height: 130px;
+      width: 120px;
+      height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -447,46 +449,45 @@
 
     .splash-glow-ring {
       position: absolute;
-      inset: -12px;
-      border-radius: 38px;
-      background: radial-gradient(circle, rgba(200, 16, 46, 0.45) 0%, rgba(200, 16, 46, 0) 70%);
+      inset: -8px;
+      border-radius: 36px;
+      background: radial-gradient(circle, rgba(200, 16, 46, 0.4) 0%, rgba(200, 16, 46, 0) 70%);
       animation: splashHalo 2.4s infinite ease-in-out;
       pointer-events: none;
     }
 
     .splash-logo {
-      width: 114px;
-      height: 114px;
-      border-radius: 26px;
-      box-shadow: 0 20px 50px -10px rgba(200, 16, 46, 0.48), 0 0 0 1.5px rgba(255, 255, 255, 0.25);
+      width: 104px;
+      height: 104px;
+      border-radius: 24px;
+      box-shadow: 0 16px 40px -10px rgba(200, 16, 46, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2);
       opacity: 0;
-      transform: scale(0.8);
-      animation: splashLogoPop 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+      transform: scale(0.85);
+      animation: splashLogoPop 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
       object-fit: cover;
       position: relative;
       z-index: 3;
     }
 
     .splash-brand-title {
-      margin-top: 24px;
+      margin-top: 22px;
       font-family: var(--font-heading);
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 800;
       letter-spacing: 1.5px;
-      color: var(--text-main);
+      color: #FFFFFF;
       opacity: 0;
-      transform: translateY(10px);
-      animation: splashFadeUp 0.6s ease 0.35s forwards;
+      transform: translateY(8px);
+      animation: splashFadeUp 0.5s ease 0.3s forwards;
       z-index: 2;
     }
 
-    body.dark .splash-brand-title {
-      color: #FFFFFF !important;
-      text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    body:not(.dark) .splash-brand-title {
+      color: #111215 !important;
     }
 
     .splash-brand-badge {
-      margin-top: 6px;
+      margin-top: 5px;
       font-family: var(--font-display);
       font-size: 10px;
       font-weight: 800;
@@ -494,91 +495,94 @@
       color: var(--brand);
       text-transform: uppercase;
       opacity: 0;
-      transform: translateY(8px);
-      animation: splashFadeUp 0.6s ease 0.5s forwards;
+      transform: translateY(6px);
+      animation: splashFadeUp 0.5s ease 0.45s forwards;
       z-index: 2;
     }
 
     .splash-brand-motto {
-      margin-top: 8px;
+      margin-top: 6px;
       font-size: 11px;
       font-weight: 500;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.55);
       letter-spacing: 0.5px;
       opacity: 0;
-      transform: translateY(6px);
-      animation: splashFadeUp 0.6s ease 0.65s forwards;
+      transform: translateY(5px);
+      animation: splashFadeUp 0.5s ease 0.6s forwards;
       z-index: 2;
     }
 
-    body.dark .splash-brand-motto {
-      color: rgba(255, 255, 255, 0.55);
+    body:not(.dark) .splash-brand-motto {
+      color: #64748B !important;
     }
 
     .splash-loader-wrap {
       position: absolute;
-      bottom: calc(48px + env(safe-area-inset-bottom));
+      bottom: calc(44px + env(safe-area-inset-bottom));
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 9px;
+      gap: 8px;
       opacity: 0;
-      animation: splashFadeUp 0.5s ease 0.5s forwards;
+      animation: splashFadeUp 0.4s ease 0.4s forwards;
       z-index: 2;
     }
 
     .splash-progress-track {
-      width: 140px;
-      height: 3.5px;
-      border-radius: 4px;
-      background: rgba(200, 16, 46, 0.14);
+      width: 130px;
+      height: 3px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.12);
       overflow: hidden;
       position: relative;
     }
 
-    body.dark .splash-progress-track {
-      background: rgba(255, 255, 255, 0.1);
+    body:not(.dark) .splash-progress-track {
+      background: rgba(0, 0, 0, 0.08) !important;
     }
 
     .splash-progress-fill {
       position: absolute;
       inset: 0;
       background: var(--brand-gradient);
-      border-radius: 4px;
+      border-radius: 3px;
       transform: translateX(-100%);
-      animation: splashBarFill 2.0s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-      box-shadow: 0 0 10px var(--brand-glow);
+      animation: splashBarFill 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+      box-shadow: 0 0 8px var(--brand-glow);
     }
 
     .splash-loader-text {
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: 700;
-      color: var(--text-muted);
+      color: rgba(255, 255, 255, 0.45);
       letter-spacing: 1.2px;
       text-transform: uppercase;
     }
 
-    body.dark .splash-loader-text {
-      color: rgba(255, 255, 255, 0.45);
+    body:not(.dark) .splash-loader-text {
+      color: #94A3B8 !important;
     }
 
     .splash-skip-hint {
       position: absolute;
-      bottom: calc(18px + env(safe-area-inset-bottom));
+      bottom: calc(16px + env(safe-area-inset-bottom));
       font-size: 9.5px;
-      color: var(--text-muted);
-      opacity: 0.6;
+      color: rgba(255, 255, 255, 0.3);
       letter-spacing: 0.4px;
       z-index: 2;
     }
 
+    body:not(.dark) .splash-skip-hint {
+      color: #94A3B8 !important;
+    }
+
     @keyframes splashLogoPop {
-      0% { opacity: 0; transform: scale(0.78); }
-      70% { transform: scale(1.04); }
+      0% { opacity: 0; transform: scale(0.8); }
+      70% { transform: scale(1.03); }
       100% { opacity: 1; transform: scale(1); }
     }
     @keyframes splashFadeUp {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes splashBarFill {
@@ -587,12 +591,12 @@
       100% { transform: translateX(0%); }
     }
     @keyframes splashHalo {
-      0%, 100% { transform: scale(0.95); opacity: 0.6; }
-      50% { transform: scale(1.12); opacity: 0.95; }
+      0%, 100% { transform: scale(0.95); opacity: 0.5; }
+      50% { transform: scale(1.1); opacity: 0.9; }
     }
     @keyframes splashAmbientPulse {
-      0%, 100% { transform: scale(0.9); opacity: 0.7; }
-      50% { transform: scale(1.15); opacity: 1; }
+      0%, 100% { transform: scale(0.92); opacity: 0.7; }
+      50% { transform: scale(1.12); opacity: 1; }
     }
 
     /* ── SEARCH MODAL STYLES ── */
@@ -1622,20 +1626,20 @@
 
     /* 2. Trending Reel Section (Swipeable Horizontal Strip) */
     .trending-reel-section {
-      margin: 4px 0 18px;
+      margin: 0 0 18px;
     }
 
     .subfeed-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 11px;
+      margin-bottom: 12px;
       padding: 0 2px;
     }
 
     .subfeed-title {
       font-family: var(--font-heading);
-      font-size: 16.5px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
@@ -1666,17 +1670,17 @@
     }
 
     .trending-reel-card {
-      width: 178px;
-      height: 238px;
+      width: 195px;
       flex-shrink: 0;
       scroll-snap-align: start;
       border-radius: 18px;
-      position: relative;
-      overflow: hidden;
-      background: #000;
+      background: var(--surface);
       border: 1px solid var(--border);
       box-shadow: var(--card-shadow);
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -1687,84 +1691,103 @@
     }
 
     .trending-reel-card:active {
-      transform: scale(0.97);
+      transform: scale(0.975);
+      background: var(--surface2);
     }
 
-    .reel-card-img {
+    .reel-card-media {
+      position: relative;
+      width: 100%;
+      height: 118px;
+      overflow: hidden;
+      background: var(--surface2);
+    }
+
+    .reel-card-media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       transition: transform 0.35s ease;
     }
 
-    .trending-reel-card:hover .reel-card-img {
+    .trending-reel-card:hover .reel-card-media img {
       transform: scale(1.05);
-    }
-
-    .reel-card-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(5,7,12,0.15) 0%, rgba(5,7,12,0.2) 35%, rgba(5,7,12,0.85) 75%, rgba(5,7,12,0.98) 100%);
-      pointer-events: none;
     }
 
     .reel-card-rank {
       position: absolute;
-      top: 11px;
-      left: 12px;
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 900;
+      top: 8px;
+      left: 8px;
+      background: rgba(10, 12, 16, 0.78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       color: #FFFFFF;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-      background: var(--brand-gradient);
+      font-size: 11px;
+      font-weight: 900;
+      font-family: var(--font-display);
       padding: 3px 8px;
       border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
       line-height: 1;
       letter-spacing: 0.5px;
-      box-shadow: 0 2px 8px var(--brand-glow);
       z-index: 2;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
 
-    .reel-card-content {
+    .reel-cat-pill {
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 14px 12px 12px;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .reel-cat-badge {
-      font-size: 9px;
+      bottom: 8px;
+      left: 8px;
+      background: var(--brand-gradient);
+      color: #FFFFFF;
+      font-size: 8.5px;
       font-weight: 800;
       font-family: var(--font-display);
-      color: #FCA5A5;
+      padding: 2.5px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.4px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      z-index: 2;
+      box-shadow: 0 2px 6px var(--brand-glow);
+    }
+
+    .reel-card-body {
+      padding: 11px 12px 13px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      background: var(--surface);
     }
 
     .reel-card-title {
       font-family: var(--font-heading);
       font-size: 13.5px;
       font-weight: 700;
-      color: #FFFFFF;
-      line-height: 1.25;
+      color: var(--text-main);
+      line-height: 1.3;
+      letter-spacing: -0.15px;
       display: -webkit-box;
-      -webkit-line-clamp: 3;
+      -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
     }
 
-    .reel-card-time {
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.72);
-      margin-top: 2px;
+    .reel-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--text-muted);
       font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .reel-read-pill {
+      color: var(--brand);
+      font-weight: 600;
+      font-size: 10px;
     }
 
     /* 3. Editorial Dual Grid */
@@ -6981,48 +7004,9 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
       let startIndex = 0;
 
       if (!append) {
-        // 1. Spotlight Hero Card (1st item)
-        if (posts.length > 0) {
-          const hero = posts[0];
-          const isSaved = savedNewsIds.includes(hero.id);
-          out += `
-            <div class="spotlight-hero-card" onclick="openNewsDetail(${hero.id})">
-              <div class="spotlight-media-wrap">
-                <img class="spotlight-img" src="${getPostImg(hero.image, 'large')}" alt="${hero.name || ''}" fetchpriority="high" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
-                <div class="spotlight-gradient"></div>
-                <div class="spotlight-top-tags">
-                  <span class="spotlight-badge">ÖNE ÇIKAN</span>
-                  <span class="spotlight-cat-tag">${getPostCategory(hero)}</span>
-                </div>
-                <div class="spotlight-content">
-                  <h3 class="spotlight-title">${hero.name || ''}</h3>
-                  <div class="spotlight-footer">
-                    <div class="spotlight-author-info">
-                      <span>${(hero.author && hero.author.name) || 'Göktürk Dergisi'}</span>
-                      <span class="spotlight-dot">•</span>
-                      <span>${formatTimeAgo(hero.created_at)}</span>
-                      <span class="spotlight-dot">•</span>
-                      <span class="spotlight-read">${estimateReadingTime(hero.name)}</span>
-                    </div>
-                    <div class="spotlight-actions">
-                      <button class="card-action-btn card-save-btn ${isSaved ? 'saved' : ''}" data-id="${hero.id}" onclick="toggleSaveNewsCard(${hero.id}, event)" title="Kaydet">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-                      </button>
-                      <button class="card-action-btn card-share-btn" onclick="shareNewsCard(${hero.id}, event)" title="Paylaş">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          `;
-          startIndex = 1;
-        }
-
-        // 2. Trending Reel (Items 1 to 4)
-        if (posts.length >= 4) {
-          const reelItems = posts.slice(1, 5);
+        // 1. Trending Reel (Top 5 stories with clean modern cards)
+        if (posts.length >= 3) {
+          const reelItems = posts.slice(0, 5);
           out += `
             <div class="trending-reel-section">
               <div class="subfeed-header">
@@ -7035,13 +7019,17 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
               <div class="trending-reel-scroll">
                 ${reelItems.map((n, idx) => `
                   <div class="trending-reel-card" onclick="openNewsDetail(${n.id})">
-                    <img class="reel-card-img" src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
-                    <div class="reel-card-overlay"></div>
-                    <div class="reel-card-rank">0${idx + 1}</div>
-                    <div class="reel-card-content">
-                      <span class="reel-cat-badge">${getPostCategory(n)}</span>
+                    <div class="reel-card-media">
+                      <img src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+                      <span class="reel-card-rank">0${idx + 1}</span>
+                      <span class="reel-cat-pill">${getPostCategory(n)}</span>
+                    </div>
+                    <div class="reel-card-body">
                       <h4 class="reel-card-title">${n.name || ''}</h4>
-                      <div class="reel-card-time">${formatTimeAgo(n.created_at)}</div>
+                      <div class="reel-card-footer">
+                        <span>${formatTimeAgo(n.created_at)}</span>
+                        <span class="reel-read-pill">${estimateReadingTime(n.name)}</span>
+                      </div>
                     </div>
                   </div>
                 `).join('')}
@@ -7051,7 +7039,7 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
           startIndex = 5;
         }
 
-        // 3. Editorial Dual Grid (Items 5 & 6)
+        // 2. Editorial Dual Grid (Stories 5 & 6)
         if (posts.length >= 7) {
           const gridItems = posts.slice(5, 7);
           out += `
@@ -7104,7 +7092,7 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
         }
       }
 
-      // 4. Luxury Magazine Rows for remaining items
+      // 3. Luxury Magazine Rows for remaining items
       const remaining = posts.slice(startIndex);
       if (remaining.length > 0) {
         if (!append) {
@@ -7154,6 +7142,7 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
 
       return out;
     }
+
 
     async function loadNewsFeed(reset = false) {
       if (isLoadingFeed) return;
