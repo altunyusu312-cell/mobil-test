@@ -1091,12 +1091,19 @@
       text-overflow: ellipsis;
     }
 
-    /* Section Header */
+    /* Section Header & View Mode Switcher */
     .feed-section-header {
-      padding: 6px 16px 12px;
+      padding: 10px 16px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 12px;
+    }
+
+    .feed-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .feed-section-title {
@@ -1129,14 +1136,680 @@
       border: 1px solid var(--border);
     }
 
-    /* News Cards List */
+    .feed-view-switcher {
+      display: flex;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px;
+      gap: 3px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+
+    .view-switch-btn {
+      background: transparent;
+      border: none;
+      border-radius: 16px;
+      padding: 5px 11px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .view-switch-btn svg {
+      width: 13px;
+      height: 13px;
+      stroke-width: 2.2;
+    }
+
+    .view-switch-btn:hover {
+      color: var(--text-main);
+    }
+
+    .view-switch-btn.active {
+      background: var(--brand-gradient);
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px var(--brand-glow), inset 0 1px 0 rgba(255,255,255,0.3);
+    }
+
+    /* ── ULTRA-LUXURY EDITORIAL FEED SYSTEM ── */
     .news-cards-list {
       padding: 0 16px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
     }
 
+    /* 1. Spotlight Hero Card (Lead Story) */
+    .spotlight-hero-card {
+      margin-bottom: 16px;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid var(--border);
+      box-shadow: var(--floating-shadow);
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spotlight-hero-card:hover {
+      border-color: var(--brand-border);
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .spotlight-hero-card:active {
+      transform: scale(0.985);
+    }
+
+    .spotlight-media-wrap {
+      position: relative;
+      width: 100%;
+      height: 254px;
+      overflow: hidden;
+    }
+
+    .spotlight-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spotlight-hero-card:hover .spotlight-img {
+      transform: scale(1.04);
+    }
+
+    .spotlight-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5,7,12,0.1) 0%, rgba(5,7,12,0.35) 35%, rgba(5,7,12,0.88) 75%, rgba(5,7,12,0.98) 100%);
+      pointer-events: none;
+    }
+
+    .spotlight-top-tags {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 2;
+    }
+
+    .spotlight-badge {
+      background: var(--brand-gradient);
+      color: #FFFFFF;
+      font-size: 9px;
+      font-weight: 800;
+      font-family: var(--font-display);
+      padding: 4px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 10px var(--brand-glow), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .spotlight-cat-tag {
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: #FFFFFF;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 3.5px 9px;
+      border-radius: 8px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .spotlight-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 16px 14px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .spotlight-title {
+      font-family: var(--font-heading);
+      font-size: 19px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.28;
+      letter-spacing: -0.2px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .spotlight-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      padding-top: 10px;
+      margin-top: 2px;
+    }
+
+    .spotlight-author-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.82);
+      font-weight: 500;
+    }
+
+    .spotlight-dot {
+      opacity: 0.6;
+    }
+
+    .spotlight-read {
+      color: #FCA5A5;
+      font-weight: 600;
+    }
+
+    .spotlight-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Card Action Buttons (Save & Share) */
+    .card-action-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .card-action-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.1);
+    }
+
+    .card-action-btn:active {
+      transform: scale(0.92);
+    }
+
+    .card-action-btn.saved {
+      background: var(--brand) !important;
+      color: #FFFFFF !important;
+      border-color: var(--brand) !important;
+      box-shadow: 0 2px 8px var(--brand-glow) !important;
+    }
+
+    .card-action-btn svg {
+      width: 13px;
+      height: 13px;
+      stroke-width: 2.2;
+    }
+
+    /* 2. Trending Reel Section (Swipeable Horizontal Strip) */
+    .trending-reel-section {
+      margin: 4px 0 18px;
+    }
+
+    .subfeed-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 11px;
+      padding: 0 2px;
+    }
+
+    .subfeed-title {
+      font-family: var(--font-heading);
+      font-size: 16.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .subfeed-hint {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--brand);
+      letter-spacing: 0.3px;
+    }
+
+    .trending-reel-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 4px 16px 14px;
+      margin: 0 -16px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .trending-reel-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .trending-reel-card {
+      width: 178px;
+      height: 238px;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      border-radius: 18px;
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .trending-reel-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--brand-border);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .trending-reel-card:active {
+      transform: scale(0.97);
+    }
+
+    .reel-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .trending-reel-card:hover .reel-card-img {
+      transform: scale(1.05);
+    }
+
+    .reel-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(5,7,12,0.15) 0%, rgba(5,7,12,0.2) 35%, rgba(5,7,12,0.85) 75%, rgba(5,7,12,0.98) 100%);
+      pointer-events: none;
+    }
+
+    .reel-card-rank {
+      position: absolute;
+      top: 11px;
+      left: 12px;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 900;
+      color: #FFFFFF;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+      background: var(--brand-gradient);
+      padding: 3px 8px;
+      border-radius: 8px;
+      line-height: 1;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px var(--brand-glow);
+      z-index: 2;
+    }
+
+    .reel-card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 12px 12px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .reel-cat-badge {
+      font-size: 9px;
+      font-weight: 800;
+      font-family: var(--font-display);
+      color: #FCA5A5;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .reel-card-title {
+      font-family: var(--font-heading);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .reel-card-time {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.72);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+
+    /* 3. Editorial Dual Grid */
+    .editorial-dual-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .editorial-grid-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .editorial-grid-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--brand-border);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .editorial-grid-card:active {
+      transform: scale(0.975);
+      background: var(--surface2);
+    }
+
+    .grid-card-media {
+      position: relative;
+      width: 100%;
+      height: 112px;
+      overflow: hidden;
+      background: var(--surface2);
+    }
+
+    .grid-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .editorial-grid-card:hover .grid-card-media img {
+      transform: scale(1.05);
+    }
+
+    .grid-cat-pill {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(5, 7, 12, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: #FFFFFF;
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2.5px 7px;
+      border-radius: 6px;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .grid-card-body {
+      padding: 10px 11px 12px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .grid-card-title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.28;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .grid-card-footer {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* 4. Luxury Magazine Rows */
+    .magazine-row-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 13px 14px;
+      display: flex;
+      gap: 14px;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-bottom: 12px;
+      contain: layout style paint;
+    }
+
+    .magazine-row-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--brand-border);
+      box-shadow: var(--card-shadow-hover);
+    }
+
+    .magazine-row-card:active {
+      transform: scale(0.98);
+      background: var(--surface2);
+    }
+
+    .mag-row-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .mag-row-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reading-time-pill {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1.5px 7px;
+      border-radius: 6px;
+    }
+
+    .mag-row-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.32;
+      letter-spacing: -0.15px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .mag-row-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .mag-row-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .mag-row-actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .mag-row-actions .card-action-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 26px;
+      height: 26px;
+    }
+
+    .mag-row-actions .card-action-btn:hover {
+      color: var(--brand);
+      border-color: var(--brand-border);
+    }
+
+    .mag-row-img-wrap {
+      width: 86px;
+      height: 86px;
+      border-radius: 14px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .mag-row-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .magazine-row-card:active .mag-row-img {
+      transform: scale(1.05);
+    }
+
+    /* 5. Compact List Mode */
+    .compact-news-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+      transition: all 0.2s ease;
+      margin-bottom: 8px;
+    }
+
+    .compact-news-row:hover {
+      border-color: var(--brand-border);
+      transform: translateY(-1px);
+    }
+
+    .compact-news-row:active {
+      transform: scale(0.985);
+      background: var(--surface2);
+    }
+
+    .compact-thumb-wrap {
+      width: 62px;
+      height: 62px;
+      border-radius: 11px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .compact-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .compact-texts {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .compact-meta-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .compact-title {
+      font-family: var(--font-heading);
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.25;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .compact-meta-footer {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10.5px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Backward compatibility for modals/search results using .news-item-card */
     .news-item-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -1145,12 +1818,9 @@
       display: flex;
       gap: 14px;
       cursor: pointer;
-      position: relative;
-      contain: layout style paint;
-      content-visibility: auto;
-      contain-intrinsic-size: 0 114px;
       box-shadow: var(--card-shadow);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      margin-bottom: 12px;
     }
 
     .news-item-card:hover {
@@ -1178,22 +1848,12 @@
       gap: 6px;
     }
 
-    .news-cat-badge {
-      font-size: 10px;
-      font-weight: 800;
-      font-family: var(--font-display);
-      color: var(--brand);
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
     .news-item-title {
       font-family: var(--font-heading);
       font-size: 15.5px;
       font-weight: 700;
       color: var(--text-main);
       line-height: 1.32;
-      letter-spacing: -0.15px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -1223,11 +1883,6 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .news-item-card:active .news-item-img {
-      transform: scale(1.05);
     }
 
     /* ─────────────────────────────────────────────────────────────
@@ -2955,6 +3610,20 @@
     body.dark .news-cat-badge {
       color: #F87171;
     }
+    body.dark .reading-time-pill {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+    }
+    body.dark .mag-row-actions .card-action-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+    }
+    body.dark .mag-row-actions .card-action-btn:hover {
+      color: #F87171;
+      border-color: rgba(248, 113, 113, 0.3);
+    }
     body.dark .detail-category-tag {
       background: rgba(222, 54, 54, 0.12);
       color: #F87171;
@@ -3513,8 +4182,20 @@
 
         <!-- News Feed Section -->
         <div class="feed-section-header">
-          <h2 class="feed-section-title">Günün Haberleri</h2>
-          <span class="feed-counter" id="news-feed-count"></span>
+          <div class="feed-header-left">
+            <h2 class="feed-section-title">Günün Haberleri</h2>
+            <span class="feed-counter" id="news-feed-count"></span>
+          </div>
+          <div class="feed-view-switcher">
+            <button class="view-switch-btn active" id="view-mode-magazine" onclick="setFeedViewMode('magazine')" title="Dergi Görünümü">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="7" rx="2"/><rect x="3" y="14" width="8" height="7" rx="2"/><rect x="13" y="14" width="8" height="7" rx="2"/></svg>
+              <span>Dergi</span>
+            </button>
+            <button class="view-switch-btn" id="view-mode-compact" onclick="setFeedViewMode('compact')" title="Kompakt Liste">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              <span>Liste</span>
+            </button>
+          </div>
         </div>
 
         <!-- News Cards Container -->
@@ -5585,6 +6266,11 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
       loadWeatherAndCurrencies();
       loadLivePharmacies();
       initPullToRefresh();
+      // Sync view switcher initial state
+      const magBtn = document.getElementById('view-mode-magazine');
+      const compBtn = document.getElementById('view-mode-compact');
+      if (magBtn) magBtn.classList.toggle('active', feedViewMode === 'magazine');
+      if (compBtn) compBtn.classList.toggle('active', feedViewMode === 'compact');
 
       // 2. Kategoriler, Manşetler ve Akış (Paralel ve akıcı yükleme)
       loadCategories();
@@ -5916,7 +6602,266 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
       }, { passive: true });
     }
 
-    /* ── NEWS FEED STREAM ── */
+    /* ── NEWS FEED STREAM & EDITORIAL LAYOUT ENGINE ── */
+    let feedViewMode = localStorage.getItem('gokturk_feed_view_mode') || 'magazine';
+    let currentLoadedPosts = [];
+
+    function estimateReadingTime(name) {
+      const words = (name || '').trim().split(/\s+/).length;
+      const mins = Math.max(2, Math.round(words / 4));
+      return `${mins} dk okuma`;
+    }
+
+    function toggleSaveNewsCard(id, event) {
+      if (event) event.stopPropagation();
+      const idx = savedNewsIds.indexOf(id);
+      if (idx > -1) {
+        savedNewsIds.splice(idx, 1);
+        showToast('Haber kaydedilenlerden çıkarıldı');
+      } else {
+        savedNewsIds.push(id);
+        showToast('Haber kaydedilenlere eklendi');
+      }
+      localStorage.setItem('gokturk_saved_news', JSON.stringify(savedNewsIds));
+      updateProfileStats();
+      document.querySelectorAll(`.card-save-btn[data-id="${id}"]`).forEach(btn => {
+        btn.classList.toggle('saved', savedNewsIds.includes(id));
+      });
+    }
+
+    function shareNewsCard(id, event) {
+      if (event) event.stopPropagation();
+      const post = postsMap.get(id);
+      const shareData = {
+        title: (post && post.name) || 'Göktürk Dergisi',
+        text: (post && (post.short_name || post.name)) || '',
+        url: window.location.origin + '?news=' + id
+      };
+      if (navigator.share) {
+        navigator.share(shareData).catch(() => {});
+      } else {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(shareData.url || window.location.href);
+        }
+        showToast('Haber bağlantısı kopyalandı');
+      }
+    }
+
+    function setFeedViewMode(mode) {
+      feedViewMode = mode;
+      localStorage.setItem('gokturk_feed_view_mode', mode);
+      const magBtn = document.getElementById('view-mode-magazine');
+      const compBtn = document.getElementById('view-mode-compact');
+      if (magBtn) magBtn.classList.toggle('active', mode === 'magazine');
+      if (compBtn) compBtn.classList.toggle('active', mode === 'compact');
+
+      if (currentLoadedPosts.length > 0) {
+        renderFeedItems(currentLoadedPosts, false);
+      }
+    }
+
+    function renderFeedHTML(posts, append = false, mode = 'magazine') {
+      if (mode === 'compact') {
+        return posts.map(n => `
+          <div class="compact-news-row" onclick="openNewsDetail(${n.id})">
+            <div class="compact-thumb-wrap">
+              <img src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+            </div>
+            <div class="compact-texts">
+              <div class="compact-meta-top">
+                <span class="news-cat-badge">${getPostCategory(n)}</span>
+                <span class="reading-time-pill">${estimateReadingTime(n.name)}</span>
+              </div>
+              <h4 class="compact-title">${n.name || ''}</h4>
+              <div class="compact-meta-footer">
+                <span>${formatTimeAgo(n.created_at)}</span>
+                <span>•</span>
+                <span>${(n.author && n.author.name) || 'Göktürk Haber'}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // MAGAZINE MODE
+      let out = '';
+      let startIndex = 0;
+
+      if (!append) {
+        // 1. Spotlight Hero Card (1st item)
+        if (posts.length > 0) {
+          const hero = posts[0];
+          const isSaved = savedNewsIds.includes(hero.id);
+          out += `
+            <div class="spotlight-hero-card" onclick="openNewsDetail(${hero.id})">
+              <div class="spotlight-media-wrap">
+                <img class="spotlight-img" src="${getPostImg(hero.image, 'large')}" alt="${hero.name || ''}" fetchpriority="high" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+                <div class="spotlight-gradient"></div>
+                <div class="spotlight-top-tags">
+                  <span class="spotlight-badge">ÖNE ÇIKAN</span>
+                  <span class="spotlight-cat-tag">${getPostCategory(hero)}</span>
+                </div>
+                <div class="spotlight-content">
+                  <h3 class="spotlight-title">${hero.name || ''}</h3>
+                  <div class="spotlight-footer">
+                    <div class="spotlight-author-info">
+                      <span>${(hero.author && hero.author.name) || 'Göktürk Dergisi'}</span>
+                      <span class="spotlight-dot">•</span>
+                      <span>${formatTimeAgo(hero.created_at)}</span>
+                      <span class="spotlight-dot">•</span>
+                      <span class="spotlight-read">${estimateReadingTime(hero.name)}</span>
+                    </div>
+                    <div class="spotlight-actions">
+                      <button class="card-action-btn card-save-btn ${isSaved ? 'saved' : ''}" data-id="${hero.id}" onclick="toggleSaveNewsCard(${hero.id}, event)" title="Kaydet">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                      </button>
+                      <button class="card-action-btn card-share-btn" onclick="shareNewsCard(${hero.id}, event)" title="Paylaş">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          startIndex = 1;
+        }
+
+        // 2. Trending Reel (Items 1 to 4)
+        if (posts.length >= 4) {
+          const reelItems = posts.slice(1, 5);
+          out += `
+            <div class="trending-reel-section">
+              <div class="subfeed-header">
+                <div class="subfeed-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--brand)" style="width:16px;height:16px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                  <span>Çok Okunanlar & Trend</span>
+                </div>
+                <span class="subfeed-hint">Yana Kaydır →</span>
+              </div>
+              <div class="trending-reel-scroll">
+                ${reelItems.map((n, idx) => `
+                  <div class="trending-reel-card" onclick="openNewsDetail(${n.id})">
+                    <img class="reel-card-img" src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+                    <div class="reel-card-overlay"></div>
+                    <div class="reel-card-rank">0${idx + 1}</div>
+                    <div class="reel-card-content">
+                      <span class="reel-cat-badge">${getPostCategory(n)}</span>
+                      <h4 class="reel-card-title">${n.name || ''}</h4>
+                      <div class="reel-card-time">${formatTimeAgo(n.created_at)}</div>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          `;
+          startIndex = 5;
+        }
+
+        // 3. Editorial Dual Grid (Items 5 & 6)
+        if (posts.length >= 7) {
+          const gridItems = posts.slice(5, 7);
+          out += `
+            <div class="editorial-dual-grid">
+              ${gridItems.map(n => `
+                <div class="editorial-grid-card" onclick="openNewsDetail(${n.id})">
+                  <div class="grid-card-media">
+                    <img src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+                    <span class="grid-cat-pill">${getPostCategory(n)}</span>
+                  </div>
+                  <div class="grid-card-body">
+                    <h4 class="grid-card-title">${n.name || ''}</h4>
+                    <div class="grid-card-footer">
+                      <span>${formatTimeAgo(n.created_at)}</span>
+                      <span>•</span>
+                      <span>${estimateReadingTime(n.name)}</span>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+          startIndex = 7;
+        }
+      } else {
+        // Pagination append: pair up first 2 in dual grid if available
+        if (posts.length >= 2) {
+          const gridItems = posts.slice(0, 2);
+          out += `
+            <div class="editorial-dual-grid">
+              ${gridItems.map(n => `
+                <div class="editorial-grid-card" onclick="openNewsDetail(${n.id})">
+                  <div class="grid-card-media">
+                    <img src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+                    <span class="grid-cat-pill">${getPostCategory(n)}</span>
+                  </div>
+                  <div class="grid-card-body">
+                    <h4 class="grid-card-title">${n.name || ''}</h4>
+                    <div class="grid-card-footer">
+                      <span>${formatTimeAgo(n.created_at)}</span>
+                      <span>•</span>
+                      <span>${estimateReadingTime(n.name)}</span>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+          startIndex = 2;
+        }
+      }
+
+      // 4. Luxury Magazine Rows for remaining items
+      const remaining = posts.slice(startIndex);
+      if (remaining.length > 0) {
+        if (!append) {
+          out += `
+            <div class="subfeed-header" style="margin-top:6px;">
+              <div class="subfeed-title">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:15px;height:15px;"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                <span>Güncel Haber Akışı</span>
+              </div>
+            </div>
+          `;
+        }
+
+        out += remaining.map(n => {
+          const isSaved = savedNewsIds.includes(n.id);
+          return `
+            <div class="magazine-row-card" onclick="openNewsDetail(${n.id})">
+              <div class="mag-row-left">
+                <div class="mag-row-top">
+                  <span class="news-cat-badge">${getPostCategory(n)}</span>
+                  <span class="reading-time-pill">${estimateReadingTime(n.name)}</span>
+                </div>
+                <h3 class="mag-row-title">${n.name || ''}</h3>
+                <div class="mag-row-footer">
+                  <div class="mag-row-meta">
+                    <span>${formatTimeAgo(n.created_at)}</span>
+                    <span>•</span>
+                    <span>${(n.author && n.author.name) || 'Göktürk Haber'}</span>
+                  </div>
+                  <div class="mag-row-actions">
+                    <button class="card-action-btn card-save-btn ${isSaved ? 'saved' : ''}" data-id="${n.id}" onclick="toggleSaveNewsCard(${n.id}, event)" title="Kaydet">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+                    </button>
+                    <button class="card-action-btn card-share-btn" onclick="shareNewsCard(${n.id}, event)" title="Paylaş">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="mag-row-img-wrap">
+                <img class="mag-row-img" src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      return out;
+    }
+
     async function loadNewsFeed(reset = false) {
       if (isLoadingFeed) return;
       isLoadingFeed = true;
@@ -5931,7 +6876,7 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
         hasMoreFeed = true;
         if (container) {
           container.innerHTML = `
-            <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:13px;">
+            <div style="padding:28px; text-align:center; color:var(--text-muted); font-size:13px; font-weight:600;">
               Haberler yükleniyor...
             </div>
           `;
@@ -5952,16 +6897,20 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
         const posts = result.posts || [];
         const meta = result.meta || {};
 
-        posts.forEach(p => postsMap.set(p.id, p)); saveOfflineCache('feed_' + (currentSelectedCatId || 'all'), posts);
+        posts.forEach(p => postsMap.set(p.id, p));
+        saveOfflineCache('feed_' + (currentSelectedCatId || 'all'), posts);
 
         if (reset) {
+          currentLoadedPosts = posts;
           if (container) container.innerHTML = '';
+        } else {
+          currentLoadedPosts = currentLoadedPosts.concat(posts);
         }
 
         if (posts.length === 0 && reset) {
           if (container) {
             container.innerHTML = `
-              <div style="padding:32px 16px; text-align:center; color:var(--text-muted); font-size:13px;">
+              <div style="padding:36px 16px; text-align:center; color:var(--text-muted); font-size:13px;">
                 Bu kategoride henüz haber bulunmuyor.
               </div>
             `;
@@ -5979,7 +6928,7 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
         console.warn('Feed load error:', e);
         if (reset && container) {
           container.innerHTML = `
-            <div style="padding:24px; text-align:center; color:var(--text-muted); font-size:13px;">
+            <div style="padding:28px; text-align:center; color:var(--text-muted); font-size:13px;">
               Haberler yüklenirken bir sorun oluştu.
             </div>
           `;
@@ -5995,24 +6944,7 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
       const container = document.getElementById('home-news-container');
       if (!container) return;
 
-      const html = posts.map(n => `
-        <div class="news-item-card" onclick="openNewsDetail(${n.id})">
-          <div class="news-item-left">
-            <div class="news-item-top">
-              <span class="news-cat-badge">${getPostCategory(n)}</span>
-            </div>
-            <h3 class="news-item-title">${n.name || ''}</h3>
-            <div class="news-item-footer">
-              <span>${formatTimeAgo(n.created_at)}</span>
-              <span>•</span>
-              <span>${(n.author && n.author.name) || 'Göktürk Haber'}</span>
-            </div>
-          </div>
-          <div class="news-item-img-wrap">
-            <img class="news-item-img" src="${getPostImg(n.image, 'medium')}" alt="${n.name || ''}" loading="lazy" decoding="async" onerror="this.src='${DEFAULT_IMG}'"/>
-          </div>
-        </div>
-      `).join('');
+      const html = renderFeedHTML(posts, append, feedViewMode);
 
       if (append) {
         container.insertAdjacentHTML('beforeend', html);
@@ -6026,6 +6958,7 @@ window.GOKTURK_STORIES = GOKTURK_STORIES;
       currentFeedPage++;
       loadNewsFeed(false);
     }
+
 
     /* ── NEWS DETAIL READER & HIT TRACKING ── */
     async function openNewsDetail(id) {
