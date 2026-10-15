@@ -56,35 +56,42 @@
       /* Velvet Imperial Crimson Editorial Palette */
       --brand: #B91C1C;
       --brand-hover: #991B1B;
-      --brand-gradient: linear-gradient(135deg, #C21818 0%, #991B1B 100%);
-      --brand-light: rgba(185, 28, 28, 0.08);
-      --brand-surface: rgba(185, 28, 28, 0.04);
-      --brand-border: rgba(185, 28, 28, 0.16);
-      --brand-glow: rgba(185, 28, 28, 0.22);
+      --brand-gradient: linear-gradient(135deg, #CF1726 0%, #900C16 100%);
+      --brand-gradient-hover: linear-gradient(135deg, #E02030 0%, #A5101C 100%);
+      --brand-light: rgba(207, 23, 38, 0.08);
+      --brand-surface: rgba(207, 23, 38, 0.035);
+      --brand-border: rgba(207, 23, 38, 0.18);
+      --brand-glow: rgba(207, 23, 38, 0.28);
 
       /* Gold Prestige Accent (20. Yıl, Exclusive Features) */
       --gold: #D97706;
       --gold-light: rgba(217, 119, 6, 0.10);
-      --gold-gradient: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
-      --gold-border: rgba(217, 119, 6, 0.22);
+      --gold-gradient: linear-gradient(135deg, #F59E0B 0%, #D97706 60%, #B45309 100%);
+      --gold-border: rgba(217, 119, 6, 0.25);
+
+      /* Semantic Luxury Gradients */
+      --sapphire-gradient: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+      --emerald-gradient: linear-gradient(135deg, #10B981 0%, #059669 100%);
 
       /* Clean Porcelain Light Canvas */
       --bg: #F8F9FD;
-      --bg-ambient: radial-gradient(120% 60% at 50% 0%, rgba(185, 28, 28, 0.035) 0%, transparent 100%);
+      --bg-ambient: radial-gradient(100% 45% at 50% 0%, rgba(207, 23, 38, 0.05) 0%, rgba(217, 119, 6, 0.02) 40%, transparent 100%);
       --surface: #FFFFFF;
       --surface2: #F1F4F9;
       --surface3: #E3E7F1;
       --surface-glass: rgba(255, 255, 255, 0.85);
+      --surface-glass-heavy: rgba(255, 255, 255, 0.94);
 
       --text-main: #0B101E;
       --text-secondary: #424E65;
       --text-muted: #8492A6;
 
       --border: rgba(11, 16, 30, 0.065);
-      --border-subtle: rgba(11, 16, 30, 0.038);
+      --border-subtle: rgba(11, 16, 30, 0.035);
       
-      --card-shadow: 0 4px 18px -2px rgba(11, 16, 30, 0.04), 0 1px 3px rgba(11, 16, 30, 0.02);
-      --floating-shadow: 0 14px 34px -4px rgba(11, 16, 30, 0.09), 0 2px 8px -2px rgba(11, 16, 30, 0.04);
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 4px 14px -2px rgba(11, 16, 30, 0.04), 0 12px 24px -6px rgba(11, 16, 30, 0.03);
+      --card-shadow-hover: 0 2px 4px rgba(0,0,0,0.03), 0 10px 24px -3px rgba(11, 16, 30, 0.08), 0 20px 36px -6px rgba(11, 16, 30, 0.05);
+      --floating-shadow: 0 18px 45px -8px rgba(11, 16, 30, 0.12), 0 4px 12px -2px rgba(11, 16, 30, 0.05);
 
       --font-heading: 'Newsreader', Georgia, serif;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -93,8 +100,8 @@
 
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --header-height: 54px;
-      --nav-height: 62px;
+      --header-height: 56px;
+      --nav-height: 64px;
     }
 
     body.dark {
@@ -102,33 +109,39 @@
       --brand: #E11D48;
       --brand-hover: #BE123C;
       --brand-gradient: linear-gradient(135deg, #F43F5E 0%, #BE123C 100%);
-      --brand-light: rgba(225, 29, 72, 0.12);
+      --brand-gradient-hover: linear-gradient(135deg, #FB7185 0%, #E11D48 100%);
+      --brand-light: rgba(225, 29, 72, 0.14);
       --brand-surface: rgba(225, 29, 72, 0.05);
-      --brand-border: rgba(225, 29, 72, 0.22);
-      --brand-glow: rgba(225, 29, 72, 0.32);
+      --brand-border: rgba(225, 29, 72, 0.28);
+      --brand-glow: rgba(225, 29, 72, 0.38);
 
       --gold: #F59E0B;
-      --gold-light: rgba(245, 158, 11, 0.12);
-      --gold-gradient: linear-gradient(135deg, #FBBF24 0%, #D97706 100%);
-      --gold-border: rgba(245, 158, 11, 0.25);
+      --gold-light: rgba(245, 158, 11, 0.14);
+      --gold-gradient: linear-gradient(135deg, #FBBF24 0%, #D97706 60%, #92400E 100%);
+      --gold-border: rgba(245, 158, 11, 0.28);
+
+      --sapphire-gradient: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);
+      --emerald-gradient: linear-gradient(135deg, #10B981 0%, #059669 100%);
 
       /* Deep Obsidian / OLED True Black Palette */
       --bg: #090B0F;
-      --bg-ambient: radial-gradient(120% 60% at 50% 0%, rgba(225, 29, 72, 0.06) 0%, transparent 100%);
-      --surface: #12151D;
-      --surface2: #191D28;
-      --surface3: #232938;
-      --surface-glass: rgba(10, 12, 17, 0.82);
+      --bg-ambient: radial-gradient(110% 50% at 50% 0%, rgba(225, 29, 72, 0.08) 0%, rgba(245, 158, 11, 0.03) 45%, transparent 100%);
+      --surface: #12151E;
+      --surface2: #181D29;
+      --surface3: #222838;
+      --surface-glass: rgba(14, 17, 24, 0.85);
+      --surface-glass-heavy: rgba(14, 17, 24, 0.94);
 
       --text-main: #F8FAFC;
       --text-secondary: #94A3B8;
       --text-muted: #64748B;
 
       --border: rgba(255, 255, 255, 0.08);
-      --border-subtle: rgba(255, 255, 255, 0.045);
+      --border-subtle: rgba(255, 255, 255, 0.04);
 
-      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-      --floating-shadow: 0 18px 48px rgba(0, 0, 0, 0.7), 0 0 1px rgba(255, 255, 255, 0.1);
+      --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      --floating-shadow: 0 22px 55px rgba(0, 0, 0, 0.75), 0 0 1px rgba(255, 255, 255, 0.15);
     }
 
     /* ─────────────────────────────────────────────────────────────
@@ -204,9 +217,9 @@
     }
 
     .brand-logo-mark {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
       background: var(--brand-gradient);
       color: #FFFFFF;
       display: flex;
@@ -214,9 +227,10 @@
       justify-content: center;
       font-family: var(--font-heading);
       font-weight: 800;
-      font-size: 19px;
-      box-shadow: 0 3px 12px var(--brand-glow), inset 0 1px 0 rgba(255,255,255,0.3);
+      font-size: 21px;
+      box-shadow: 0 4px 16px var(--brand-glow), inset 0 1px 1px rgba(255, 255, 255, 0.45);
       position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .brand-logo-text {
@@ -229,26 +243,29 @@
       font-family: var(--font-heading);
       font-size: 20px;
       font-weight: 800;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.4px;
       color: var(--text-main);
       line-height: 1;
     }
 
     .brand-title span {
-      color: var(--brand);
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       font-weight: 800;
     }
 
     .brand-subtitle {
       margin-top: 3px;
       font-family: var(--font-display);
-      font-size: 9px;
+      font-size: 8.5px;
       font-weight: 800;
-      letter-spacing: 1.8px;
+      letter-spacing: 2px;
       color: var(--brand);
       line-height: 1;
       white-space: nowrap;
       text-transform: uppercase;
+      opacity: 0.95;
     }
 
     /* ── YAZARLAR (AUTHORS) ── */
@@ -464,14 +481,16 @@
       justify-content: center;
       cursor: pointer;
       position: relative;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.15);
     }
 
     .icon-btn:hover {
       background: var(--surface3);
       border-color: var(--brand-border);
       color: var(--brand);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px var(--brand-glow);
     }
 
     .icon-btn:active {
@@ -483,7 +502,7 @@
       width: 18px;
       height: 18px;
       stroke-width: 1.8;
-      transition: stroke 0.2s ease;
+      transition: all 0.2s ease;
     }
 
     .btn-badge-dot {
@@ -505,14 +524,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 14px;
-      height: 38px;
+      padding: 0 16px;
+      height: 40px;
       gap: 10px;
       overflow: hidden;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       flex-shrink: 0;
-      font-size: 11px;
+      font-size: 11.5px;
       color: var(--text-secondary);
       contain: layout paint;
     }
@@ -520,7 +539,7 @@
     .live-strip-left {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       font-weight: 600;
       font-family: var(--font-display);
       cursor: pointer;
@@ -544,11 +563,12 @@
     }
 
     .live-strip-left svg {
-      width: 14px;
-      height: 14px;
+      width: 15px;
+      height: 15px;
       color: var(--brand);
-      stroke-width: 2.2;
+      stroke-width: 2;
       flex-shrink: 0;
+      filter: drop-shadow(0 1px 3px var(--brand-glow));
     }
 
     .live-strip-right {
@@ -564,22 +584,23 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 4px 11px;
-      background: var(--surface2);
+      padding: 4px 12px;
+      background: linear-gradient(135deg, var(--surface2) 0%, var(--surface3) 100%);
       border-radius: 14px;
       border: 1px solid var(--border);
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 700;
       font-family: var(--font-numbers);
       color: var(--text-secondary);
       letter-spacing: 0.2px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.1);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .live-chip-badge:hover {
       border-color: var(--brand-border);
       color: var(--text-main);
+      box-shadow: 0 2px 8px var(--brand-glow);
     }
 
     .live-chip-badge:active {
@@ -589,12 +610,12 @@
 
     /* Breaking News Ticker (Minimalist Editorial Edition) */
     #breaking-ticker-wrap {
-      background: linear-gradient(90deg, var(--brand-surface) 0%, var(--surface) 100%);
+      background: linear-gradient(90deg, var(--brand-surface) 0%, var(--surface) 60%, var(--surface) 100%);
       border-bottom: 1px solid var(--brand-border);
-      padding: 7px 16px;
+      padding: 8px 16px;
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 10px;
       flex-shrink: 0;
       cursor: pointer;
       transition: background 0.2s ease;
@@ -607,32 +628,33 @@
     .breaking-tag {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       background: var(--brand-gradient);
       color: #FFFFFF;
-      font-size: 9px;
+      font-size: 9.5px;
       font-weight: 800;
       font-family: var(--font-display);
-      letter-spacing: 0.7px;
-      padding: 2.5px 8px;
-      border-radius: 6px;
+      letter-spacing: 0.8px;
+      padding: 3px 9px;
+      border-radius: 7px;
       text-transform: uppercase;
       flex-shrink: 0;
-      box-shadow: 0 2px 6px var(--brand-glow);
+      box-shadow: 0 2px 8px var(--brand-glow), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 
     .pulse-dot {
-      width: 5px;
-      height: 5px;
+      width: 6px;
+      height: 6px;
       background: #FFFFFF;
       border-radius: 50%;
       animation: pulseAnim 1.6s infinite ease-in-out;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
     }
 
     @keyframes pulseAnim {
-      0% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(185, 28, 28, 0.6); }
-      70% { transform: scale(1.1); opacity: 0.8; box-shadow: 0 0 0 6px rgba(185, 28, 28, 0); }
-      100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(185, 28, 28, 0); }
+      0% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+      70% { transform: scale(1.1); opacity: 0.7; box-shadow: 0 0 0 6px rgba(255, 255, 255, 0); }
+      100% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
     }
 
     .breaking-text {
@@ -720,11 +742,11 @@
       height: 68px;
       border-radius: 50%;
       padding: 2.5px;
-      background: linear-gradient(135deg, #E11D48 0%, #F59E0B 50%, #991B1B 100%);
+      background: conic-gradient(from 190deg at 50% 50%, #CF1726 0deg, #F59E0B 90deg, #E11D48 180deg, #900C16 270deg, #CF1726 360deg);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 14px rgba(225, 29, 72, 0.28);
+      box-shadow: 0 4px 16px rgba(207, 23, 38, 0.32);
       position: relative;
       transition: all 0.25s ease;
     }
@@ -738,8 +760,8 @@
 
     /* Special Brand / 20. Yıl story ring */
     .story-item.is-special .story-ring {
-      background: linear-gradient(135deg, #F59E0B 0%, #D97706 60%, #B45309 100%);
-      box-shadow: 0 4px 16px rgba(217, 119, 6, 0.38);
+      background: conic-gradient(from 190deg at 50% 50%, #F59E0B 0deg, #FDE68A 90deg, #D97706 180deg, #B45309 270deg, #F59E0B 360deg);
+      box-shadow: 0 4px 18px rgba(217, 119, 6, 0.42);
     }
 
     .story-img {
@@ -757,23 +779,24 @@
       bottom: -2px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, #B91C1C 0%, #E11D48 100%);
+      background: var(--brand-gradient);
       color: #FFFFFF;
       font-size: 8.5px;
       font-weight: 800;
-      letter-spacing: 0.4px;
-      padding: 1.5px 6px;
+      letter-spacing: 0.5px;
+      padding: 2px 7px;
       border-radius: 8px;
       border: 1.5px solid var(--surface);
       white-space: nowrap;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      box-shadow: 0 2px 8px var(--brand-glow);
       text-transform: uppercase;
       line-height: 1.2;
     }
 
     .story-item.is-special .story-badge-chip {
-      background: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
-      color: #000;
+      background: var(--gold-gradient);
+      color: #1A120B;
+      font-weight: 800;
     }
 
     .story-label {
@@ -823,7 +846,7 @@
       background: var(--surface);
       color: var(--text-secondary);
       border: 1px solid var(--border);
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.15);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       flex-shrink: 0;
     }
@@ -832,6 +855,7 @@
       background: var(--surface2);
       color: var(--text-main);
       border-color: var(--brand-border);
+      transform: translateY(-1px);
     }
 
     .cat-pill:active {
@@ -842,7 +866,7 @@
       background: var(--brand-gradient) !important;
       color: #FFFFFF !important;
       border-color: transparent !important;
-      box-shadow: 0 4px 16px var(--brand-glow) !important;
+      box-shadow: 0 4px 16px var(--brand-glow), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
     }
 
     /* Headline Carousel (Touch Gesture Swipeable) */
@@ -860,6 +884,7 @@
       box-shadow: var(--floating-shadow);
       touch-action: pan-y;
       background: #000;
+      border: 1px solid var(--border);
     }
 
     .carousel-track {
@@ -897,10 +922,10 @@
       left: 0;
       right: 0;
       padding: 24px 18px 16px;
-      background: linear-gradient(180deg, rgba(5,7,12,0) 0%, rgba(5,7,12,0.45) 35%, rgba(5,7,12,0.95) 100%);
+      background: linear-gradient(180deg, rgba(5,7,12,0) 0%, rgba(5,7,12,0.35) 40%, rgba(5,7,12,0.88) 80%, rgba(5,7,12,0.98) 100%);
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
     }
 
     .carousel-cat-tag {
@@ -910,11 +935,11 @@
       font-size: 9.5px;
       font-weight: 800;
       font-family: var(--font-display);
-      padding: 3px 9px;
-      border-radius: 6px;
+      padding: 3.5px 10px;
+      border-radius: 7px;
       letter-spacing: 0.6px;
       text-transform: uppercase;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     }
 
     .carousel-title {
@@ -975,11 +1000,11 @@
     .quick-guide-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px 14px;
+      border-radius: 18px;
+      padding: 13px 15px;
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 13px;
       cursor: pointer;
       box-shadow: var(--card-shadow);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -987,10 +1012,19 @@
       overflow: hidden;
     }
 
+    .quick-guide-card::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 70px; height: 70px;
+      background: radial-gradient(circle at top right, var(--brand-light) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
     .quick-guide-card:hover {
       border-color: var(--brand-border);
-      transform: translateY(-1px);
-      box-shadow: var(--floating-shadow);
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
     }
 
     .quick-guide-card:active {
@@ -999,9 +1033,9 @@
     }
 
     .quick-icon-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1014,20 +1048,22 @@
     }
 
     .quick-icon-box.red {
-      background: linear-gradient(135deg, rgba(185, 28, 28, 0.12) 0%, rgba(185, 28, 28, 0.05) 100%);
+      background: linear-gradient(135deg, rgba(207, 23, 38, 0.14) 0%, rgba(207, 23, 38, 0.05) 100%);
       color: var(--brand);
       border: 1px solid var(--brand-border);
+      box-shadow: 0 4px 12px rgba(207, 23, 38, 0.16);
     }
 
     .quick-icon-box.blue {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.12) 0%, rgba(37, 99, 235, 0.05) 100%);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.14) 0%, rgba(37, 99, 235, 0.05) 100%);
       color: #2563EB;
-      border: 1px solid rgba(37, 99, 235, 0.2);
+      border: 1px solid rgba(37, 99, 235, 0.22);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.16);
     }
 
     .quick-icon-box svg {
-      width: 18px;
-      height: 18px;
+      width: 19px;
+      height: 19px;
       stroke-width: 2.2;
     }
 
@@ -1037,7 +1073,7 @@
     }
 
     .quick-texts h4 {
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 700;
       color: var(--text-main);
       line-height: 1.25;
@@ -1065,20 +1101,21 @@
 
     .feed-section-title {
       font-family: var(--font-heading);
-      font-size: 19px;
+      font-size: 20px;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
     }
 
     .feed-section-title::before {
       content: '';
       width: 3.5px;
-      height: 17px;
+      height: 18px;
       background: var(--brand-gradient);
       border-radius: 2px;
+      box-shadow: 0 1px 6px var(--brand-glow);
     }
 
     .feed-counter {
@@ -1086,6 +1123,10 @@
       font-weight: 700;
       font-family: var(--font-numbers);
       color: var(--text-muted);
+      background: var(--surface2);
+      padding: 2px 8px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
     }
 
     /* News Cards List */
@@ -1100,22 +1141,22 @@
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 18px;
-      padding: 13px;
+      padding: 14px;
       display: flex;
       gap: 14px;
       cursor: pointer;
       position: relative;
       contain: layout style paint;
       content-visibility: auto;
-      contain-intrinsic-size: 0 112px;
+      contain-intrinsic-size: 0 114px;
       box-shadow: var(--card-shadow);
       transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .news-item-card:hover {
       border-color: var(--brand-border);
-      transform: translateY(-1px);
-      box-shadow: var(--floating-shadow);
+      transform: translateY(-2px);
+      box-shadow: var(--card-shadow-hover);
     }
 
     .news-item-card:active {
@@ -2102,8 +2143,8 @@
       height: calc(var(--nav-height) + var(--safe-bottom));
       padding-bottom: var(--safe-bottom);
       background: var(--surface-glass);
-      backdrop-filter: blur(24px) saturate(200%);
-      -webkit-backdrop-filter: blur(24px) saturate(200%);
+      backdrop-filter: blur(28px) saturate(210%);
+      -webkit-backdrop-filter: blur(28px) saturate(210%);
       transform: translateZ(0);
       will-change: transform;
       border-top: 1px solid var(--border);
@@ -2113,7 +2154,7 @@
       position: relative;
       flex-shrink: 0;
       z-index: 100;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
+      box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.04);
     }
 
     .nav-tab-btn {
@@ -2133,7 +2174,7 @@
     }
 
     .nav-tab-btn:active {
-      transform: scale(0.9);
+      transform: scale(0.92);
     }
 
     .nav-tab-btn svg {
@@ -2144,7 +2185,7 @@
     }
 
     .nav-tab-label {
-      font-size: 10px;
+      font-size: 10.5px;
       font-weight: 600;
       font-family: var(--font-display);
       letter-spacing: 0.2px;
@@ -2158,7 +2199,7 @@
     .nav-tab-btn.active svg {
       stroke: var(--brand);
       transform: translateY(-2px);
-      filter: drop-shadow(0 2px 6px var(--brand-glow));
+      filter: drop-shadow(0 2px 8px var(--brand-glow));
     }
 
     .nav-tab-btn.active .nav-tab-label {
@@ -2173,14 +2214,14 @@
       bottom: calc(var(--safe-bottom) + 3px);
       width: 0;
       height: 3px;
-      background: var(--brand);
-      border-radius: 2px;
+      background: var(--brand-gradient);
+      border-radius: 3px;
       transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 1px 6px var(--brand-glow);
+      box-shadow: 0 1px 8px var(--brand-glow);
     }
 
     .nav-tab-btn.active::after {
-      width: 16px;
+      width: 18px;
     }
 
     .nav-tab-dot {
@@ -2964,9 +3005,10 @@
     }
 
     body.dark .pharmacy-action-btn.call {
-      background: rgba(222, 54, 54, 0.10);
-      color: #F87171;
-      border: 1px solid rgba(222, 54, 54, 0.20);
+      background: var(--brand-light);
+      color: var(--brand);
+      border: 1px solid var(--brand-border);
+      box-shadow: 0 2px 8px var(--brand-glow);
     }
 
     body.dark .bottom-sheet {
@@ -2978,17 +3020,19 @@
       background: rgba(0, 0, 0, 0.75);
     }
     body.dark .sheet-drag-handle {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.18);
     }
 
     body.dark .nav-tab-btn.active {
-      color: #F87171;
+      color: var(--brand);
     }
     body.dark .nav-tab-btn.active svg {
-      stroke: #F87171;
+      stroke: var(--brand);
+      filter: drop-shadow(0 2px 8px var(--brand-glow));
     }
     body.dark .nav-tab-btn.active .nav-tab-label {
-      color: #F87171;
+      color: var(--brand);
+      font-weight: 800;
     }
 
     body.dark #toast-msg {
@@ -3000,13 +3044,14 @@
     body.dark .form-input:focus,
     body.dark .form-textarea:focus,
     body.dark .form-select:focus {
-      border-color: rgba(222, 54, 54, 0.45);
+      border-color: var(--brand-border);
       background: var(--surface);
+      box-shadow: 0 0 12px var(--brand-glow);
     }
 
     body.dark .btn-submit-report {
-      background: #DE3636;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+      background: var(--brand-gradient);
+      box-shadow: 0 4px 16px var(--brand-glow);
     }
 
     /* ─────────────────────────────────────────────────────────────
@@ -3361,22 +3406,30 @@
       <div class="header-actions">
         <!-- Notifications Bell Button -->
         <button class="icon-btn" onclick="openNotificationsModal()" title="Bildirimler" id="btn-notifications" aria-label="Bildirimler">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
           </svg>
           <span class="btn-badge-dot" id="header-notif-dot" style="display:none;"></span>
         </button>
 
         <!-- Quick Search Button -->
-        <button class="icon-btn" onclick="openSearchModal()" title="Ara">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <button class="icon-btn" onclick="openSearchModal()" title="Ara" aria-label="Arama">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="7.5"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
         </button>
 
         <!-- Theme Toggle -->
-        <button class="icon-btn" onclick="toggleTheme()" id="theme-toggle-btn" title="Koyu/Aydınlık Mod">
-          <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="display:none;"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-          <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <button class="icon-btn" onclick="toggleTheme()" id="theme-toggle-btn" title="Koyu/Aydınlık Mod" aria-label="Tema Değiştir">
+          <svg id="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg id="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
         </button>
       </div>
     </header>
@@ -3384,11 +3437,16 @@
     <!-- Live Context Strip (Editorial Date, Weather & Markets) -->
     <div id="live-context-strip">
       <div class="live-strip-left" id="chip-weather" onclick="showToast('Hava durumu güncellendi')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+        </svg>
         <span id="chip-weather-text">Göktürk 16°C Parçalı Bulutlu</span>
       </div>
       <div class="live-strip-right" id="chip-currency" onclick="showToast('Canlı Piyasa Kurları')">
-        <span class="live-chip-badge" id="chip-currency-text">Dolar 49.20 ₺ • Euro 55.28 ₺</span>
+        <span class="live-chip-badge" id="chip-currency-text">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;color:#10B981;margin-right:2px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          Dolar 49.20 ₺ • Euro 55.28 ₺
+        </span>
       </div>
     </div>
 
@@ -3401,7 +3459,7 @@
       <div class="breaking-text" id="breaking-ticker-text">
         İsviçre Alpleri’nde buzulların yüzde 20’si 5 yılda eridi
       </div>
-      <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" style="width:13px;height:13px;flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;flex-shrink:0;"><polyline points="9 18 15 12 9 6"/></svg>
     </div>
 
     <!-- Screens Wrapper -->
@@ -3860,33 +3918,51 @@
 
     <!-- ────────────────── BOTTOM NAVIGATION BAR ────────────────── -->
     <nav id="bottom-nav-bar">
-      <button class="nav-tab-btn active" id="tab-home" onclick="switchNavTab('home')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <button class="nav-tab-btn active" id="tab-home" onclick="switchNavTab('home')" aria-label="Akış">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+          <path d="M18 14h-8M18 18h-8M18 6h-8M18 10h-8"/>
+        </svg>
         <span class="nav-tab-label">Akış</span>
       </button>
 
-      <button class="nav-tab-btn" id="tab-magazine" onclick="switchNavTab('magazine')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <button class="nav-tab-btn" id="tab-magazine" onclick="switchNavTab('magazine')" aria-label="E-Dergi">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M2 4.5A2.5 2.5 0 0 1 4.5 2H10a2 2 0 0 1 2 2v15.5a2.5 2.5 0 0 0-2-2.5H4.5A2.5 2.5 0 0 0 2 19.5v-15Z"/>
+          <path d="M22 4.5A2.5 2.5 0 0 0 19.5 2H14a2 2 0 0 0-2 2v15.5a2.5 2.5 0 0 1 2-2.5h5.5a2.5 2.5 0 0 1 2.5 2.5v-15Z"/>
+        </svg>
         <span class="nav-tab-label">E-Dergi</span>
       </button>
 
-      <button class="nav-tab-btn" id="tab-authors" onclick="switchNavTab('authors')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+      <button class="nav-tab-btn" id="tab-authors" onclick="switchNavTab('authors')" aria-label="Yazarlar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m18 2 4 4-14 14H4v-4L18 2Z"/>
+          <path d="m14.5 5.5 4 4M2 22h20"/>
+        </svg>
         <span class="nav-tab-label">Yazarlar</span>
       </button>
 
-      <button class="nav-tab-btn" id="tab-guide" onclick="switchNavTab('guide')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+      <button class="nav-tab-btn" id="tab-guide" onclick="switchNavTab('guide')" aria-label="Rehber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" fill="currentColor" fill-opacity="0.12"/>
+        </svg>
         <span class="nav-tab-label">Rehber</span>
       </button>
 
-      <button class="nav-tab-btn" id="tab-report" onclick="switchNavTab('report')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 11 18-5-5 18-4-7-9-6z"/></svg>
+      <button class="nav-tab-btn" id="tab-report" onclick="switchNavTab('report')" aria-label="Bize Bildir">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m22 2-7 20-4-9-9-4Z"/>
+          <path d="M22 2 11 13"/>
+        </svg>
         <span class="nav-tab-label">Bize Bildir</span>
       </button>
 
-      <button class="nav-tab-btn" id="tab-profile" onclick="switchNavTab('profile')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <button class="nav-tab-btn" id="tab-profile" onclick="switchNavTab('profile')" aria-label="Profil">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+        </svg>
         <span class="nav-tab-label">Profil</span>
       </button>
     </nav>
